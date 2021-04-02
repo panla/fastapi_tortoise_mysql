@@ -1,9 +1,12 @@
+aerich==0.5.2
 aiomysql==0.0.21
 aioredis==1.3.1
 aiosqlite==0.16.1
 async-timeout==3.0.1
 certifi==2020.12.5
 click==7.1.2
+ddlparse==1.9.0
+dictdiffer==0.8.1
 fastapi==0.63.0
 h11==0.12.0
 hiredis==2.0.0
@@ -11,6 +14,7 @@ httptools==0.1.1
 iso8601==0.1.14
 pydantic==1.8.1
 PyMySQL==0.9.3
+pyparsing==2.4.7
 pypika-tortoise==0.1.0
 pytz==2020.5
 starlette==0.13.6
