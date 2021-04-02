@@ -16,27 +16,6 @@ class CarBaseField(BaseModel):
         orm_mode = True
 
 
-class CarDetailField(BaseModel):
-    """汽车详情参数"""
-
-    status_code: int = 10000
-    message: str = ''
-    data: Optional[CarBaseField]
-
-
-class CarListBaseField(BaseModel):
-    total: int = 0
-    cars: Optional[List[CarBaseField]]
-
-
-class CarListField(BaseModel):
-    """汽车列表参数"""
-
-    status_code: int = 10000
-    message: str = ''
-    data: Optional[CarListBaseField]
-
-
 class CarIdField(BaseModel):
     id: int
 
@@ -44,19 +23,44 @@ class CarIdField(BaseModel):
         orm_mode = True
 
 
-class CarDeleteField(BaseModel):
+class CarListBaseField(BaseModel):
+    total: int = 0
+    cars: Optional[List[CarBaseField]]
+
+
+class CarDetailResponse(BaseModel):
+    """汽车详情参数"""
+
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[CarBaseField]
+
+
+class CarListResponse(BaseModel):
+    """汽车列表参数"""
+
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[CarListBaseField]
+
+
+class CarDeleteResponse(BaseModel):
+    """删除汽车后返回的参数"""
+
     status_code: int = 10000
     message: str = ''
     data: Optional[CarIdField]
 
 
-class CarUpdateField(BaseModel):
+class CarUpdateResponse(BaseModel):
+    """更新汽车后返回的参数"""
+
     status_code: int = 10000
     message: str = ''
     data: Optional[CarIdField]
 
 
-class CarCreateField(BaseModel):
+class CarCreateResponse(BaseModel):
     """创建汽车后返回的参数"""
 
     status_code: int = 10000
@@ -69,3 +73,10 @@ class CarCreateBody(BaseModel):
 
     brand: str = Body(..., title='品牌', max_length=100, min_length=1)
     price: int = Body(..., title='品牌', ge=1)
+
+
+class CarUpdateBody(BaseModel):
+    """更新汽车所需参数"""
+
+    brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)
+    price: Optional[int] = Body(None, title='品牌', ge=1)
