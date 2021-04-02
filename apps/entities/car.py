@@ -28,7 +28,7 @@ class CarListBaseField(BaseModel):
     cars: Optional[List[CarBaseField]]
 
 
-class CarDetailResponse(BaseModel):
+class CarReadResponse(BaseModel):
     """汽车详情参数"""
 
     status_code: int = 10000
@@ -44,24 +44,8 @@ class CarListResponse(BaseModel):
     data: Optional[CarListBaseField]
 
 
-class CarDeleteResponse(BaseModel):
-    """删除汽车后返回的参数"""
-
-    status_code: int = 10000
-    message: str = ''
-    data: Optional[CarIdField]
-
-
-class CarUpdateResponse(BaseModel):
-    """更新汽车后返回的参数"""
-
-    status_code: int = 10000
-    message: str = ''
-    data: Optional[CarIdField]
-
-
-class CarCreateResponse(BaseModel):
-    """创建汽车后返回的参数"""
+class CarResponse(BaseModel):
+    """创建，删除，更新 汽车后返回的参数"""
 
     status_code: int = 10000
     message: str = ''
