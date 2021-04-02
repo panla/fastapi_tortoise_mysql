@@ -31,7 +31,7 @@ class CarListBaseField(BaseModel):
 class CarReadResponse(BaseModel):
     """汽车详情参数"""
 
-    status_code: int = 10000
+    code: int = 10000
     message: str = ''
     data: Optional[CarBaseField]
 
@@ -39,7 +39,7 @@ class CarReadResponse(BaseModel):
 class CarListResponse(BaseModel):
     """汽车列表参数"""
 
-    status_code: int = 10000
+    code: int = 10000
     message: str = ''
     data: Optional[CarListBaseField]
 
@@ -47,7 +47,7 @@ class CarListResponse(BaseModel):
 class CarResponse(BaseModel):
     """创建，删除，更新 汽车后返回的参数"""
 
-    status_code: int = 10000
+    code: int = 10000
     message: str = ''
     data: Optional[CarIdField]
 
