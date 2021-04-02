@@ -1,0 +1,1 @@
+/opt/python/bin/uvicorn main:app --workers 4 --loop=uvloop --http=httptools --reload
