@@ -28,7 +28,7 @@ class CarListBaseField(BaseModel):
     cars: Optional[List[CarBaseField]]
 
 
-class CarReadResponse(BaseModel):
+class CarReadSchema(BaseModel):
     """汽车详情参数"""
 
     code: int = 10000
@@ -36,7 +36,7 @@ class CarReadResponse(BaseModel):
     data: Optional[CarBaseField]
 
 
-class CarListResponse(BaseModel):
+class CarListSchema(BaseModel):
     """汽车列表参数"""
 
     code: int = 10000
@@ -44,7 +44,7 @@ class CarListResponse(BaseModel):
     data: Optional[CarListBaseField]
 
 
-class CarResponse(BaseModel):
+class CarSchema(BaseModel):
     """创建，删除，更新 汽车后返回的参数"""
 
     code: int = 10000
