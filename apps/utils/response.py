@@ -1,6 +1,7 @@
 from typing import Any
 
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from apps.utils.code import Code
 
@@ -24,3 +25,17 @@ def resp_400(message: str):
 
 def resp_404(message: str):
     return {'code': Code.no_exists, 'data': None, 'message': message}
+
+
+class ValidatorError(BaseModel):
+    code: int = 10003
+    message: str = ''
+    data: Any = None
+
+
+error_response = {
+    422: {
+        'model': ValidatorError,
+        'description': '参数验证错误的返回值，data=null',
+    }
+}
