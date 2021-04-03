@@ -52,14 +52,14 @@ class CarSchema(BaseModel):
     data: Optional[CarIdField]
 
 
-class CarCreateBody(BaseModel):
+class CarCreateParameter(BaseModel):
     """创建汽车所需参数"""
 
     brand: str = Body(..., title='品牌', max_length=100, min_length=1)
     price: int = Body(..., title='品牌', ge=1)
 
 
-class CarUpdateBody(BaseModel):
+class CarUpdateParameter(BaseModel):
     """更新汽车所需参数"""
 
     brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)

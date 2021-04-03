@@ -4,7 +4,7 @@ from fastapi import APIRouter
 
 from apps.models.car import Car
 from apps.entities.car import CarReadSchema, CarListSchema, CarSchema
-from apps.entities.car import CarCreateBody, CarUpdateBody
+from apps.entities.car import CarCreateParameter, CarUpdateParameter
 from apps.utils.response import resp_200, resp_201, resp_400, resp_404
 from apps.extend.route import Route
 
@@ -33,7 +33,7 @@ async def list_cars():
 
 
 @router.post('/cars', response_model=CarSchema, status_code=201)
-async def create_car(car: CarCreateBody):
+async def create_car(car: CarCreateParameter):
     """创建汽车接口"""
 
     c = await Car.create(**car.dict())
@@ -41,7 +41,7 @@ async def create_car(car: CarCreateBody):
 
 
 @router.patch('/cars/{c_id}', response_model=CarSchema, status_code=201)
-async def update_car(c_id: int, car_item: Optional[CarUpdateBody]):
+async def update_car(c_id: int, car_item: Optional[CarUpdateParameter]):
     """更新汽车"""
 
     car = await Car.filter(id=c_id).first()
