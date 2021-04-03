@@ -23,12 +23,12 @@ class CarIdField(BaseModel):
         orm_mode = True
 
 
-class CarListBaseField(BaseModel):
+class ListCarBaseField(BaseModel):
     total: int = 0
     cars: Optional[List[CarBaseField]]
 
 
-class CarReadSchema(BaseModel):
+class ReadCarSchema(BaseModel):
     """汽车详情参数"""
 
     code: int = 10000
@@ -36,12 +36,12 @@ class CarReadSchema(BaseModel):
     data: Optional[CarBaseField]
 
 
-class CarListSchema(BaseModel):
+class ListCarSchema(BaseModel):
     """汽车列表参数"""
 
     code: int = 10000
     message: str = ''
-    data: Optional[CarListBaseField]
+    data: Optional[ListCarBaseField]
 
 
 class CarSchema(BaseModel):
@@ -52,14 +52,14 @@ class CarSchema(BaseModel):
     data: Optional[CarIdField]
 
 
-class CarCreateParameter(BaseModel):
+class CreateCarParameter(BaseModel):
     """创建汽车所需参数"""
 
     brand: str = Body(..., title='品牌', max_length=100, min_length=1)
     price: int = Body(..., title='品牌', ge=1)
 
 
-class CarUpdateParameter(BaseModel):
+class UpdateCarParameter(BaseModel):
     """更新汽车所需参数"""
 
     brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)

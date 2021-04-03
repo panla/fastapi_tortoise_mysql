@@ -3,15 +3,15 @@ from typing import Optional
 from fastapi import APIRouter
 
 from apps.models.car import Car
-from apps.entities.car import CarReadSchema, CarListSchema, CarSchema
-from apps.entities.car import CarCreateParameter, CarUpdateParameter
-from apps.utils.response import resp_200, resp_201, resp_400, resp_404
+from apps.entities.car import ReadCarSchema, ListCarSchema, CarSchema
+from apps.entities.car import CreateCarParameter, UpdateCarParameter
+from apps.utils.response import resp_200, resp_201, resp_404
 from apps.extend.route import Route
 
-router = APIRouter(route_class=Route)
+router = APIRouter(tags=['cars'], route_class=Route)
 
 
-@router.get('/cars/{c_id}', response_model=CarReadSchema, status_code=200)
+@router.get('/{c_id}', response_model=ReadCarSchema, status_code=200)
 async def read_car(c_id: int):
     """汽车详情接口"""
 
@@ -21,7 +21,7 @@ async def read_car(c_id: int):
     return resp_404(message='该汽车不存在')
 
 
-@router.get('/cars', response_model=CarListSchema, status_code=200)
+@router.get('', response_model=ListCarSchema, status_code=200)
 async def list_cars():
     """汽车列表接口"""
 
@@ -32,16 +32,16 @@ async def list_cars():
     return resp_200(data={'total': total, 'cars': cars})
 
 
-@router.post('/cars', response_model=CarSchema, status_code=201)
-async def create_car(car: CarCreateParameter):
+@router.post('', response_model=CarSchema, status_code=201)
+async def create_car(car: CreateCarParameter):
     """创建汽车接口"""
 
     c = await Car.create(**car.dict())
     return resp_201(data={'id': c.id})
 
 
-@router.patch('/cars/{c_id}', response_model=CarSchema, status_code=201)
-async def update_car(c_id: int, car_item: Optional[CarUpdateParameter]):
+@router.patch('/{c_id}', response_model=CarSchema, status_code=201)
+async def update_car(c_id: int, car_item: Optional[UpdateCarParameter]):
     """更新汽车"""
 
     car = await Car.filter(id=c_id).first()
