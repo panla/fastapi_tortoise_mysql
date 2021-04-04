@@ -3,12 +3,12 @@ from typing import Optional
 from fastapi import APIRouter
 
 from apps.models.car import Car
-from apps.entities.car import ReadCarSchema, ListCarSchema, CarSchema
-from apps.entities.car import CreateCarParameter, UpdateCarParameter
+from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
+from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter
 from apps.utils.response import resp_200, resp_201, resp_404, error_response
 from apps.extend.route import Route
 
-router = APIRouter(tags=['cars'], route_class=Route)
+router = APIRouter(route_class=Route)
 
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
@@ -16,6 +16,7 @@ async def read_car(c_id: int):
     """汽车详情接口"""
 
     car = await Car.get_or_none(id=c_id)
+    print(1 / 0)
     if car:
         return resp_200(data=car)
     return resp_404(message='该汽车不存在')
