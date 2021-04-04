@@ -11,7 +11,10 @@ Python: 3.7
 ```bash
 mkdir venv && cd venv
 python3 -m venv .
+cd ../
 ```
+
+### 激活虚拟环境并安装第三方库
 
 ```bash
 source venv/bin/activate
@@ -30,6 +33,10 @@ pip3 install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simpl
 ```bash
 aerich upgrade
 ```
+
+## swagger文档
+
+['v1/admin']('/v1/admin/docs')
 
 ## 运行
 
