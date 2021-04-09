@@ -46,7 +46,8 @@ async def update_car(c_id: int, car_item: Optional[UpdateCarParameter]):
 
     car = await Car.filter(id=c_id).first()
     if car:
-        car = await car.update_from_dict(car_item.dict())
+        await car.update_from_dict(car_item.dict())
+        await car.save()
         return resp_201(data=car)
     return resp_404(message='该汽车不存在')
 
