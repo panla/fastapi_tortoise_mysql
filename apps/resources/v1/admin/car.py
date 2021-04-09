@@ -16,7 +16,6 @@ async def read_car(c_id: int):
     """汽车详情接口"""
 
     car = await Car.get_or_none(id=c_id)
-    print(1 / 0)
     if car:
         return resp_200(data=car)
     return resp_404(message='该汽车不存在')
