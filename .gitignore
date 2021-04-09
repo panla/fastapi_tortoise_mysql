@@ -1,11 +1,18 @@
+# hide dir
 .idea
 .vscode
-tmp
-logs
 .svn
 
-config.py
-/run.sh
+# dir
+tmp
+logs
+venv
+
+# file
 *.pyc
 *.sqlite3
 *.sqlite
+
+# file
+config.py
+/run.sh
