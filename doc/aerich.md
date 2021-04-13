@@ -6,6 +6,9 @@
 ## command
 
 ```bash
+# 指定app
+--app=models
+
 # 初始化，指定配置文件
 aerich init -t config.TORTOISE_ORM --location ./migrations
 
