@@ -28,9 +28,9 @@ def init_sub_app(app: FastAPI, sub_app: FastAPI, root_path: str, name: str, rout
 def init_app(app: FastAPI):
     """初始化app"""
 
-    set_logger_handle(app)
     init_db(app)
-    register_exception(app)
-    register_cross(app)
+    # set_logger_handle(app)
+    # register_exception(app)
+    # register_cross(app)
 
     init_sub_app(app, v1_admin_app, '/api/v1/admin', 'v1_admin_app', register_v1_admin_routers)
