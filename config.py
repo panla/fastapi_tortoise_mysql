@@ -53,3 +53,19 @@ else:
     REDIS_PASSWD = DEV_REDIS_PASSWD
 
     MYSQL_URI = DEV_MYSQL_URI
+
+TORTOISE_ORM = {
+    "connections": {"default": MYSQL_URI},
+    "apps": {
+        "models": {
+            "models": [
+                "apps.models.car",
+                "apps.models.book",
+                "aerich.models"
+            ],
+            "default_connection": "default",
+        },
+    },
+    'use_tz': False,
+    'timezone': 'Asia/Shanghai'
+}
