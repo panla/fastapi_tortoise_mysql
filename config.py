@@ -37,6 +37,8 @@ if CODE_ENV == 'prd':
     REDIS_PASSWD = PRD_REDIS_PASSWD
 
     MYSQL_URI = PRD_MYSQL_URI
+
+    include_in_schema = False
 elif CODE_ENV == 'test':
     REDIS_HOST = TEST_REDIS_HOST
     REDIS_PORT = TEST_REDIS_PORT
@@ -45,6 +47,8 @@ elif CODE_ENV == 'test':
     REDIS_PASSWD = TEST_REDIS_PASSWD
 
     MYSQL_URI = TEST_MYSQL_URI
+
+    include_in_schema = True
 else:
     REDIS_HOST = DEV_REDIS_HOST
     REDIS_PORT = DEV_REDIS_PORT
@@ -53,6 +57,8 @@ else:
     REDIS_PASSWD = DEV_REDIS_PASSWD
 
     MYSQL_URI = DEV_MYSQL_URI
+
+    include_in_schema = True
 
 TORTOISE_ORM = {
     'connections': {'default': MYSQL_URI},
