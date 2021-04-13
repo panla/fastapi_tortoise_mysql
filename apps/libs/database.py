@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
-import config
+import tortoise_conf
 
 
 def init_db(app: FastAPI):
@@ -9,5 +9,5 @@ def init_db(app: FastAPI):
 
     register_tortoise(
         app,
-        config=config.TORTOISE_ORM
+        config=tortoise_conf.TORTOISE_ORM
     )
