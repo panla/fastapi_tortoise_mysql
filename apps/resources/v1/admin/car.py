@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import APIRouter
+from fastapi import Query
 
 from apps.models.car import Car
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
@@ -22,12 +23,15 @@ async def read_car(c_id: int):
 
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
-async def list_cars():
+async def list_cars(
+        page: int = Query(default=1, description='页数', gte=1),
+        pagesize: int = Query(default=10, description='每页数', gte=1, lte=40)
+):
     """汽车列表接口"""
 
     cars = Car.all()
     total = await cars.count()
-    cars = await cars
+    cars = await cars.offset(page - 1).limit(pagesize)
 
     return resp_200(data={'total': total, 'cars': cars})
 
