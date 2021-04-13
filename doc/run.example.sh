@@ -1,1 +1,1 @@
-venv/bin/uvicorn main:app --workers 4 --loop=uvloop --http=httptools --reload
+venv/bin/uvicorn main:app --host='0.0.0.0' --port=8000 --workers 4 --loop=uvloop --http=httptools --reload
