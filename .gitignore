@@ -14,7 +14,6 @@ venv
 *.sqlite
 
 # file
-config.py
 /run.sh
 .env
 tortoise_conf_test.py
