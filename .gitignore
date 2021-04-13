@@ -16,3 +16,4 @@ venv
 # file
 config.py
 /run.sh
+.env
