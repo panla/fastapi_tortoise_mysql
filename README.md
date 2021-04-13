@@ -1,6 +1,6 @@
 # README
 
-> 对异步框架FastAPI，异步ORM Tortoise-orm，和 MySQL 数据库的综合demo
+> 对异步框架 FastAPI，异步ORM Tortoise-orm，和 MySQL 数据库的综合demo
 
 ## 环境
 
@@ -24,7 +24,9 @@ pip3 install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simpl
 
 ## 配置
 
-[config.py](doc/config.example.py)
+[.env](doc/env.example)
+[run.sh](doc/run.example.sh)
+[tortoise_conf_test_example.py](doc/tortoise_conf_test_example.py)
 
 ## 数据库
 
@@ -36,14 +38,14 @@ aerich upgrade
 
 ## swagger文档
 
-['v1/admin']('/v1/admin/docs')
+[`v1/admin`]('/v1/admin/docs')
 
 ## 运行
 
 ```bash
 uvicorn main:app
 uvicorn main:app --reload
-uvicorn main:app --host='127.0.0.1' --port=8000
+uvicorn main:app --host='127.0.0.1' --port=8000 --reload
 
 # 参考 doc/run.example.sh
 sh run.sh
