@@ -55,15 +55,14 @@ else:
     MYSQL_URI = DEV_MYSQL_URI
 
 TORTOISE_ORM = {
-    "connections": {"default": MYSQL_URI},
-    "apps": {
-        "models": {
-            "models": [
-                "apps.models.car",
-                "apps.models.book",
-                "aerich.models"
+    'connections': {'default': MYSQL_URI},
+    'apps': {
+        'models': {
+            'models': [
+                'aerich.models',
+                'apps.models.__init__'
             ],
-            "default_connection": "default",
+            'default_connection': 'default',
         },
     },
     'use_tz': False,
