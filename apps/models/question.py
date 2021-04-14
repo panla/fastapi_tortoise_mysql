@@ -11,3 +11,13 @@ class Question(BaseModel):
 
     class Meta:
         table = 'questions'
+
+    @classmethod
+    async def get_owner(cls, instance):
+        from apps.models import User
+
+        if isinstance(instance, list):
+            for question in instance:
+                question.owner = await User.get_or_none(id=question.id)
+        else:
+            instance.owner = await User.get_or_none(id=instance.id)
