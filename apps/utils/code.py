@@ -1,7 +1,6 @@
 """定义错误码"""
 
 
-
 class Code(object):
     success = 10000
     server_error = 10001
