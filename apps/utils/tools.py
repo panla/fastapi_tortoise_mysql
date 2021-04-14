@@ -6,7 +6,7 @@ import config
 redis_client = None
 
 
-async def register_redis():
+async def redis_pool():
     """redis 连接池"""
 
     global redis_client
