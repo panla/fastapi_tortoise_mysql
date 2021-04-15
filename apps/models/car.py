@@ -10,3 +10,4 @@ class Car(BaseModel):
 
     class Meta:
         table = 'cars'
+        table_description = '汽车表'

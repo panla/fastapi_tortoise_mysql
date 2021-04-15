@@ -10,3 +10,4 @@ class User(BaseModel):
 
     class Meta:
         table = 'users'
+        table_description = '用户表'

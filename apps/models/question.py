@@ -11,6 +11,7 @@ class Question(BaseModel):
 
     class Meta:
         table = 'questions'
+        table_description = '问题表'
 
     @classmethod
     async def get_owner(cls, instance):

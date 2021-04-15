@@ -10,3 +10,4 @@ class Phone(BaseModel):
 
     class Meta:
         table = 'phones'
+        table_description = '手机表'

@@ -11,3 +11,4 @@ class Book(BaseModel):
 
     class Meta:
         table = 'books'
+        table_description = '书籍表'
