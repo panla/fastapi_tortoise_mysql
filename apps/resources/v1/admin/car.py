@@ -1,19 +1,19 @@
 from typing import Optional
 
-from fastapi import APIRouter
-from fastapi import Query
+from fastapi import APIRouter, Query, Depends
 
-from apps.models.car import Car
+from apps.extend.route import Route
+from apps.models import AdminUser, Car
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter
 from apps.utils.response import resp_200, resp_201, resp_404, error_response
-from apps.extend.route import Route
+from apps.libs.admin.token import get_current_admin_user
 
 router = APIRouter(route_class=Route)
 
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
-async def read_car(c_id: int):
+async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
     """汽车详情接口"""
 
     car = await Car.get_or_none(id=c_id)
