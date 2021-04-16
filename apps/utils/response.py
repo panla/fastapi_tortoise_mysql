@@ -1,5 +1,6 @@
 from typing import Any
 
+from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -20,11 +21,19 @@ def resp_201(data: Any = None, message: str = ''):
 
 
 def resp_400(message: str):
-    return {'code': Code.http_error, 'data': None, 'message': message}
+    raise HTTPException(status_code=400, detail=message)
+
+
+def resp_401(message: str):
+    raise HTTPException(status_code=401, detail=message)
+
+
+def resp_403(message: str):
+    raise HTTPException(status_code=401, detail=message)
 
 
 def resp_404(message: str):
-    return {'code': Code.no_exists, 'data': None, 'message': message}
+    raise HTTPException(status_code=404, detail=message)
 
 
 class ValidatorError(BaseModel):
