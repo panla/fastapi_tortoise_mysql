@@ -11,3 +11,14 @@ class User(BaseModel):
     class Meta:
         table = 'users'
         table_description = '用户表'
+
+
+class AdminUser(BaseModel):
+
+    user_id = fields.BigIntField(null=False, unique=True, description='用户id')
+    login_time = fields.DatetimeField(null=True, description='登录时间')
+    token_expired = fields.DatetimeField(null=True, description='登录过期时间')
+
+    class Meta:
+        table = 'admin_users'
+        table_description = '管理员表'
