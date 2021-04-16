@@ -74,3 +74,6 @@ TORTOISE_ORM = {
     'use_tz': False,
     'timezone': 'Asia/Shanghai'
 }
+
+ADMIN_SECRETS = config('ADMIN_SECRETS')
+TOKEN_EXP_DELTA_ADMIN = config('TOKEN_EXP_DELTA_ADMIN', cast=int, default=86400)
