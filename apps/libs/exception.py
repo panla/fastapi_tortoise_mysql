@@ -6,6 +6,7 @@ from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
 
 from apps.utils.code import Code
+from apps.utils.response import UnauthorizedException, NotFoundException
 
 
 def log_message(request: Request, e):
@@ -28,6 +29,22 @@ def register_exception(app: FastAPI):
         # content = exc.errors()
         content = {'code': Code.validator_error, 'data': None, 'message': exc_str}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+    @app.exception_handler(UnauthorizedException)
+    async def unauthorized_exception_handle(request: Request, exc: UnauthorizedException):
+        """捕获UnauthorizedException"""
+
+        log_message(request, exc.detail)
+        content = {'code': Code.token_expired, 'data': None, 'message': exc.detail}
+        return JSONResponse(content=content, status_code=exc.status_code)
+
+    @app.exception_handler(NotFoundException)
+    async def unauthorized_exception_handle(request: Request, exc: NotFoundException):
+        """捕获NotFoundException"""
+
+        log_message(request, exc.detail)
+        content = {'code': Code.no_found, 'data': None, 'message': exc.detail}
+        return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):

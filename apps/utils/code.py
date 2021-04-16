@@ -3,15 +3,16 @@
 
 class Code(object):
     success = 10000
-    server_error = 10001
-    unknown_error = 10002
-    validator_error = 10003
-    http_error = 10004
 
-    no_exists = 10005
-    token_expired = 10006
+    http_error = 10400
+    token_expired = 10401
+    no_found = 100404
+    validator_error = 10422
+
+    server_error = 10500
+    unknown_error = 10500
 
 
 class CodeInfo(object):
-    success = {'code': 10000, 'message': '请求成功'}
-    token_expired = {'code': 10006, 'message': '请重新登录', 'data': None}
+    success = {'code': Code.success, 'message': '请求成功'}
+    token_expired = {'code': Code.token_expired, 'message': '请重新登录', 'data': None}
