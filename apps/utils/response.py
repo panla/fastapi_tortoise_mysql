@@ -37,7 +37,7 @@ def resp_401(message: str):
 
 
 def resp_403(message: str):
-    raise HTTPException(status_code=401, detail=message)
+    raise HTTPException(status_code=403, detail=message)
 
 
 def resp_404(message: str):
