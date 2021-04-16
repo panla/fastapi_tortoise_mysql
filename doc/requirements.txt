@@ -22,6 +22,7 @@ passlib==1.7.4
 pluggy==0.13.1
 py==1.10.0
 pydantic==1.8.1
+PyJWT==2.0.1
 PyMySQL==0.9.3
 pyparsing==2.4.7
 pypika-tortoise==0.1.0
