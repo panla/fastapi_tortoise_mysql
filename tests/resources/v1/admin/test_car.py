@@ -1,12 +1,13 @@
-import random
+import asyncio
 
-from starlette.testclient import TestClient
+from fastapi.testclient import TestClient
 
 from tests.utils.tools import random_str
 
 
-def test_create_user(client: TestClient):
-    brand = random_str(19)
-    data = {'brand': brand, 'price': random.randint(10000, 100000)}
-    r = client.post("/api/v1/admin/cars", json=data)
-    r.raise_for_status()
+def test_create_car(client: TestClient, event_loop: asyncio.AbstractEventLoop):
+    brand = random_str(20)
+    price = 10000
+
+    response = client.post('/api/v1/admin/cars', json={'brand': brand, 'price': price})
+    assert response.status_code == 201, response.json()
