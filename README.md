@@ -39,6 +39,12 @@ pip3 install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simpl
 /api/v1/admin/redoc
 ```
 
+## 测试
+
+```bash
+CODE_ENV=test pytest --rootdir=tests
+```
+
 ## 运行
 
 ```bash
