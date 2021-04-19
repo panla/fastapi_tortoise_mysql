@@ -61,13 +61,12 @@ async def decode_auth_token(request: Request, token: str):
 
             if not admin_user or admin_user.is_delete:
                 return resp_401('该管理员不存在')
-            if not (admin_user.login_time and admin_user.token_expired):
-                return resp_401('请重新登录')
-            if data.get('token_expired') < now:
-                return resp_401('请重新登录')
-            if data.get('login_time') < admin_user.login_time.timestamp():
-                return resp_401('请重新登录')
-            if data.get('token_expired') > admin_user.token_expired.timestamp():
+
+            a = not (admin_user.login_time and admin_user.token_expired)
+            b = data.get('token_expired') < now
+            c = data.get('login_time') < admin_user.login_time.timestamp()
+            d = data.get('token_expired') > admin_user.token_expired.timestamp()
+            if a or b or c or d:
                 return resp_401('请重新登录')
 
             request.state.admin_user = admin_user
