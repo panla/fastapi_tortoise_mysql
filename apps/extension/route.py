@@ -3,6 +3,8 @@ from json import JSONDecodeError
 from fastapi import Request
 from fastapi.routing import APIRoute
 
+from apps.utils import logger
+
 
 class Route(APIRoute):
     """自定义路由"""
@@ -12,7 +14,6 @@ class Route(APIRoute):
 
         async def log_request_detail(request: Request):
 
-            logger = request.app.logger
             logger.info('start request'.center(60, '*'))
             logger.info(f'{request.method} {request.url}')
             try:

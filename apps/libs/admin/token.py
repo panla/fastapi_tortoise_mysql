@@ -5,7 +5,7 @@ import jwt
 from fastapi import Request, Header
 
 import config
-from apps.utils.tools import redis_pool
+from apps.utils import redis_pool
 from apps.utils.response import resp_201, resp_400, resp_401, resp_404
 from apps.models import User, AdminUser
 

@@ -5,18 +5,18 @@ from fastapi import Request, status
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
 
-from apps.utils.code import Code
-from apps.utils.response import UnauthorizedException, NotFoundException
+from apps.utils import logger
+from apps.utils import Code
+from apps.utils import UnauthorizedException, NotFoundException
 
 
 def log_message(request: Request, e):
     """打印 error 时的日志"""
 
-    _logger = request.app.logger
-    _logger.error('start error'.center(60, '*'))
-    _logger.error(f'{request.method} {request.url}')
-    _logger.error(f'error is {e}')
-    _logger.error('end error'.center(60, '*'))
+    logger.error('start error'.center(60, '*'))
+    logger.error(f'{request.method} {request.url}')
+    logger.error(f'error is {e}')
+    logger.error('end error'.center(60, '*'))
 
 
 def register_exception(app: FastAPI):

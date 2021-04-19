@@ -4,7 +4,7 @@ from fastapi import Query
 from apps.models import Question
 from apps.entities.v1.admin.question import ReadQuestionSchema, ListQuestionSchema
 from apps.utils.response import resp_200, resp_404, error_response
-from apps.extend.route import Route
+from apps.extension.route import Route
 
 router = APIRouter(route_class=Route)
 

@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Query, Depends
 
-from apps.extend.route import Route
+from apps.extension.route import Route
 from apps.models import AdminUser, Car
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter

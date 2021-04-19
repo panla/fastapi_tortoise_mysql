@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 
-from apps.libs.log import set_logger_handle
 from apps.libs.database import init_db
 from apps.libs.exception import register_exception
 from apps.libs.middleare import register_cross
@@ -18,7 +17,6 @@ def init_router(app: FastAPI, function):
 def init_sub_app(app: FastAPI, sub_app: FastAPI, root_path: str, name: str, router_func):
     """注册子app"""
 
-    set_logger_handle(sub_app)
     register_exception(sub_app)
     register_cross(app)
     init_router(sub_app, router_func)
@@ -29,7 +27,6 @@ def init_app(app: FastAPI):
     """初始化app"""
 
     init_db(app)
-    # set_logger_handle(app)
     # register_exception(app)
     # register_cross(app)
 
