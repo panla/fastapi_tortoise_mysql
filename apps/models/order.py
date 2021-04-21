@@ -12,3 +12,4 @@ class Order(BaseModel):
     class Meta:
         table = 'orders'
         table_description = '订单表'
+        indexes = ('owner_id',)
