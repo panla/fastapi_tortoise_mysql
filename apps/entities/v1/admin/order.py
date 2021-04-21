@@ -1,0 +1,45 @@
+from typing import Optional
+from typing import List
+
+from pydantic import BaseModel
+from pydantic.fields import Field
+
+
+class OwnerBaseField(BaseModel):
+    id: int = Field(..., title='提问者id')
+    cellphone: str = Field(..., title='提问者手机号')
+    name: str = Field(..., title='提问者用户名')
+
+    class Config:
+        orm_mode = True
+
+
+class OrderBaseField(BaseModel):
+    id: int = Field(..., title='问题id')
+    amount: int = Field(..., title='订单总额')
+    remarks: str = Field(..., title='备注')
+    owner: OwnerBaseField
+
+    class Config:
+        orm_mode = True
+
+
+class ReadOrderSchema(BaseModel):
+    """订单详情返回参数"""
+
+    code: int = 10000
+    message: str = ''
+    data: Optional[OrderBaseField]
+
+
+class ListOrderBaseField(BaseModel):
+    total: int = 0
+    orders: Optional[List[OrderBaseField]]
+
+
+class ListOrderSchema(BaseModel):
+    """订单列表返回参数"""
+
+    code: int = 10000
+    message: str = ''
+    data: Optional[ListOrderBaseField]
