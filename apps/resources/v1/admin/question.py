@@ -3,7 +3,7 @@ from fastapi import Query
 
 from apps.models import Question
 from apps.entities.v1.admin.question import ReadQuestionSchema, ListQuestionSchema
-from apps.utils.response import resp_200, resp_404, error_response
+from apps.utils.response import raise_404, error_response
 from apps.extension.route import Route
 
 router = APIRouter(route_class=Route)
@@ -16,8 +16,8 @@ async def read_question(q_id):
     query = await Question.filter(id=q_id).first()
     if query:
         question = await Question.ModelCreator().from_tortoise_orm(query)
-        return resp_200(data=question)
-    resp_404(message='该问题不存在')
+        return question
+    raise_404(message='该问题不存在')
 
 
 @router.get('', response_model=ListQuestionSchema, status_code=200, responses=error_response)
@@ -33,4 +33,4 @@ async def list_question(
 
     questions = await Question.QuerySetCreator().from_queryset(questions)
     questions = questions.dict().get('__root__')
-    return resp_200(data={'total': total, 'questions': questions})
+    return {'total': total, 'questions': questions}

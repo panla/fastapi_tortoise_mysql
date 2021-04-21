@@ -27,9 +27,13 @@ class OrderBaseField(BaseModel):
 class ReadOrderSchema(BaseModel):
     """订单详情返回参数"""
 
-    code: int = 10000
-    message: str = ''
-    data: Optional[OrderBaseField]
+    id: int = Field(..., title='问题id')
+    amount: int = Field(..., title='订单总额')
+    remarks: str = Field(..., title='备注')
+    owner: OwnerBaseField
+
+    class Config:
+        orm_mode = True
 
 
 class ListOrderBaseField(BaseModel):
@@ -40,6 +44,5 @@ class ListOrderBaseField(BaseModel):
 class ListOrderSchema(BaseModel):
     """订单列表返回参数"""
 
-    code: int = 10000
-    message: str = ''
-    data: Optional[ListOrderBaseField]
+    total: int = 0
+    orders: Optional[List[OrderBaseField]]

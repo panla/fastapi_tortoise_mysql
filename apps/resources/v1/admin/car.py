@@ -6,7 +6,7 @@ from apps.extension.route import Route
 from apps.models import AdminUser, Car
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter
-from apps.utils.response import resp_200, resp_201, resp_404, error_response
+from apps.utils.response import raise_404, error_response
 from apps.libs.admin.token import get_current_admin_user
 
 router = APIRouter(route_class=Route)
@@ -18,8 +18,8 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 
     car = await Car.get_or_none(id=c_id)
     if car:
-        return resp_200(data=car)
-    return resp_404(message='该汽车不存在')
+        return car
+    return raise_404(message='该汽车不存在')
 
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
@@ -33,7 +33,7 @@ async def list_cars(
     total = await cars.count()
     cars = await cars.offset(page - 1).limit(pagesize)
 
-    return resp_200(data={'total': total, 'cars': cars})
+    return {'total': total, 'cars': cars}
 
 
 @router.post('', response_model=CarSchema, status_code=201, responses=error_response)
@@ -41,7 +41,7 @@ async def create_car(car: CreateCarParameter):
     """创建汽车接口"""
 
     c = await Car.create(**car.dict())
-    return resp_201(data={'id': c.id})
+    return c
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -52,8 +52,8 @@ async def update_car(c_id: int, car_item: Optional[UpdateCarParameter]):
     if car:
         await car.update_from_dict(car_item.dict())
         await car.save()
-        return resp_201(data=car)
-    return resp_404(message='该汽车不存在')
+        return car
+    return raise_404(message='该汽车不存在')
 
 
 @router.delete('/cars/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -64,5 +64,5 @@ async def delete_car(c_id: int):
     if car:
         car.is_delete = False
         await car.save()
-        return resp_201(data=car)
-    return resp_404(message='该汽车不存在')
+        return car
+    return raise_404(message='该汽车不存在')

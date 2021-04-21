@@ -15,4 +15,4 @@ class Code(object):
 
 class CodeInfo(object):
     success = {'code': Code.success, 'message': '请求成功'}
-    token_expired = {'code': Code.token_expired, 'message': '请重新登录', 'data': None}
+    token_expired = {'code': Code.token_expired, 'message': '请重新登录'}

@@ -6,7 +6,7 @@ from fastapi import Request, Header
 
 import config
 from apps.utils import redis_pool
-from apps.utils.response import resp_201, resp_400, resp_401, resp_404
+from apps.utils.response import raise_400, raise_401, raise_404
 from apps.models import User, AdminUser
 
 
@@ -15,17 +15,17 @@ async def authentic(request: Request, cellphone: str, code: str):
     if code == await redis.get(cellphone):
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
-            return resp_404('该用户不存在或被删除')
+            return raise_404('该用户不存在或被删除')
         admin_user = await AdminUser.get_or_none(user_id=user.id)
         if not admin_user or admin_user.is_delete:
-            return resp_404('该管理员不存在或被删除')
+            return raise_404('该管理员不存在或被删除')
         token, login_time, token_expired = encode_auth_token(user.id)
         admin_user.login_time = login_time
         admin_user.token_expired = token_expired
         await admin_user.save()
         data = {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
         return data
-    return resp_400('验证码错误')
+    return raise_400('验证码错误')
 
 
 def encode_auth_token(account_id):
@@ -44,7 +44,7 @@ def encode_auth_token(account_id):
         token = jwt.encode(payload, config.ADMIN_SECRETS, algorithm="HS256")
         return token, login_time, token_expired
     except Exception as e:
-        return resp_400(str(e))
+        return raise_400(str(e))
 
 
 async def decode_auth_token(request: Request, token: str):
@@ -60,20 +60,20 @@ async def decode_auth_token(request: Request, token: str):
             now = time.time()
 
             if not admin_user or admin_user.is_delete:
-                return resp_401('该管理员不存在')
+                return raise_401('该管理员不存在')
 
             a = not (admin_user.login_time and admin_user.token_expired)
             b = data.get('token_expired') < now
             c = data.get('login_time') < admin_user.login_time.timestamp()
             d = data.get('token_expired') > admin_user.token_expired.timestamp()
             if a or b or c or d:
-                return resp_401('请重新登录')
+                return raise_401('请重新登录')
 
             request.state.admin_user = admin_user
             request.state.user = user
             return payload
     except Exception as exc:
-        return resp_401('请重新登录')
+        return raise_401('请重新登录')
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):

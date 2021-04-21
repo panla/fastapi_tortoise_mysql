@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from apps.extension.route import Route
 from apps.models import Order
 from apps.entities.v1.admin.order import ListOrderSchema
-from apps.utils.response import resp_200, error_response
+from apps.utils.response import error_response
 
 router = APIRouter(route_class=Route)
 
@@ -17,4 +17,4 @@ async def list_orders():
     total = await query.count()
     orders = await orders
     orders = orders.dict().get('__root__')
-    return resp_200(data={'total': total, 'orders': orders})
+    return {'total': total, 'orders': orders}
