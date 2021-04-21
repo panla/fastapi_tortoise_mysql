@@ -1,5 +1,4 @@
 from tortoise import fields
-from tortoise import Model
 
 from apps.mixins.model import BaseModel
 
