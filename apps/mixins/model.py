@@ -1,5 +1,6 @@
 from tortoise import fields
 from tortoise.models import Model
+from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
 
 class BaseModel(Model):
@@ -11,3 +12,11 @@ class BaseModel(Model):
 
     class Meta:
         abstract = True
+
+    @classmethod
+    def ModelCreator(cls):
+        return pydantic_model_creator(cls)
+
+    @classmethod
+    def QuerySetCreator(cls):
+        return pydantic_queryset_creator(cls)

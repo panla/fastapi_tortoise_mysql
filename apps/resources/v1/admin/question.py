@@ -13,9 +13,9 @@ router = APIRouter(route_class=Route)
 async def read_question(q_id):
     """问题详情接口"""
 
-    question = await Question.get_or_none(id=q_id)
-    if question:
-        await Question.get_owner(question)
+    query = await Question.filter(id=q_id).first()
+    if query:
+        question = await Question.ModelCreator().from_tortoise_orm(query)
         return resp_200(data=question)
     resp_404(message='该问题不存在')
 
@@ -27,9 +27,10 @@ async def list_question(
 ):
     """问题列表接口"""
 
-    questions = Question.all()
-    total = await questions.count()
-    questions = await questions.offset(page - 1).limit(pagesize)
-    await Question.get_owner(questions)
+    query = Question.all()
+    total = await query.count()
+    questions = query.offset(page - 1).limit(pagesize)
 
+    questions = await Question.QuerySetCreator().from_queryset(questions)
+    questions = questions.dict().get('__root__')
     return resp_200(data={'total': total, 'questions': questions})

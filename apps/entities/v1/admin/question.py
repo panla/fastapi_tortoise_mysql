@@ -11,6 +11,9 @@ class OwnerBaseField(BaseModel):
     cellphone: str = Field(..., title='提问者手机号')
     name: str = Field(default='', title='提问者用户名')
 
+    class Config:
+        orm_mode = True
+
 
 class QuestionBaseField(BaseModel):
     id: int = Field(..., title='问题id')
