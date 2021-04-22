@@ -6,7 +6,6 @@ from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_
 
 
 class BaseModel(Model):
-
     id = fields.BigIntField(pk=True, description='主键')
     created_at = fields.DatetimeField(auto_now_add=True, null=False, description='创建时间')
     updated_at = fields.DatetimeField(auto_now=True, null=False, description='更新时间')
@@ -15,8 +14,18 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
+    def create_at_(self):
+        return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+
+    def updated_at_(self):
+        return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+
 
 class ModelMixin(object):
+    __slots__ = ()
+
+    def __init__(self, **kwargs):
+        pass
 
     @classmethod
     def ModelCreator(cls, exclude: Tuple[str, ...] = (), include: Tuple[str, ...] = ()):

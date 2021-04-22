@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from apps.extension.route import Route
 from apps.models import Order
 from apps.entities.v1.admin.order import ListOrderSchema
+from apps.entities.v1.admin.order import read_order_exclude
 from apps.utils.response import error_response
 
 router = APIRouter(route_class=Route)
@@ -12,7 +13,7 @@ router = APIRouter(route_class=Route)
 async def list_orders():
 
     query = Order.all()
-    orders = Order.QuerySetCreator(exclude=('owner.questions',)).from_queryset(query)
+    orders = Order.QuerySetCreator(exclude=read_order_exclude).from_queryset(query)
 
     total = await query.count()
     orders = await orders

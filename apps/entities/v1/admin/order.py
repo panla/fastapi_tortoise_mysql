@@ -36,13 +36,12 @@ class ReadOrderSchema(BaseModel):
         orm_mode = True
 
 
-class ListOrderBaseField(BaseModel):
-    total: int = 0
-    orders: Optional[List[OrderBaseField]]
-
-
 class ListOrderSchema(BaseModel):
     """订单列表返回参数"""
 
     total: int = 0
     orders: Optional[List[OrderBaseField]]
+
+
+read_order_exclude = ('owner.questions', 'owner.admin_user')
+list_order_exclude = ('owner.questions', 'owner.admin_user')

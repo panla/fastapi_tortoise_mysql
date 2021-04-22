@@ -3,6 +3,7 @@ from fastapi import Query
 
 from apps.models import Question
 from apps.entities.v1.admin.question import ReadQuestionSchema, ListQuestionSchema
+from apps.entities.v1.admin.question import read_question_exclude, list_question_exclude
 from apps.utils.response import raise_404, error_response
 from apps.extension.route import Route
 
@@ -15,8 +16,8 @@ async def read_question(q_id):
 
     query = await Question.filter(id=q_id).first()
     if query:
-        # TODO, 应该使用 include
-        question = await Question.ModelCreator(exclude=('owner.orders',)).from_tortoise_orm(query)
+        # TODO, 应该研究 include
+        question = await Question.ModelCreator(exclude=read_question_exclude).from_tortoise_orm(query)
         return question
     raise_404(message='该问题不存在')
 
@@ -32,7 +33,7 @@ async def list_question(
     total = await query.count()
     questions = query.offset(page - 1).limit(pagesize)
 
-    questions = await Question.QuerySetCreator(exclude=('owner.orders',)).from_queryset(questions)
+    questions = await Question.QuerySetCreator(exclude=list_question_exclude).from_queryset(questions)
     questions = questions.dict().get('__root__')
     print(questions)
     return {'total': total, 'questions': questions}

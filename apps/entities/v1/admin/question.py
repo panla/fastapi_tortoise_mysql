@@ -1,5 +1,6 @@
 from typing import Optional
 from typing import List
+from datetime import datetime
 
 from pydantic import BaseModel
 from pydantic.fields import Field
@@ -36,9 +37,12 @@ class ReadQuestionSchema(BaseModel):
         orm_mode = True
 
 
-
 class ListQuestionSchema(BaseModel):
     """问题列表返回参数"""
 
     total: int = 0
     questions: Optional[List[QuestionBaseField]]
+
+
+read_question_exclude = ('owner.orders', 'owner.admin_user')
+list_question_exclude = ('owner.orders', 'owner.admin_user')
