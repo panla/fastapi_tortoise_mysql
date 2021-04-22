@@ -15,10 +15,12 @@ class User(BaseModel):
 
 class AdminUser(BaseModel, ModelMixin):
 
-    # user_id = fields.BigIntField(null=False, unique=True, description='用户id')
+    user = fields.OneToOneField(
+        'models.User', related_name='admin_user', db_constraint=False, null=False, description='用户id')
     login_time = fields.DatetimeField(null=True, description='登录时间')
     token_expired = fields.DatetimeField(null=True, description='登录过期时间')
 
     class Meta:
         table = 'admin_users'
         table_description = '管理员表'
+        unique_together = ('user_id',)
