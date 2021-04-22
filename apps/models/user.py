@@ -1,6 +1,6 @@
 from tortoise import fields
 
-from apps.mixins.model import BaseModel
+from apps.mixins.model import BaseModel, ModelMixin
 
 
 class User(BaseModel):
@@ -13,9 +13,9 @@ class User(BaseModel):
         table_description = '用户表'
 
 
-class AdminUser(BaseModel):
+class AdminUser(BaseModel, ModelMixin):
 
-    user_id = fields.BigIntField(null=False, unique=True, description='用户id')
+    # user_id = fields.BigIntField(null=False, unique=True, description='用户id')
     login_time = fields.DatetimeField(null=True, description='登录时间')
     token_expired = fields.DatetimeField(null=True, description='登录过期时间')
 
