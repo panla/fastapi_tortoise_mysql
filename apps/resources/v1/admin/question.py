@@ -15,7 +15,8 @@ async def read_question(q_id):
 
     query = await Question.filter(id=q_id).first()
     if query:
-        question = await Question.ModelCreator().from_tortoise_orm(query)
+        # TODO, 应该使用 include
+        question = await Question.ModelCreator(exclude=('owner.orders',)).from_tortoise_orm(query)
         return question
     raise_404(message='该问题不存在')
 
@@ -31,6 +32,7 @@ async def list_question(
     total = await query.count()
     questions = query.offset(page - 1).limit(pagesize)
 
-    questions = await Question.QuerySetCreator().from_queryset(questions)
+    questions = await Question.QuerySetCreator(exclude=('owner.orders',)).from_queryset(questions)
     questions = questions.dict().get('__root__')
+    print(questions)
     return {'total': total, 'questions': questions}

@@ -1,9 +1,9 @@
 from tortoise import fields
 
-from apps.mixins.model import BaseModel
+from apps.mixins.model import BaseModel, ModelMixin
 
 
-class Order(BaseModel):
+class Order(BaseModel, ModelMixin):
 
     owner = fields.ForeignKeyField('models.User', related_name='orders', db_constraint=False)
     amount = fields.BigIntField(null=False, description='订单总额')

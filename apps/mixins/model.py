@@ -1,3 +1,5 @@
+from typing import Tuple
+
 from tortoise import fields
 from tortoise.models import Model
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
@@ -13,10 +15,13 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
-    @classmethod
-    def ModelCreator(cls):
-        return pydantic_model_creator(cls)
+
+class ModelMixin(object):
 
     @classmethod
-    def QuerySetCreator(cls):
-        return pydantic_queryset_creator(cls)
+    def ModelCreator(cls, exclude: Tuple[str, ...] = (), include: Tuple[str, ...] = ()):
+        return pydantic_model_creator(cls, exclude=exclude, include=include)
+
+    @classmethod
+    def QuerySetCreator(cls, exclude: Tuple[str, ...] = (), include: Tuple[str, ...] = ()):
+        return pydantic_queryset_creator(cls, exclude=exclude, include=include)

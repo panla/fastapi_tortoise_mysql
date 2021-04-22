@@ -12,7 +12,7 @@ router = APIRouter(route_class=Route)
 async def list_orders():
 
     query = Order.all()
-    orders = Order.QuerySetCreator().from_queryset(query)
+    orders = Order.QuerySetCreator(exclude=('owner.questions',)).from_queryset(query)
 
     total = await query.count()
     orders = await orders
