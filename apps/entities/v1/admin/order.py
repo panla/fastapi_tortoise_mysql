@@ -19,6 +19,7 @@ class OrderBaseField(BaseModel):
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
     owner: OwnerBaseField
+    created_time: str = Field(..., description='创建时间')
 
     class Config:
         orm_mode = True
@@ -31,6 +32,8 @@ class ReadOrderSchema(BaseModel):
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
     owner: OwnerBaseField
+    created_time: str = Field(..., description='创建时间')
+    updated_time: str = Field(..., description='更新时间')
 
     class Config:
         orm_mode = True
@@ -43,5 +46,7 @@ class ListOrderSchema(BaseModel):
     orders: Optional[List[OrderBaseField]]
 
 
-read_order_exclude = ('owner.questions', 'owner.admin_user')
+read_exclude = ('owner.questions', 'owner.admin_user')
+read_computed = ('created_time', 'updated_time')
 list_order_exclude = ('owner.questions', 'owner.admin_user')
+list_computed = ('created_time',)

@@ -14,11 +14,14 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
-    def create_at_(self):
+    def created_time(self) -> str:
         return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
 
-    def updated_at_(self):
+    def updated_time(self) -> str:
         return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+
+    class PydanticMeta:
+        exclude = ('created_at', 'updated_at')
 
 
 class ModelMixin(object):
@@ -28,9 +31,19 @@ class ModelMixin(object):
         pass
 
     @classmethod
-    def ModelCreator(cls, exclude: Tuple[str, ...] = (), include: Tuple[str, ...] = ()):
-        return pydantic_model_creator(cls, exclude=exclude, include=include)
+    def ModelCreator(
+            cls,
+            exclude: Tuple[str, ...] = (),
+            include: Tuple[str, ...] = (),
+            computed: Tuple[str, ...] = ()
+    ):
+        return pydantic_model_creator(cls, exclude=exclude, include=include, computed=computed)
 
     @classmethod
-    def QuerySetCreator(cls, exclude: Tuple[str, ...] = (), include: Tuple[str, ...] = ()):
-        return pydantic_queryset_creator(cls, exclude=exclude, include=include)
+    def QuerySetCreator(
+            cls,
+            exclude: Tuple[str, ...] = (),
+            include: Tuple[str, ...] = (),
+            computed: Tuple[str, ...] = ()
+    ):
+        return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)

@@ -1,6 +1,5 @@
 from typing import Optional
 from typing import List
-from datetime import datetime
 
 from pydantic import BaseModel
 from pydantic.fields import Field
@@ -20,6 +19,7 @@ class QuestionBaseField(BaseModel):
     title: str = Field(..., title='问题')
     content: str = Field(..., title='问题内容')
     owner: Optional[OwnerBaseField]
+    created_time: str = Field(..., description='创建时间')
 
     class Config:
         orm_mode = True
@@ -32,6 +32,8 @@ class ReadQuestionSchema(BaseModel):
     title: str = Field(..., title='问题')
     content: str = Field(..., title='问题内容')
     owner: Optional[OwnerBaseField]
+    created_time: str = Field(..., description='创建时间')
+    updated_time: str = Field(..., description='更新时间')
 
     class Config:
         orm_mode = True
@@ -44,5 +46,7 @@ class ListQuestionSchema(BaseModel):
     questions: Optional[List[QuestionBaseField]]
 
 
-read_question_exclude = ('owner.orders', 'owner.admin_user')
-list_question_exclude = ('owner.orders', 'owner.admin_user')
+read_exclude = ('owner.orders', 'owner.admin_user')
+read_computed = ('created_time', 'updated_time')
+list_exclude = ('owner.orders', 'owner.admin_user')
+list_computed = ('created_time',)
