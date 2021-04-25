@@ -18,8 +18,11 @@ class Route(APIRoute):
             logger.info(f'{request.method} {request.url}')
             try:
                 params = await request.json()
-                logger.info(params)
+                if params:
+                    logger.info(params)
             except JSONDecodeError:
+                pass
+            except UnicodeDecodeError:
                 pass
             logger.info('end request'.center(60, '*'))
             return await original_route_handler(request)
