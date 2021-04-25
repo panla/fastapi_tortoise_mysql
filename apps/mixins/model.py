@@ -20,6 +20,10 @@ class BaseModel(Model):
     def updated_time(self) -> str:
         return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
 
+    @classmethod
+    def paginate(cls, query, page: int = 1, pagesize: int = 10):
+        return query.offset(page - 1).limit(pagesize)
+
     class PydanticMeta:
         exclude = ('created_at', 'updated_at')
 

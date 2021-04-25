@@ -2,12 +2,13 @@ from typing import Optional
 
 from fastapi import APIRouter, Query, Depends
 
-from apps.extension.route import Route
 from apps.models import AdminUser, Car
+from apps.utils import raise_404, error_response
+from apps.extension.route import Route
+from apps.libs.admin.token import get_current_admin_user
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter
-from apps.utils.response import raise_404, error_response
-from apps.libs.admin.token import get_current_admin_user
+from apps.entities.v1.admin.car import search
 
 router = APIRouter(route_class=Route)
 
@@ -24,14 +25,13 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
 async def list_cars(
-        page: int = Query(default=1, description='页数', gte=1),
-        pagesize: int = Query(default=10, description='每页数', gte=1, lte=40)
+        params: dict = Depends(search)
 ):
     """汽车列表接口"""
 
-    cars = Car.all()
-    total = await cars.count()
-    cars = await cars.offset(page - 1).limit(pagesize)
+    query = Car.all()
+    total = await query.count()
+    cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
 
     return {'total': total, 'cars': cars}
 

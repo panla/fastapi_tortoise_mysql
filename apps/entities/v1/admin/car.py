@@ -1,7 +1,7 @@
 from typing import Optional
 from typing import List
 
-from fastapi import Body
+from fastapi import Body, Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
@@ -56,3 +56,14 @@ class UpdateCarParameter(BaseModel):
 
     brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)
     price: Optional[int] = Body(None, title='品牌', ge=1)
+
+
+def search(
+        page: Optional[int] = Query(default=1, description='页数', gte=1),
+        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
+):
+    data = {
+        'page': page,
+        'pagesize': pagesize
+    }
+    return data

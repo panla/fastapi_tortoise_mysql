@@ -1,7 +1,6 @@
 import asyncio
 
 import pytest
-
 from tortoise import Tortoise
 from tortoise import generate_schema_for_client
 

@@ -1,6 +1,7 @@
 from typing import Optional
 from typing import List
 
+from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
@@ -44,6 +45,17 @@ class ListQuestionSchema(BaseModel):
 
     total: int = 0
     questions: Optional[List[QuestionBaseField]]
+
+
+def search(
+        page: Optional[int] = Query(default=1, description='页数', gte=1),
+        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
+):
+    data = {
+        'page': page,
+        'pagesize': pagesize
+    }
+    return data
 
 
 read_exclude = ('owner.orders', 'owner.admin_user')
