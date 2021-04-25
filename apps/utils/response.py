@@ -51,18 +51,18 @@ class ValidatorError(BaseModel):
 error_response = {
     400: {
         'model': BadRequest,
-        'description': '请求错误，data=null'
+        'description': '请求错误'
     },
     401: {
         'model': Unauthorized,
-        'description': 'TOKEN 验证失败，data=null'
+        'description': 'TOKEN 验证失败'
     },
     404: {
         'model': NotFound,
-        'description': '请求资源不存在，data=null'
+        'description': '请求资源不存在'
     },
     422: {
         'model': ValidatorError,
-        'description': '参数验证错误的返回值，data=null',
+        'description': '参数验证错误的返回值',
     }
 }
