@@ -19,7 +19,7 @@ class OrderBaseField(BaseModel):
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
     owner: OwnerBaseField
-    created_time: str = Field(..., description='创建时间')
+    created_time: str = Field(..., title='创建时间')
 
     class Config:
         orm_mode = True
@@ -32,8 +32,8 @@ class ReadOrderSchema(BaseModel):
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
     owner: OwnerBaseField
-    created_time: str = Field(..., description='创建时间')
-    updated_time: str = Field(..., description='更新时间')
+    created_time: str = Field(..., title='创建时间')
+    updated_time: str = Field(..., title='更新时间')
 
     class Config:
         orm_mode = True
