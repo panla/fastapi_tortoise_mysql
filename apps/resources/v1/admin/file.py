@@ -5,11 +5,12 @@ from fastapi import UploadFile, File
 
 from apps.utils import error_response
 from apps.extension.route import Route
+from apps.entities.v1.admin.file import FileSchema
 
 router = APIRouter(route_class=Route)
 
 
-@router.post('', responses=error_response)
+@router.post('', response_model=FileSchema, responses=error_response)
 async def upload_file(
         file: Optional[UploadFile] = File(default=None),
         files: Optional[List[UploadFile]] = File(default=None),
@@ -26,5 +27,4 @@ async def upload_file(
         for f in files:
             filename = f.filename
             files_dic.append({'filename': filename})
-
-    return {'file': file_dic, 'files': files_dic}
+    return FileSchema(file=file_dic, files=files_dic)
