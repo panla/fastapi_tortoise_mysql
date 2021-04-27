@@ -8,6 +8,10 @@ class UnauthorizedException(HTTPException):
     pass
 
 
+class ForbiddenException(HTTPException):
+    pass
+
+
 class NotFoundException(HTTPException):
     pass
 
@@ -21,7 +25,7 @@ def raise_401(message: str):
 
 
 def raise_403(message: str):
-    raise HTTPException(status_code=403, detail=message)
+    raise ForbiddenException(status_code=403, detail=message)
 
 
 def raise_404(message: str):
@@ -35,6 +39,11 @@ class BadRequest(BaseModel):
 
 class Unauthorized(BaseModel):
     code: int = Code.token_expired
+    message: str = ''
+
+
+class Forbidden(BaseModel):
+    code: int = Code.forbidden
     message: str = ''
 
 
@@ -56,6 +65,10 @@ error_response = {
     401: {
         'model': Unauthorized,
         'description': 'TOKEN 验证失败'
+    },
+    403: {
+        'model': Forbidden,
+        'description': '无此权限'
     },
     404: {
         'model': NotFound,

@@ -6,6 +6,7 @@ class Code(object):
 
     http_error = 10400
     token_expired = 10401
+    forbidden = 10403
     no_found = 100404
     validator_error = 10422
 
