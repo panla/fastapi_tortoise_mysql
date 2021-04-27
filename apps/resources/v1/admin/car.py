@@ -25,7 +25,8 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
 async def list_cars(
-        params: dict = Depends(filter_params)
+        params: dict = Depends(filter_params),
+        admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """汽车列表接口"""
 
@@ -37,7 +38,7 @@ async def list_cars(
 
 
 @router.post('', response_model=CarSchema, status_code=201, responses=error_response)
-async def create_car(car: CreateCarParameter):
+async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
     """创建汽车接口"""
 
     c = await Car.create(**car.dict())
@@ -45,7 +46,11 @@ async def create_car(car: CreateCarParameter):
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
-async def update_car(c_id: int, car_item: Optional[PatchCarParameter]):
+async def update_car(
+        c_id: int,
+        car_item: Optional[PatchCarParameter],
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """更新汽车"""
 
     car = await Car.filter(id=c_id).first()
@@ -57,7 +62,7 @@ async def update_car(c_id: int, car_item: Optional[PatchCarParameter]):
 
 
 @router.delete('/cars/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
-async def delete_car(c_id: int):
+async def delete_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
     """删除汽车，更新汽车删除标识"""
 
     car = await Car.get_or_none(id=c_id)
