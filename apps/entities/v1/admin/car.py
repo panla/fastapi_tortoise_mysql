@@ -51,14 +51,14 @@ class CreateCarParameter(BaseModel):
     price: int = Body(..., title='品牌', ge=1)
 
 
-class UpdateCarParameter(BaseModel):
+class PatchCarParameter(BaseModel):
     """更新汽车所需参数"""
 
     brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)
     price: Optional[int] = Body(None, title='品牌', ge=1)
 
 
-def search(
+def filter_params(
         page: Optional[int] = Query(default=1, description='页数', gte=1),
         pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
 ):

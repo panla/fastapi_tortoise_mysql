@@ -7,8 +7,8 @@ from apps.utils import raise_404, error_response
 from apps.extension.route import Route
 from apps.libs.admin.token import get_current_admin_user
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
-from apps.entities.v1.admin.car import CreateCarParameter, UpdateCarParameter
-from apps.entities.v1.admin.car import search
+from apps.entities.v1.admin.car import CreateCarParameter, PatchCarParameter
+from apps.entities.v1.admin.car import filter_params
 
 router = APIRouter(route_class=Route)
 
@@ -25,7 +25,7 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
 async def list_cars(
-        params: dict = Depends(search)
+        params: dict = Depends(filter_params)
 ):
     """汽车列表接口"""
 
@@ -45,7 +45,7 @@ async def create_car(car: CreateCarParameter):
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
-async def update_car(c_id: int, car_item: Optional[UpdateCarParameter]):
+async def update_car(c_id: int, car_item: Optional[PatchCarParameter]):
     """更新汽车"""
 
     car = await Car.filter(id=c_id).first()

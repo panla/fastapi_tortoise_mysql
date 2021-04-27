@@ -47,7 +47,7 @@ def encode_auth_token(account_id):
         return raise_400(str(e))
 
 
-async def decode_auth_token(request: Request, token: str):
+async def decode_admin_token(request: Request, token: str):
     """校验token"""
 
     try:
@@ -77,5 +77,5 @@ async def decode_auth_token(request: Request, token: str):
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):
-    await decode_auth_token(request, x_token)
+    await decode_admin_token(request, x_token)
     return request.state.admin_user
