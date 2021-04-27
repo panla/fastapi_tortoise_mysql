@@ -9,6 +9,7 @@ from apps.libs.admin.token import get_current_admin_user
 from apps.entities.v1.admin.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.entities.v1.admin.car import CreateCarParameter, PatchCarParameter
 from apps.entities.v1.admin.car import filter_params
+from apps.logics.v1.admin.car import filter_cars
 
 router = APIRouter(route_class=Route)
 
@@ -30,7 +31,7 @@ async def list_cars(
 ):
     """汽车列表接口"""
 
-    query = Car.all()
+    query = filter_cars(params)
     total = await query.count()
     cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
 

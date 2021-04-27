@@ -59,11 +59,13 @@ class PatchCarParameter(BaseModel):
 
 
 def filter_params(
-        page: Optional[int] = Query(default=1, description='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
+        page: Optional[int] = Query(default=1, title='页数', gte=1),
+        pagesize: Optional[int] = Query(default=None, title='每页数', gte=1, lte=40),
+        brand: Optional[str] = Query(default=None, title='品牌', max_length=50)
 ):
     data = {
         'page': page,
-        'pagesize': pagesize
+        'pagesize': pagesize,
+        'brand': brand
     }
     return data
