@@ -51,3 +51,13 @@ class ModelMixin(object):
             computed: Tuple[str, ...] = ()
     ):
         return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)
+
+    def to_json(self, selects=None):
+        # 返回json格式数据，序列化
+
+        if not hasattr(self, '_meta'):
+            raise AssertionError('<%r> does not have attribute for _meta' % self)
+        elif selects:
+            return {i: getattr(self, i) for i in selects}
+        else:
+            return {i: getattr(self, i) for i in self._meta.fields}
