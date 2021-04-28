@@ -4,10 +4,10 @@ from fastapi import Depends
 from apps.models import Question, AdminUser
 from apps.utils import raise_404, error_response
 from apps.extension.route import Route
-from apps.libs.admin.token import get_current_admin_user
-from apps.entities.v1.admin.question import ReadQuestionSchema, ListQuestionSchema
-from apps.entities.v1.admin.question import read_exclude, list_exclude, read_computed, list_computed
-from apps.entities.v1.admin.question import filter_params
+from apps.v1_admin.libs.token import get_current_admin_user
+from apps.v1_admin.entities.question import ReadQuestionSchema, ListQuestionSchema
+from apps.v1_admin.entities.question import read_exclude, list_exclude, read_computed, list_computed
+from apps.v1_admin.entities.question import filter_params
 
 router = APIRouter(route_class=Route)
 
