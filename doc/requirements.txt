@@ -30,9 +30,11 @@ pyparsing==2.4.7
 pypika-tortoise==0.1.0
 pytest==6.2.3
 pytest-asyncio==0.15.1
+python-multipart==0.0.5
 pytz==2020.5
 requests==2.25.1
 rfc3986==1.4.0
+six==1.15.0
 sniffio==1.2.0
 starlette==0.13.6
 toml==0.10.2
