@@ -24,13 +24,13 @@ pip3 install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simpl
 
 ## 配置
 
-- [.env](doc/env.example)
+- [.env](doc/config/env.example)
 - [run.sh](doc/run.example.sh)
-- [tortoise_conf_test_example.py](doc/tortoise_conf_test_example.py)
+- [tortoise_conf_test_example.py](doc/config/tortoise_conf_test_example.py)
 
 ## 数据库
 
-[aerich参考](doc/aerich.md)
+[aerich参考](doc/db/aerich.md)
 
 ## swagger文档
 
