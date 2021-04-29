@@ -1,1 +1,1 @@
-from .resources.v1.admin import test_car
+from .v1_admin.resources import test_car
