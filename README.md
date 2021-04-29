@@ -55,3 +55,7 @@ uvicorn main:app --host='127.0.0.1' --port=8000 --reload
 # 参考 doc/run.example.sh
 sh run.sh
 ```
+
+## 部署
+
+[参考](doc/deploy)

@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  ftm_redis:
+    image: redis
+    container_name: ftm_redis
+    networks:
+      ftm:
+        ipv4_address: 172.21.0.2
+    restart: always
+    volumes:
+         - ./data/redis/data:/data
+    command: redis-server --requirepass 12345678
+    environment:
+      - TZ=Asia/Shanghai
+
+  ftm:
+    container_name: ftm
+    image: "ftm:latest"
+    build:
+      context: "/home/project/fastapi_tortoise_mysql/doc/deploy"
+      dockerfile: ./Dockerfile
+    volumes:
+      - /home/project/fastapi_tortoise_mysql:/home/project
+    ports:
+      - 127.0.0.1:8000:8000
+    networks:
+      ftm:
+        ipv4_address: 172.21.0.3
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+    depends_on:
+      - ftm_redis
+
+networks:
+  ftm:
+    external: true
