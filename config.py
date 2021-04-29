@@ -16,8 +16,15 @@ DEV_REDIS_DB = config('DEV_REDIS_DB', cast=int, default=0)
 DEV_REDIS_USER = config('DEV_REDIS_USER', default='')
 DEV_REDIS_PASSWD = config('DEV_REDIS_PASSWD', default='')
 
+TEST_REDIS_HOST = config('TEST_REDIS_HOST', default='127.0.0.1')
+TEST_REDIS_PORT = config('TEST_REDIS_PORT', cast=int, default=6379)
+TEST_REDIS_DB = config('TEST_REDIS_DB', cast=int, default=0)
+TEST_REDIS_USER = config('TEST_REDIS_USER', default='')
+TEST_REDIS_PASSWD = config('TEST_REDIS_PASSWD', default='')
+
 PRD_MYSQL_URI = config('PRD_MYSQL_URI')
 DEV_MYSQL_URI = config('DEV_MYSQL_URI')
+TEST_MYSQL_URI = config('TEST_MYSQL_URI')
 
 LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
 LOG_PATH = config('LOG_PATH')
@@ -32,7 +39,16 @@ if CODE_ENV == 'prd':
     MYSQL_URI = PRD_MYSQL_URI
 
     include_in_schema = False
+elif CODE_ENV == 'test':
+    REDIS_HOST = TEST_REDIS_HOST
+    REDIS_PORT = TEST_REDIS_PORT
+    REDIS_DB = TEST_REDIS_DB
+    REDIS_USER = TEST_REDIS_USER
+    REDIS_PASSWD = TEST_REDIS_PASSWD
 
+    MYSQL_URI = TEST_MYSQL_URI
+
+    include_in_schema = True
 else:
     REDIS_HOST = DEV_REDIS_HOST
     REDIS_PORT = DEV_REDIS_PORT
