@@ -1,4 +1,4 @@
-FROM panla/centos8_py38:v2
+FROM panla/centos8_py38:v3
 
 COPY ./requirements.txt /requirements.txt
 
