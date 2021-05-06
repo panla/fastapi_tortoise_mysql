@@ -14,9 +14,11 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
+    @property
     def created_time(self) -> str:
         return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
 
+    @property
     def updated_time(self) -> str:
         return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -55,6 +57,8 @@ class ModelMixin(object):
     def to_json(self, selects=None):
         # 返回json格式数据，序列化
 
+        if selects is None:
+            selects = []
         if not hasattr(self, '_meta'):
             raise AssertionError('<%r> does not have attribute for _meta' % self)
         elif selects:

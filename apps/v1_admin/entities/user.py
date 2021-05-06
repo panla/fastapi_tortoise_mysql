@@ -7,6 +7,39 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 
 
+class UserField(BaseModel):
+    id: int = Field(..., title='id')
+
+    class Config:
+        orm_model = True
+
+
+class UserSchema(BaseModel):
+    """创建，更新，删除用户返回的字段"""
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[UserField]
+
+
+class ReadUserField(BaseModel):
+    id: int = Field(..., title='id')
+    cellphone: str = Field(..., title='手机号')
+    name: str = Field(..., title='账户名')
+    is_delete: bool = Field(..., title='删除标识')
+    is_admin_user: bool = Field(..., title='是否是管理员')
+
+    class Config:
+        orm_model = True
+
+
+class ReadUserSchema(BaseModel):
+    """用户详情返回的字段"""
+
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ReadUserField]
+
+
 class ListUserBaseField(BaseModel):
     id: int = Field(..., title='id')
     cellphone: str = Field(..., title='手机号')
@@ -18,32 +51,17 @@ class ListUserBaseField(BaseModel):
         orm_model = True
 
 
-class UserSchema(BaseModel):
-    """创建，更新，删除用户返回的字段"""
-    id: int = Field(..., title='id')
-
-    class Config:
-        orm_model = True
-
-
-class ReadUserSchema(BaseModel):
-    """用户详情返回的字段"""
-
-    id: int = Field(..., title='id')
-    cellphone: str = Field(..., title='手机号')
-    name: str = Field(..., title='账户名')
-    is_delete: bool = Field(..., title='删除标识')
-    is_admin_user: bool = Field(..., title='是否是管理员')
-
-    class Config:
-        orm_model = True
+class ListUserField(BaseModel):
+    total: int
+    users: Optional[List[ListUserBaseField]]
 
 
 class ListUserSchema(BaseModel):
     """用户列表返回的字段"""
 
-    total: int
-    users: Optional[List[ListUserBaseField]]
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ListUserField]
 
 
 class CreateUserParams(BaseModel):

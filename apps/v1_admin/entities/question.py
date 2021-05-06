@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 
 
-class OwnerBaseField(BaseModel):
+class OwnerField(BaseModel):
     id: int = Field(..., title='提问者id')
     cellphone: str = Field(..., title='提问者手机号')
     name: str = Field(default='', title='提问者用户名')
@@ -15,12 +15,13 @@ class OwnerBaseField(BaseModel):
         orm_mode = True
 
 
-class QuestionBaseField(BaseModel):
+class ReadQuestionField(BaseModel):
     id: int = Field(..., title='问题id')
     title: str = Field(..., title='问题')
     content: str = Field(..., title='问题内容')
-    owner: Optional[OwnerBaseField]
     created_time: str = Field(..., title='创建时间')
+    updated_time: str = Field(..., title='更新时间')
+    owner: Optional[OwnerField]
 
     class Config:
         orm_mode = True
@@ -29,22 +30,33 @@ class QuestionBaseField(BaseModel):
 class ReadQuestionSchema(BaseModel):
     """问题详情返回参数"""
 
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ReadQuestionField]
+
+
+class ListQuestionBaseField(BaseModel):
     id: int = Field(..., title='问题id')
     title: str = Field(..., title='问题')
     content: str = Field(..., title='问题内容')
-    owner: Optional[OwnerBaseField]
     created_time: str = Field(..., title='创建时间')
-    updated_time: str = Field(..., title='更新时间')
+    owner: Optional[OwnerField]
 
     class Config:
         orm_mode = True
 
 
+class ListQuestionField(BaseModel):
+    total: int = 0
+    questions: Optional[List[ListQuestionBaseField]]
+
+
 class ListQuestionSchema(BaseModel):
     """问题列表返回参数"""
 
-    total: int = 0
-    questions: Optional[List[QuestionBaseField]]
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ListQuestionField]
 
 
 def filter_params(

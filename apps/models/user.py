@@ -12,7 +12,8 @@ class User(BaseModel, ModelMixin):
         table = 'users'
         table_description = '用户表'
 
-    async def get_is_admin_user(self):
+    @property
+    async def is_admin_user(self) -> bool:
         """判断是否是管理员"""
 
         obj = await AdminUser.get_or_none(user_id=self.id, is_delete=False)

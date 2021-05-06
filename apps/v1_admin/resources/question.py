@@ -2,12 +2,12 @@ from fastapi import APIRouter
 from fastapi import Depends
 
 from apps.models import Question, AdminUser
-from apps.utils import raise_404, error_response
+from apps.utils import resp_success, raise_404, error_response
 from apps.extension.route import Route
 from apps.v1_admin.libs.token import get_current_admin_user
 from apps.v1_admin.entities.question import ReadQuestionSchema, ListQuestionSchema
-from apps.v1_admin.entities.question import read_exclude, list_exclude, read_computed, list_computed
 from apps.v1_admin.entities.question import filter_params
+from apps.v1_admin.logics.question import filter_questions, response_question, response_questions
 
 router = APIRouter(route_class=Route)
 
@@ -18,8 +18,8 @@ async def read_question(q_id: int, admin_user: AdminUser = Depends(get_current_a
 
     query = await Question.filter(id=q_id).first()
     if query:
-        question = await Question.ModelCreator(exclude=read_exclude, computed=read_computed).from_tortoise_orm(query)
-        return question
+        data = await response_question(query)
+        return resp_success(data=data)
     raise_404(message='该问题不存在')
 
 
@@ -30,11 +30,10 @@ async def list_question(
 ):
     """问题列表接口"""
 
-    query = Question.all()
+    query = filter_questions(params)
     total = await query.count()
 
     query = Question.paginate(query, params['page'], params.get('pagesize') or total)
 
-    questions = await Question.QuerySetCreator(exclude=list_exclude, computed=list_computed).from_queryset(query)
-    questions = questions.dict().get('__root__')
-    return {'total': total, 'questions': questions}
+    questions = await response_questions(await query)
+    return resp_success(data={'total': total, 'questions': questions})

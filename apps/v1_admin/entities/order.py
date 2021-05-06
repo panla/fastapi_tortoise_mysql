@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 
 
-class OwnerBaseField(BaseModel):
+class OwnerField(BaseModel):
     id: int = Field(..., title='提问者id')
     cellphone: str = Field(..., title='提问者手机号')
     name: str = Field(..., title='提问者用户名')
@@ -15,12 +15,13 @@ class OwnerBaseField(BaseModel):
         orm_mode = True
 
 
-class OrderBaseField(BaseModel):
+class ReadOrderField(BaseModel):
     id: int = Field(..., title='问题id')
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
-    owner: OwnerBaseField
     created_time: str = Field(..., title='创建时间')
+    updated_time: str = Field(..., title='更新时间')
+    owner: OwnerField
 
     class Config:
         orm_mode = True
@@ -29,22 +30,33 @@ class OrderBaseField(BaseModel):
 class ReadOrderSchema(BaseModel):
     """订单详情返回参数"""
 
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ReadOrderField]
+
+
+class ListOrderBaseField(BaseModel):
     id: int = Field(..., title='问题id')
     amount: int = Field(..., title='订单总额')
     remarks: str = Field(..., title='备注')
-    owner: OwnerBaseField
     created_time: str = Field(..., title='创建时间')
-    updated_time: str = Field(..., title='更新时间')
+    owner: OwnerField
 
     class Config:
         orm_mode = True
 
 
-class ListOrderSchema(BaseModel):
+class ListOrderField(BaseModel):
     """订单列表返回参数"""
 
     total: int = 0
-    orders: Optional[List[OrderBaseField]]
+    orders: Optional[List[ListOrderBaseField]]
+
+
+class ListOrderSchema(BaseModel):
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ListOrderField]
 
 
 def filter_params(

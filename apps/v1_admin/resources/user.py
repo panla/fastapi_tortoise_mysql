@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 
 from apps.models import User, AdminUser
-from apps.utils import raise_404, error_response
+from apps.utils import resp_success, raise_404, error_response
 from apps.extension.route import Route
 from apps.v1_admin.libs.token import get_current_admin_user
 from apps.v1_admin.entities.user import ReadUserSchema, ListUserSchema, UserSchema
 from apps.v1_admin.entities.user import PatchUserParams
 from apps.v1_admin.entities.user import filter_params
-from apps.v1_admin.logics.user import filter_users
+from apps.v1_admin.logics.user import filter_users, response_users
 
 router = APIRouter(route_class=Route)
 
@@ -20,7 +20,7 @@ async def read_user(u_id: int, admin_user: AdminUser = Depends(get_current_admin
 
     if query:
         user = query.to_json()
-        user['is_admin_user'] = await query.get_is_admin_user()
+        user['is_admin_user'] = await query.is_admin_user
         return user
     return raise_404(message='该用户不存在')
 
@@ -32,16 +32,12 @@ async def list_users(params: dict = Depends(filter_params), admin_user: AdminUse
     query = filter_users(params)
     total = await query.count()
 
-    users = await User.paginate(query, params['page'], params.get('pagesize') or total)
+    query = User.paginate(query, params['page'], params.get('pagesize') or total)
 
-    results = []
-    for user in users:
-        data = user.to_json()
-        data['is_admin_user'] = await user.get_is_admin_user()
-        results.append(data)
+    users = await response_users(await query)
 
-    return ListUserSchema(total=total, users=results)
-#
+    return resp_success(data={'total': total, 'users': users})
+
 #
 # @router.post('', response_model=UserSchema, status_code=201, responses=error_response)
 # async def create_user(params: CreateUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
@@ -68,7 +64,7 @@ async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser =
                 patch_params[k] = v
         await user.update_from_dict(patch_params)
         await user.save()
-        return user
+        return resp_success(data=user)
     return raise_404(message='该用户不存在')
 
 
@@ -80,5 +76,5 @@ async def delete_user(u_id: int, admin_user: AdminUser = Depends(get_current_adm
     if user:
         user.is_delete = False
         await user.save()
-        return user
+        return resp_success(data=user)
     return raise_404(message='该用户不存在')

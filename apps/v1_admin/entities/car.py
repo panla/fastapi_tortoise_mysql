@@ -19,12 +19,12 @@ class ReadCarField(BaseModel):
 class ReadCarSchema(BaseModel):
     """汽车详情参数"""
 
-    status_code: int = 10200
+    status_code: int = 10000
     message: str = ''
     data: Optional[ReadCarField]
 
 
-class LIstCarBaseField(BaseModel):
+class ListCarBaseField(BaseModel):
     id: int = Field(..., title='汽车id')
     brand: str = Field(..., title='品牌')
     price: int = Field(..., title='价格')
@@ -36,7 +36,7 @@ class LIstCarBaseField(BaseModel):
 
 class ListCarField(BaseModel):
     total: int = 0
-    cars: Optional[List[LIstCarBaseField]]
+    cars: Optional[List[ListCarBaseField]]
 
 
 class ListCarSchema(BaseModel):

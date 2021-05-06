@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi import APIRouter
 from fastapi import UploadFile, File
 
-from apps.utils import error_response
+from apps.utils import resp_success, error_response
 from apps.extension.route import Route
 from apps.v1_admin.entities.file import FileSchema
 
@@ -27,4 +27,4 @@ async def upload_file(
         for f in files:
             filename = f.filename
             files_dic.append({'filename': filename})
-    return FileSchema(file=file_dic, files=files_dic)
+    return resp_success(data={'file': file_dic, 'files': files_dic})

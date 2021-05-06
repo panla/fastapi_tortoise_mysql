@@ -24,7 +24,7 @@ async def authentic(request: Request, cellphone: str, code: str):
         admin_user.token_expired = token_expired
         await admin_user.save()
         data = {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
-        return data
+        return {'data': data}
     return raise_400('验证码错误')
 
 
