@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
 def register_cross(app: FastAPI):
     """解决跨域"""
 
