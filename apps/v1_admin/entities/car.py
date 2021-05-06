@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from pydantic.fields import Field
 
 
-class CarBaseField(BaseModel):
+class ReadCarField(BaseModel):
     id: int = Field(..., title='汽车id')
     brand: str = Field(..., title='品牌')
     price: int = Field(..., title='价格')
@@ -19,6 +19,12 @@ class CarBaseField(BaseModel):
 class ReadCarSchema(BaseModel):
     """汽车详情参数"""
 
+    status_code: int = 10200
+    message: str = ''
+    data: Optional[ReadCarField]
+
+
+class LIstCarBaseField(BaseModel):
     id: int = Field(..., title='汽车id')
     brand: str = Field(..., title='品牌')
     price: int = Field(..., title='价格')
@@ -28,20 +34,32 @@ class ReadCarSchema(BaseModel):
         orm_mode = True
 
 
+class ListCarField(BaseModel):
+    total: int = 0
+    cars: Optional[List[LIstCarBaseField]]
+
+
 class ListCarSchema(BaseModel):
     """汽车列表参数"""
 
-    total: int = 0
-    cars: Optional[List[CarBaseField]]
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[ListCarField]
+
+
+class CarField(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 
 class CarSchema(BaseModel):
     """创建，删除，更新 汽车后返回的参数"""
 
-    id: int
-
-    class Config:
-        orm_mode = True
+    status_code: int = 10000
+    message: str = ''
+    data: Optional[CarField]
 
 
 class CreateCarParameter(BaseModel):

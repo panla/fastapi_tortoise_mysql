@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends
 
 from apps.models import AdminUser, Car
-from apps.utils import raise_404, error_response
+from apps.utils import resp_success, raise_404, error_response
 from apps.extension.route import Route
 from apps.v1_admin.libs.token import get_current_admin_user
 from apps.v1_admin.entities.car import ReadCarSchema, ListCarSchema, CarSchema
@@ -18,9 +18,9 @@ router = APIRouter(route_class=Route)
 async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
     """汽车详情接口"""
 
-    car = await Car.get_or_none(id=c_id)
+    car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
-        return car
+        return resp_success(data=car)
     return raise_404(message='该汽车不存在')
 
 
@@ -35,7 +35,7 @@ async def list_cars(
     total = await query.count()
     cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
 
-    return {'total': total, 'cars': cars}
+    return resp_success(data={'total': total, 'cars': cars})
 
 
 @router.post('', response_model=CarSchema, status_code=201, responses=error_response)
@@ -43,7 +43,7 @@ async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(ge
     """创建汽车接口"""
 
     c = await Car.create(**car.dict())
-    return c
+    return resp_success(data=c)
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -54,11 +54,11 @@ async def update_car(
 ):
     """更新汽车"""
 
-    car = await Car.filter(id=c_id).first()
+    car = await Car.filter(id=c_id, is_delete=False).first()
     if car:
         await car.update_from_dict(car_item.dict())
         await car.save()
-        return car
+        return resp_success(data=car)
     return raise_404(message='该汽车不存在')
 
 
@@ -66,9 +66,9 @@ async def update_car(
 async def delete_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
     """删除汽车，更新汽车删除标识"""
 
-    car = await Car.get_or_none(id=c_id)
+    car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
         car.is_delete = False
         await car.save()
-        return car
+        return resp_success(data=car)
     return raise_404(message='该汽车不存在')
