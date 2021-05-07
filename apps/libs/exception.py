@@ -25,7 +25,7 @@ def register_exception(app: FastAPI):
         """捕获UnauthorizedException"""
 
         log_message(request, exc.detail)
-        content = {'code': Code.token_expired, 'message': exc.detail}
+        content = {'code': Code.token_expired, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(ForbiddenException)
@@ -33,7 +33,7 @@ def register_exception(app: FastAPI):
         """捕获ForbiddenException"""
 
         log_message(request, exc.detail)
-        content = {'code': Code.forbidden, 'message': exc.detail}
+        content = {'code': Code.forbidden, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(NotFoundException)
@@ -41,7 +41,7 @@ def register_exception(app: FastAPI):
         """捕获NotFoundException"""
 
         log_message(request, exc.detail)
-        content = {'code': Code.no_found, 'message': exc.detail}
+        content = {'code': Code.no_found, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(HTTPException)
@@ -49,7 +49,7 @@ def register_exception(app: FastAPI):
         """捕获HTTPException"""
 
         log_message(request, exc.detail)
-        content = {'code': Code.http_error, 'message': exc.detail}
+        content = {'code': Code.http_error, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(RequestValidationError)
@@ -59,7 +59,7 @@ def register_exception(app: FastAPI):
         exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
         log_message(request, exc_str)
         # content = exc.errors()
-        content = {'code': Code.validator_error, 'message': exc_str}
+        content = {'code': Code.validator_error, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(Exception)
@@ -67,5 +67,5 @@ def register_exception(app: FastAPI):
         """捕获其他异常"""
 
         log_message(request, traceback.format_exc())
-        content = {'code': Code.server_error, 'message': str(exc)}
+        content = {'code': Code.server_error, 'message': str(exc), 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
