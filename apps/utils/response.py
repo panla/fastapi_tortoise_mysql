@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import HTTPException
 from pydantic import BaseModel
 
-from apps.utils.code import Code
+from apps.utils import StatusCode
 
 
 class UnauthorizedException(HTTPException):
@@ -16,6 +16,40 @@ class ForbiddenException(HTTPException):
 
 class NotFoundException(HTTPException):
     pass
+
+
+class MethodNotAllowedException(HTTPException):
+    pass
+
+
+class BadRequest(BaseModel):
+    status_code: int = StatusCode.http_error
+    message: str = ''
+    data: Any = None
+
+
+class Unauthorized(BaseModel):
+    status_code: int = StatusCode.token_expired
+    message: str = ''
+    data: Any = None
+
+
+class Forbidden(BaseModel):
+    status_code: int = StatusCode.forbidden
+    message: str = ''
+    data: Any = None
+
+
+class NotFound(BaseModel):
+    status_code: int = StatusCode.no_found
+    message: str = ''
+    data: Any = None
+
+
+class ValidatorError(BaseModel):
+    status_code: int = StatusCode.validator_error
+    message: str = ''
+    data: Any = None
 
 
 def resp_success(message: str = '', data: Any = None):
@@ -38,34 +72,8 @@ def raise_404(message: str):
     raise NotFoundException(status_code=404, detail=message)
 
 
-class BadRequest(BaseModel):
-    code: int = Code.http_error
-    message: str = ''
-    data: Any = None
-
-
-class Unauthorized(BaseModel):
-    code: int = Code.token_expired
-    message: str = ''
-    data: Any = None
-
-
-class Forbidden(BaseModel):
-    code: int = Code.forbidden
-    message: str = ''
-    data: Any = None
-
-
-class NotFound(BaseModel):
-    code: int = Code.no_found
-    message: str = ''
-    data: Any = None
-
-
-class ValidatorError(BaseModel):
-    code: int = Code.validator_error
-    message: str = ''
-    data: Any = None
+def raise_405(message: str):
+    raise MethodNotAllowedException(status_code=405, detail=message)
 
 
 error_response = {

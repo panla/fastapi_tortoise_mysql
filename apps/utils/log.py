@@ -19,3 +19,5 @@ file_handler.setFormatter(
 )
 logger.addHandler(file_handler)
 logger.setLevel(level=log_level)
+
+__all__ = ['logger']

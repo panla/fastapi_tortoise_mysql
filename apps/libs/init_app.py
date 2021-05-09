@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
+from apps.libs import register_cross
 from apps.libs.database import init_db
-from apps.libs.middleare import register_cross
 
 from apps.v1_admin import init_sub_app as init_v1_admin_app
 
