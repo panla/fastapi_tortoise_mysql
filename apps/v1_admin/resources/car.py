@@ -1,6 +1,8 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Path
 
 from apps.models import AdminUser, Car
 from apps.utils import resp_success, raise_404, error_response
@@ -14,14 +16,12 @@ from apps.v1_admin.logics.car import filter_cars
 router = APIRouter(route_class=Route)
 
 
-@router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
-async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """汽车详情接口"""
+@router.post('', response_model=CarSchema, status_code=201, responses=error_response)
+async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
+    """创建汽车接口"""
 
-    car = await Car.get_or_none(id=c_id, is_delete=False)
-    if car:
-        return resp_success(data=car)
-    return raise_404(message='该汽车不存在')
+    c = await Car.create(**car.dict())
+    return resp_success(data=c)
 
 
 @router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
@@ -38,21 +38,27 @@ async def list_cars(
     return resp_success(data={'total': total, 'cars': cars})
 
 
-@router.post('', response_model=CarSchema, status_code=201, responses=error_response)
-async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """创建汽车接口"""
+@router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
+async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+    """汽车详情接口"""
 
-    c = await Car.create(**car.dict())
-    return resp_success(data=c)
+    assert c_id > 0, f'c_id is {c_id}, it needs > 0'
+
+    car = await Car.get_or_none(id=c_id, is_delete=False)
+    if car:
+        return resp_success(data=car)
+    return raise_404(message='该汽车不存在')
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
-async def update_car(
+async def patch_car(
         c_id: int,
         car_item: Optional[PatchCarParameter],
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """更新汽车"""
+
+    assert c_id > 0, f'c_id is {c_id}, it needs > 0'
 
     car = await Car.filter(id=c_id, is_delete=False).first()
     if car:
@@ -63,7 +69,10 @@ async def update_car(
 
 
 @router.delete('/cars/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
-async def delete_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def delete_car(
+        c_id: int = Path(..., description='汽车id', ge=1),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """删除汽车，更新汽车删除标识"""
 
     car = await Car.get_or_none(id=c_id, is_delete=False)

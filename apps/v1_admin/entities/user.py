@@ -78,9 +78,9 @@ class PatchUserParams(BaseModel):
 
 
 def filter_params(
-        page: Optional[int] = Query(default=1, title='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, title='每页数', gte=1, lte=40),
-        cellphone: Optional[str] = Query(default=None, title='手机号', min_length=4, max_length=11)
+        page: Optional[int] = Query(default=1, description='页数', gte=1),
+        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
+        cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)
 ):
     """搜索用户的依赖"""
 

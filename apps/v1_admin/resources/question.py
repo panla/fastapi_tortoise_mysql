@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Depends
+from fastapi import Path
 
 from apps.models import Question, AdminUser
 from apps.utils import resp_success, raise_404, error_response
@@ -13,7 +14,10 @@ router = APIRouter(route_class=Route)
 
 
 @router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200, responses=error_response)
-async def read_question(q_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def read_question(
+        q_id: int = Path(..., description='问题id', ge=1),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """问题详情接口"""
 
     query = await Question.filter(id=q_id).first()

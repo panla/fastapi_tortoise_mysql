@@ -55,6 +55,15 @@ def register_exception(app: FastAPI):
         content = {'status_code': StatusCode.http_error, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
+    @app.exception_handler(AssertionError)
+    async def assert_exception_handle(request: Request, exc: AssertionError):
+        """捕获 AssertError"""
+
+        exc_str = ''.join(exc.args)
+        log_message(request, exc_str)
+        content = {'status_code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
     @app.exception_handler(ValidationError)
     async def db_validation_exception_handle(request: Request, exc: ValidationError):
         """捕获数据库校验异常"""

@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Path
 
 from apps.models import User, AdminUser
 from apps.utils import resp_success, raise_404, error_response
@@ -13,7 +15,10 @@ router = APIRouter(route_class=Route)
 
 
 @router.get('/{u_id}', response_model=ReadUserSchema, status_code=200, responses=error_response)
-async def read_user(u_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def read_user(
+        u_id: int = Path(..., description='用户id', ge=1),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """用户详情接口"""
 
     query = await User.get_or_none(id=u_id)
@@ -56,6 +61,8 @@ async def list_users(params: dict = Depends(filter_params), admin_user: AdminUse
 async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
     """更新用户"""
 
+    assert u_id > 0, f'u_id is {u_id}, it needs > 0'
+
     user = await User.get_or_none(id=u_id)
     if user:
         patch_params = dict()
@@ -69,7 +76,10 @@ async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser =
 
 
 @router.delete('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
-async def delete_user(u_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def delete_user(
+        u_id: int = Path(..., description='用户id', ge=1),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """删除用户"""
 
     user = await User.get_or_none(id=u_id)
