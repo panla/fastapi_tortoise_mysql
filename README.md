@@ -2,6 +2,9 @@
 
 > 对异步框架 FastAPI，异步ORM Tortoise-orm，和 MySQL 数据库的综合demo
 
+- [gitee](https://gitee.com/pankla/fastapi_tortoise_mysql)
+- [github](https://github.com/panla/fastapi_tortoise_mysql)
+
 ## 环境
 
 Python: 3.8.8
