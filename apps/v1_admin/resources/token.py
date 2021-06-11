@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi import Request
 
 from apps.utils import error_response
-from apps.extension.route import Route
+from apps.extension import Route
 from apps.v1_admin.libs.token import authentic
 from apps.v1_admin.entities.token import CreateTokenParameter
 from apps.v1_admin.entities.token import TokenSchema

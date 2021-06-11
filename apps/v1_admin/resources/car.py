@@ -6,7 +6,7 @@ from fastapi import Path
 
 from apps.models import AdminUser, Car
 from apps.utils import resp_success, raise_404, error_response
-from apps.extension.route import Route
+from apps.extension import Route
 from apps.v1_admin.libs.token import get_current_admin_user
 from apps.v1_admin.entities.car import ReadCarSchema, ListCarSchema, CarSchema
 from apps.v1_admin.entities.car import CreateCarParameter, PatchCarParameter

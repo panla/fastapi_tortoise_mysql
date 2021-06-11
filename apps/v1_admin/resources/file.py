@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from fastapi import UploadFile, File
 
 from apps.utils import resp_success, error_response
-from apps.extension.route import Route
+from apps.extension import Route
 from apps.v1_admin.entities.file import FileSchema
 
 router = APIRouter(route_class=Route)
