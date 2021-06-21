@@ -1,15 +1,14 @@
 version: "3.9"
 services:
   fastapi_tm_db:
-    image: mysql:8
+    image: mysql:8.0.25
     container_name: fastapi_tm_db
     volumes:
-      - ./data/mysql/data:/var/lib/postgresql/data
-      - ./mysql_conf:/etc/mysql/conf.d
+      - ./conf/mysql:/etc/mysql/conf.d
       - ./data/mysql/data:/var/lib/mysql
     networks:
       fastapi_tm_net:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.22.0.2
     restart: always
     environment:
       - TZ=Asia/Shanghai
@@ -23,10 +22,10 @@ services:
     container_name: fastapi_tm_redis
     networks:
       fastapi_tm_net:
-        ipv4_address: 172.21.0.3
+        ipv4_address: 172.22.0.3
     restart: always
     volumes:
-         - ./data/redis/data:/data
+      - ./data/redis/data:/data
     command: redis-server --requirepass 12345678
     environment:
       - TZ=Asia/Shanghai
@@ -48,7 +47,7 @@ services:
       - 127.0.0.1:18020:8000
     networks:
       fastapi_tm_net:
-        ipv4_address: 172.21.0.4
+        ipv4_address: 172.22.0.4
     restart: always
     depends_on:
       - fastapi_tm_redis

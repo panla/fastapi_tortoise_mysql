@@ -2,7 +2,7 @@ FROM panla/centos8_py38:v5
 
 COPY ./doc/requirements.txt /requirements.txt
 
-PATH="/opt/python/bin:$PATH"
+ENV PATH="/opt/python/bin:$PATH"
 
 RUN pip3 install -r requirements.txt
 
