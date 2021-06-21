@@ -3,6 +3,7 @@ aiomysql==0.0.21
 aioredis==1.3.1
 aiosqlite==0.16.1
 async-timeout==3.0.1
+bidict==0.21.2
 certifi==2020.12.5
 click==7.1.2
 ddlparse==1.9.0
@@ -18,7 +19,9 @@ PyJWT==2.1.0
 PyMySQL==0.9.3
 pyparsing==2.4.7
 pypika-tortoise==0.1.0
+python-engineio==4.2.0
 python-multipart==0.0.5
+python-socketio==5.3.0
 pytz==2020.5
 six==1.15.0
 starlette==0.13.6
