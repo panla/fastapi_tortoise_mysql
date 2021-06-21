@@ -7,52 +7,71 @@
 
 ## 环境
 
-Python: 3.8.8
+Python: 3.8
 
-### 创建虚拟环境
+### venv 创建虚拟环境
 
 ```bash
 mkdir venv && cd venv
 python3 -m venv .
 cd ../
+pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 ```
 
-### 激活虚拟环境并安装第三方库
+### conda 创建虚拟环境
 
 ```bash
-source venv/bin/activate
-
-pip3 install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simple]
+conda create -n name python=3.8
+conda activate name
+pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 ```
 
-## 配置
+### 配置
 
-- [.env](doc/config/env.example)
-- [run.sh](doc/run.example.sh)
-- [tortoise_conf_test_example.py](doc/config/tortoise_conf_test_example.py)
+- [.env 参考](doc/config/env.example)
+- [run.sh 参考](doc/deploy/run.sh.example)
 
-## 数据库
-
-[aerich参考](doc/db/aerich.md)
-
-## swagger文档
-
-```text
-/api/v1/admin/docs
-/api/v1/admin/redoc
-```
-
-## 运行
+### 运行
 
 ```bash
-uvicorn main:app
 uvicorn main:app --reload
-uvicorn main:app --host='127.0.0.1' --port=8000 --reload
+uvicorn main:app --host='0.0.0.0' --port=8001 --reload
+uvicorn main:app --host='0.0.0.0' --port=8001 --workers 1 --reload
+uvicorn main:app --host='0.0.0.0' --port=8001 --workers 1 --loop=uvloop --http=httptools --reload
 
-# 参考 doc/run.example.sh
-sh run.sh
+sh ./run.sh
 ```
 
-## 部署
+### docker-compose
 
-[参考](doc/deploy)
+```bash
+docker-compose up -d --build
+
+docker-compose ps
+
+docker-compose restart
+
+docker-compose stop
+
+docker-compose restart container_name
+```
+
+部署时文件结构
+
+- project
+  - conf
+    - api
+      - .env [参考](doc/config/env.example)
+      - `run.sh` [参考](doc/deploy/run.sh.example)
+    - mysql
+      - my.cnf
+  - data
+    - api
+      - logs
+    - redis
+      - data
+    - mysql
+      - data
+  - api
+    ...
+  - docker-compose.yaml [参考](./doc/deploy/docker-compose.yaml)

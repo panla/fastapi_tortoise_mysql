@@ -1,39 +1,59 @@
 version: "3.9"
 services:
-  ftm_redis:
-    image: redis
-    container_name: ftm_redis
+  fastapi_tm_db:
+    image: mysql:8
+    container_name: fastapi_tm_db
+    volumes:
+      - ./data/mysql/data:/var/lib/postgresql/data
+      - ./mysql_conf:/etc/mysql/conf.d
+      - ./data/mysql/data:/var/lib/mysql
     networks:
-      ftm:
+      fastapi_tm_net:
         ipv4_address: 172.21.0.2
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+      - MYSQL_DATABASE=ftm_dev
+      - MYSQL_ROOT_PASSWORD=12345678
+
+  fastapi_tm_redis:
+    image: redis:6.2.4
+    container_name: fastapi_tm_redis
+    networks:
+      fastapi_tm_net:
+        ipv4_address: 172.21.0.3
     restart: always
     volumes:
          - ./data/redis/data:/data
     command: redis-server --requirepass 12345678
     environment:
       - TZ=Asia/Shanghai
+    depends_on:
+      - fastapi_tm_db
 
-  ftm:
-    container_name: ftm
-    image: "ftm:latest"
+  fastapi_tm_api:
+    container_name: fastapi_tm_api
+    image: "fastapi_tm_api:latest"
     build:
-      context: "/home/project/fastapi_tortoise_mysql/doc/deploy"
+      context: "./api"
       dockerfile: ./Dockerfile
     volumes:
-      - /home/project/fastapi_tortoise_mysql:/home/project
+      - ./api:/home/project
+      - ./conf/api/.env:/home/project/.env
+      - ./conf/api/run.sh:/home/project/run.sh
+      - ./data/api/logs:/home/logs
     ports:
-      - 127.0.0.1:8000:8000
+      - 127.0.0.1:18020:8000
     networks:
-      ftm:
-        ipv4_address: 172.21.0.3
+      fastapi_tm_net:
+        ipv4_address: 172.21.0.4
     restart: always
-    environment:
-      - TZ=Asia/Shanghai
-      - LC_ALL=C.UTF-8
-      - LANG=C.UTF-8
     depends_on:
-      - ftm_redis
+      - fastapi_tm_redis
+      - fastapi_tm_db
 
 networks:
-  ftm:
+  fastapi_tm_net:
     external: true
