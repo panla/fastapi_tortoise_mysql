@@ -1,7 +1,7 @@
 import config
 
 TORTOISE_ORM = {
-    'connections': {'default': config.MYSQL_URI},
+    'connections': {'default': config.DB_URI},
     'apps': {
         'models': {
             'models': [
