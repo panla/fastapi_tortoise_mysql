@@ -6,12 +6,10 @@ CODE_ENV = config('CODE_ENV', default='prd')
 
 REDIS_HOST = config('REDIS_HOST', default='127.0.0.1')
 REDIS_PORT = config('REDIS_PORT', cast=int, default=6379)
-REDIS_DB = config('PRD_REDIS_DB', cast=int, default=0)
 REDIS_PASSWD = config('REDIS_PASSWD', default='')
 
 TEST_REDIS_HOST = config('TEST_REDIS_HOST', default='127.0.0.1')
 TEST_REDIS_PORT = config('TEST_REDIS_PORT', cast=int, default=6379)
-TEST_REDIS_DB = config('TEST_REDIS_DB', cast=int, default=0)
 TEST_REDIS_PASSWD = config('TEST_REDIS_PASSWD', default='')
 
 DB_URI = config('DB_URI')
@@ -24,7 +22,6 @@ INCLUDE_IN_SCHEMA = config('include_in_schema', cast=bool, default=True)
 if CODE_ENV == 'test':
     REDIS_HOST = TEST_REDIS_HOST
     REDIS_PORT = TEST_REDIS_PORT
-    REDIS_DB = TEST_REDIS_DB
     REDIS_PASSWD = TEST_REDIS_PASSWD
 
     DB_URI = TEST_DB_URI
