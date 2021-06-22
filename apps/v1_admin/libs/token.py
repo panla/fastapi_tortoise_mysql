@@ -5,14 +5,14 @@ import jwt
 from fastapi import Request, Header
 
 import config
-from apps.utils import redis_pool
-from apps.utils.response import raise_400, raise_401, raise_404
+from apps.utils import SMSCodeRedis
+from apps.utils import raise_400, raise_401, raise_404
 from apps.models import User, AdminUser
 
 
 async def authentic(request: Request, cellphone: str, code: str):
-    redis = await redis_pool()
-    if code == await redis.get(cellphone):
+    redis_obj = SMSCodeRedis(cellphone)
+    if code == await redis_obj.get(cellphone):
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
             return raise_404('该用户不存在或被删除')
