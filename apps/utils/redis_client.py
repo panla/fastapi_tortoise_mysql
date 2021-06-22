@@ -12,6 +12,7 @@ class RedisToolBase(object):
 
     def __init__(self, key) -> None:
         self.key = f'{self.PREFIX_KEY}{key}'
+        self.pool = None
 
     async def init(self):
         redis_uri = f"redis://:{config.REDIS_PASSWD}@{config.REDIS_HOST}:{config.REDIS_PORT}/{self.DB}?encoding=utf-8"
@@ -27,9 +28,9 @@ class SMSCodeRedis(RedisToolBase):
     PREFIX_KEY = 'sms_code:'
 
     async def set(self, value):
-        await self.init()
+        self.pool or await self.init()
         await self.pool.set(self.key, value)
 
-    async def get(self, key):
-        await self.init()
+    async def get(self):
+        self.pool or await self.init()
         return await self.pool.get(self.key)

@@ -12,7 +12,7 @@ from apps.models import User, AdminUser
 
 async def authentic(request: Request, cellphone: str, code: str):
     redis_obj = SMSCodeRedis(cellphone)
-    if code == await redis_obj.get(cellphone):
+    if code == await redis_obj.get():
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
             return raise_404('该用户不存在或被删除')
