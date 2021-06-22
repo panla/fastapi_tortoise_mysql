@@ -7,7 +7,6 @@ from . import question
 from . import token
 from . import user
 
-
 def register_routers(app: FastAPI):
     """注册路由"""
 
