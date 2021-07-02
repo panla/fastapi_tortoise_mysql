@@ -11,4 +11,4 @@ class Question(BaseModel, ModelMixin):
     class Meta:
         table = 'questions'
         table_description = '问题表'
-        indexes = ('owner_id',)
+        indexes = (('owner_id',),)

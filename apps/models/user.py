@@ -5,12 +5,13 @@ from apps.mixins.model import BaseModel, ModelMixin
 
 class User(BaseModel, ModelMixin):
 
-    cellphone = fields.CharField(max_length=16, null=False, unique=True, description='手机号')
+    cellphone = fields.CharField(max_length=16, null=False, description='手机号')
     name = fields.CharField(max_length=30, null=False, description='用户名')
 
     class Meta:
         table = 'users'
         table_description = '用户表'
+        unique_together = (('cellphone',),)
 
     @property
     async def is_admin_user(self) -> bool:
@@ -32,4 +33,4 @@ class AdminUser(BaseModel, ModelMixin):
     class Meta:
         table = 'admin_users'
         table_description = '管理员表'
-        unique_together = ('user_id',)
+        unique_together = (('user_id',),)
