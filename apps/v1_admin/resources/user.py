@@ -5,11 +5,11 @@ from fastapi import Path
 from apps.models import User, AdminUser
 from apps.utils import resp_success, raise_404, error_response
 from apps.extension import Route
-from apps.v1_admin.libs.token import get_current_admin_user
-from apps.v1_admin.entities.user import ReadUserSchema, ListUserSchema, UserSchema
-from apps.v1_admin.entities.user import PatchUserParams
-from apps.v1_admin.entities.user import filter_params
-from apps.v1_admin.logics.user import filter_users, response_users
+from apps.v1_admin.libs import get_current_admin_user
+from apps.v1_admin.entities import ReadUserSchema, ListUserSchema, UserSchema
+from apps.v1_admin.entities import PatchUserParams
+from apps.v1_admin.entities import filter_user_dependency
+from apps.v1_admin.logics import filter_users, response_users
 
 router = APIRouter(route_class=Route)
 
@@ -31,7 +31,10 @@ async def read_user(
 
 
 @router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
-async def list_users(params: dict = Depends(filter_params), admin_user: AdminUser = Depends(get_current_admin_user)):
+async def list_users(
+        params: dict = Depends(filter_user_dependency),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """用户列表接口"""
 
     query = filter_users(params)

@@ -1,6 +1,6 @@
 from tortoise import fields
 
-from apps.mixins.model import BaseModel
+from apps.mixins import BaseModel
 
 
 class Phone(BaseModel):

@@ -5,10 +5,10 @@ from fastapi import Path
 from apps.models import Question, AdminUser
 from apps.utils import resp_success, raise_404, error_response
 from apps.extension import Route
-from apps.v1_admin.libs.token import get_current_admin_user
-from apps.v1_admin.entities.question import ReadQuestionSchema, ListQuestionSchema
-from apps.v1_admin.entities.question import filter_params
-from apps.v1_admin.logics.question import filter_questions, response_question, response_questions
+from apps.v1_admin.libs import get_current_admin_user
+from apps.v1_admin.entities import ReadQuestionSchema, ListQuestionSchema
+from apps.v1_admin.entities import filter_question_dependency
+from apps.v1_admin.logics import filter_questions, response_question, response_questions
 
 router = APIRouter(route_class=Route)
 
@@ -29,7 +29,7 @@ async def read_question(
 
 @router.get('', response_model=ListQuestionSchema, status_code=200, responses=error_response)
 async def list_question(
-        params: dict = Depends(filter_params),
+        params: dict = Depends(filter_question_dependency),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """问题列表接口"""

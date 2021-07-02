@@ -59,7 +59,7 @@ class ListOrderSchema(BaseModel):
     data: Optional[ListOrderField]
 
 
-def filter_params(
+def filter_order_dependency(
         page: Optional[int] = Query(default=1, description='页数', gte=1),
         pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
 ):
@@ -68,9 +68,3 @@ def filter_params(
         'pagesize': pagesize
     }
     return data
-
-
-read_exclude = ('owner.questions', 'owner.admin_user')
-read_computed = ('created_time', 'updated_time')
-list_order_exclude = ('owner.questions', 'owner.admin_user')
-list_computed = ('created_time',)

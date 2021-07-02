@@ -76,7 +76,7 @@ class PatchCarParameter(BaseModel):
     price: Optional[int] = Body(None, title='品牌', ge=1)
 
 
-def filter_params(
+def filter_car_dependency(
         page: Optional[int] = Query(default=1, description='页数', gte=1),
         pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
         brand: Optional[str] = Query(default=None, description='品牌', max_length=50)

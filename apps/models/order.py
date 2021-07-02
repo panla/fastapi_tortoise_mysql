@@ -1,6 +1,6 @@
 from tortoise import fields
 
-from apps.mixins.model import BaseModel, ModelMixin
+from apps.mixins import BaseModel, ModelMixin
 
 
 class Order(BaseModel, ModelMixin):
