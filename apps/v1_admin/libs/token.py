@@ -5,7 +5,7 @@ import jwt
 from fastapi import Request, Header
 
 import config
-from apps.utils import SMSCodeRedis
+from apps.redis import SMSCodeRedis
 from apps.utils import raise_400, raise_401, raise_404
 from apps.models import User, AdminUser
 

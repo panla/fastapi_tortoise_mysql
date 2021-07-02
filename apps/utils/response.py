@@ -4,22 +4,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 
 from apps.utils import StatusCode
-
-
-class UnauthorizedException(HTTPException):
-    pass
-
-
-class ForbiddenException(HTTPException):
-    pass
-
-
-class NotFoundException(HTTPException):
-    pass
-
-
-class MethodNotAllowedException(HTTPException):
-    pass
+from apps.utils import UnauthorizedException, ForbiddenException, NotFoundException, MethodNotAllowedException
 
 
 class BadRequest(BaseModel):
