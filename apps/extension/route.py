@@ -21,9 +21,9 @@ class Route(APIRoute):
                 if params:
                     logger.info(params)
             except JSONDecodeError:
-                pass
+                logger.error('encounter JSONDecodeError')
             except UnicodeDecodeError:
-                pass
+                logger.error('encounter UnicodeDecodeError')
             logger.info('end request'.center(60, '*'))
             return await original_route_handler(request)
         return log_request_detail
