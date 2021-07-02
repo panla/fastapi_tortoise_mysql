@@ -52,7 +52,7 @@ TORTOISE_ORM = {
                 'password': DB_PASSWD,
                 'port': DB_PORT,
                 'user': DB_USER,
-                'minisize': 1,
+                'minsize': 1,
                 'maxsize': DB_MAX_SIZE,
                 'charset': 'utf8mb4'
             }
