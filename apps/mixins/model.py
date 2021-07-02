@@ -54,14 +54,14 @@ class ModelMixin(object):
     ):
         return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)
 
-    def to_json(self, selects=None):
-        # 返回json格式数据，序列化
+    def to_json(self, selects: tuple = None, excludes: tuple = None):
+        # 返回 Dict 格式数据
 
-        if selects is None:
-            selects = []
         if not hasattr(self, '_meta'):
             raise AssertionError('<%r> does not have attribute for _meta' % self)
         elif selects:
             return {i: getattr(self, i) for i in selects}
+        elif excludes:
+            return {i: getattr(self, i) for i in self._meta.fields if i not in excludes}
         else:
             return {i: getattr(self, i) for i in self._meta.fields}
