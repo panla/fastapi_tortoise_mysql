@@ -13,14 +13,14 @@ class User(BaseModel, ModelMixin):
         table_description = '用户表'
         unique_together = (('cellphone',),)
 
-    @property
-    async def is_admin_user(self) -> bool:
-        """判断是否是管理员"""
-
-        obj = await AdminUser.get_or_none(user_id=self.id, is_delete=False)
-        if obj:
-            return True
-        return False
+    # @property
+    # async def is_admin_user(self) -> bool:
+    #     """判断是否是管理员"""
+    #
+    #     obj = await AdminUser.get_or_none(user_id=self.id, is_delete=False)
+    #     if obj:
+    #         return True
+    #     return False
 
 
 class AdminUser(BaseModel, ModelMixin):
@@ -33,4 +33,3 @@ class AdminUser(BaseModel, ModelMixin):
     class Meta:
         table = 'admin_users'
         table_description = '管理员表'
-        unique_together = (('user_id',),)

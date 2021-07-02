@@ -1,12 +1,14 @@
 -- upgrade --
-CREATE TABLE IF NOT EXISTS `admin_users` (
+CREATE TABLE IF NOT EXISTS `books` (
     `id` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '主键',
     `created_at` DATETIME(6) NOT NULL  COMMENT '创建时间' DEFAULT CURRENT_TIMESTAMP(6),
     `updated_at` DATETIME(6) NOT NULL  COMMENT '更新时间' DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `is_delete` BOOL NOT NULL  COMMENT '删除标识' DEFAULT 0,
-    `user_id` BIGINT NOT NULL UNIQUE COMMENT '用户id',
-    `login_time` DATETIME(6) NOT NULL  COMMENT '登录时间',
-    `token_expired` DATETIME(6) NOT NULL  COMMENT '登录过期时间'
-) CHARACTER SET utf8mb4 COMMENT='管理员表';
+    `name` VARCHAR(100) NOT NULL  COMMENT '书名',
+    `price` INT NOT NULL  COMMENT '价格,分',
+    `sn` VARCHAR(100) NOT NULL  COMMENT '序列号',
+    UNIQUE KEY `uid_books_sn_7a31d1` (`sn`),
+    KEY `idx_books_name_3562e3` (`name`)
+) CHARACTER SET utf8mb4 COMMENT='书籍表';
 -- downgrade --
-DROP TABLE IF EXISTS `admin_users`;
+DROP TABLE IF EXISTS `books`;

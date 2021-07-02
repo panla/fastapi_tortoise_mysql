@@ -12,4 +12,3 @@ class Order(BaseModel, ModelMixin):
     class Meta:
         table = 'orders'
         table_description = '订单表'
-        indexes = (('owner_id'),)
