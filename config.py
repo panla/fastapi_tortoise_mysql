@@ -12,8 +12,19 @@ TEST_REDIS_HOST = config('TEST_REDIS_HOST', default='127.0.0.1')
 TEST_REDIS_PORT = config('TEST_REDIS_PORT', cast=int, default=6379)
 TEST_REDIS_PASSWD = config('TEST_REDIS_PASSWD', default='')
 
-DB_URI = config('DB_URI')
-TEST_DB_URI = config('TEST_DB_URI')
+DB_USER = config('DB_USER', default='root')
+DB_PASSWD = config('DB_PASSWD')
+DB_HOST = config('DB_HOST', default='127.0.0.1')
+DB_PORT = config('DB_PORT', cast=int, default=3306)
+DB_DATABASE = config('DB_DATABASE')
+DB_MAX_SIZE = config('DB_MAX_SIZE', cast=int, default=5)
+
+TEST_DB_USER = config('DB_USER', default='root')
+TEST_DB_PASSWD = config('DB_PASSWD')
+TEST_DB_HOST = config('DB_HOST', default='127.0.0.1')
+TEST_DB_PORT = config('DB_PORT', cast=int, default=3306)
+TEST_DB_DATABASE = config('DB_DATABASE')
+TEST_DB_MAX_SIZE = config('DB_MAX_SIZE', cast=int, default=2)
 
 LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
 LOG_PATH = config('LOG_PATH')
@@ -24,10 +35,29 @@ if CODE_ENV == 'test':
     REDIS_PORT = TEST_REDIS_PORT
     REDIS_PASSWD = TEST_REDIS_PASSWD
 
-    DB_URI = TEST_DB_URI
+    DB_USER = TEST_DB_USER
+    DB_PASSWD = TEST_DB_PASSWD
+    DB_HOST = TEST_DB_HOST
+    DB_PORT = TEST_DB_PORT
+    DB_DATABASE = TEST_DB_DATABASE
+    DB_MAX_SIZE = TEST_DB_MAX_SIZE
 
 TORTOISE_ORM = {
-    'connections': {'default': DB_URI},
+    'connections': {
+        'default': {
+            'engine': 'tortoise.backends.mysql',
+            'credentials': {
+                'database': DB_DATABASE,
+                'host': DB_HOST,
+                'password': DB_PASSWD,
+                'port': DB_PORT,
+                'user': DB_USER,
+                'minisize': 1,
+                'maxsize': DB_MAX_SIZE,
+                'charset': 'utf8mb4'
+            }
+        }
+    },
     'apps': {
         'models': {
             'models': [

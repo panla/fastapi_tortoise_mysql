@@ -1,7 +1,21 @@
 import config
 
 TORTOISE_ORM = {
-    'connections': {'default': config.DB_URI},
+    'connections': {
+        'default': {
+            'engine': 'tortoise.backends.mysql',
+            'credentials': {
+                'database': config.DB_DATABASE,
+                'host': config.DB_HOST,
+                'password': config.DB_PASSWD,
+                'port': config.DB_PORT,
+                'user': config.DB_USER,
+                'minisize': 1,
+                'maxsize': config.DB_MAX_SIZE,
+                'charset': 'utf8mb4'
+            }
+        }
+    },
     'apps': {
         'models': {
             'models': [

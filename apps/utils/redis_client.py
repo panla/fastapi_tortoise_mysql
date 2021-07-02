@@ -15,7 +15,7 @@ class RedisToolBase(object):
         self.pool = None
 
     async def init(self):
-        redis_uri = f"redis://:{config.REDIS_PASSWD}@{config.REDIS_HOST}:{config.REDIS_PORT}/{self.DB}?encoding=utf-8"
+        redis_uri = f'redis://:{config.REDIS_PASSWD}@{config.REDIS_HOST}:{config.REDIS_PORT}/{self.DB}?encoding=utf-8'
 
         pool = SMSCodeRedis._instance or await create_redis_pool(redis_uri)
         SMSCodeRedis._instance = pool
