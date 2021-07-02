@@ -4,10 +4,10 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.models import AdminUser, Car
-from apps.utils import resp_success, raise_404, error_response
 from apps.extension import Route
-from apps.v1_admin.libs import get_current_admin_user
+from apps.utils import resp_success, raise_404, error_response
+from apps.models import AdminUser, Car
+from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadCarSchema, ListCarSchema, CarSchema
 from apps.v1_admin.entities import CreateCarParameter, PatchCarParameter
 from apps.v1_admin.entities import filter_car_dependency

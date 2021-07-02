@@ -2,10 +2,10 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.models import User, AdminUser
-from apps.utils import resp_success, raise_404, error_response
 from apps.extension import Route
-from apps.v1_admin.libs import get_current_admin_user
+from apps.utils import resp_success, raise_404, error_response
+from apps.models import User, AdminUser
+from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadUserSchema, ListUserSchema, UserSchema
 from apps.v1_admin.entities import PatchUserParams
 from apps.v1_admin.entities import filter_user_dependency

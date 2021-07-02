@@ -8,7 +8,7 @@ def filter_questions(params: dict):
     return query
 
 
-async def response_question(question):
+async def response_question(question: Question):
     """组合问题详情返回数据"""
 
     _question = question.to_json(selects=['id', 'title', 'content', 'created_time', 'updated_time'])
