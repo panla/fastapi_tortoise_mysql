@@ -6,7 +6,7 @@ ENV PATH="/opt/python/bin:$PATH"
 
 RUN pip3 install -r requirements.txt
 
-VOLUME /home/project
+VOLUME ["/home/project", "/home/logs"]
 
 WORKDIR /home/project
 
