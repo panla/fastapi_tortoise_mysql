@@ -1,10 +1,10 @@
-FROM panla/centos8_py38
+FROM python:3.8-slim-buster
+
+ENV TZ=Asia/Shanghai LANG=C.UTF-8
 
 COPY ./doc/requirements.txt /requirements.txt
 
-ENV PATH="/opt/python/bin:$PATH"
-
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 VOLUME ["/home/project", "/home/logs"]
 
