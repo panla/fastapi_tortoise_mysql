@@ -12,13 +12,11 @@ class RedisToolBase(object):
 
     def __init__(self, key) -> None:
         self.key = f'{self.PREFIX_KEY}{key}'
-        self.pool = None
         self.redis_uri = 'redis://:{}@{}:{}/{}?encoding=utf-8'.format(
             config.REDIS_PASSWD, config.REDIS_HOST, config.REDIS_PORT, self.DB
         )
 
     async def init(self):
 
-        pool = self._instance or await create_redis_pool(self.redis_uri)
-        self._instance = pool
-        self.pool = pool
+        self._instance = self._instance or await create_redis_pool(self.redis_uri)
+        return self._instance
