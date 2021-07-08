@@ -8,7 +8,7 @@ from apps.models import Question, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadQuestionSchema, ListQuestionSchema
 from apps.v1_admin.entities import filter_question_dependency
-from apps.v1_admin.logics import filter_questions, response_question, response_questions
+from apps.v1_admin.logics import filter_questions
 
 router = APIRouter(route_class=Route)
 
@@ -20,10 +20,9 @@ async def read_question(
 ):
     """问题详情接口"""
 
-    query = await Question.filter(id=q_id).first()
+    query = await Question.filter(id=q_id).prefetch_related('owner').first()
     if query:
-        data = await response_question(query)
-        return resp_success(data=data)
+        return resp_success(data=query)
     raise_404(message='该问题不存在')
 
 
@@ -35,9 +34,9 @@ async def list_question(
     """问题列表接口"""
 
     query = filter_questions(params)
+    query = query.prefetch_related('owner')
     total = await query.count()
 
-    query = Question.paginate(query, params['page'], params.get('pagesize') or total)
+    query = await Question.paginate(query, params['page'], params.get('pagesize') or total)
 
-    questions = await response_questions(await query)
-    return resp_success(data={'total': total, 'questions': questions})
+    return resp_success(data={'total': total, 'questions': query})
