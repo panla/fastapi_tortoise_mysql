@@ -1,12 +1,13 @@
 import time
 from datetime import datetime, timedelta
+import traceback
 
 import jwt
 from fastapi import Request, Header
 
 import config
 from apps.redis import SMSCodeRedis
-from apps.utils import raise_400, raise_401, raise_404
+from apps.utils import raise_400, raise_401, raise_404, logger
 from apps.models import User, AdminUser
 
 
@@ -67,13 +68,14 @@ async def decode_admin_token(request: Request, token: str):
             c = data.get('login_time') < admin_user.login_time.timestamp()
             d = data.get('token_expired') > admin_user.token_expired.timestamp()
             if a or b or c or d:
-                return raise_401('请重新登录')
+                return raise_401('登录过期请重新登录')
 
             request.state.admin_user = admin_user
             request.state.user = user
             return payload
     except Exception as exc:
-        return raise_401('请重新登录')
+        logger.error(traceback.format_exc())
+        return raise_401('校验 token 异常，请重新登录')
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):

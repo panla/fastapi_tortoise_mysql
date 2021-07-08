@@ -9,6 +9,7 @@ class SMSCodeRedis(RedisToolBase):
     async def set(self, value):
         pool = await self.init()
         await pool.set(self.key, value)
+        pool.close()
 
     async def get(self):
         pool = await self.init()
