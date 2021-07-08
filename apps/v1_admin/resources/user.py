@@ -24,7 +24,7 @@ async def read_user(
     query = await User.get_or_none(id=u_id)
 
     if query:
-        user = query.to_json()
+        user = query.to_dict()
         user['is_admin_user'] = await query.is_admin_user
         return user
     return raise_404(message='该用户不存在')

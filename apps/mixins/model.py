@@ -14,18 +14,6 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
-    @property
-    def created_time(self) -> str:
-        return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
-
-    @property
-    def updated_time(self) -> str:
-        return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
-
-    @classmethod
-    def paginate(cls, query, page: int = 1, pagesize: int = 10):
-        return query.offset(page - 1).limit(pagesize)
-
     class PydanticMeta:
         exclude = ('created_at', 'updated_at')
 
@@ -54,7 +42,19 @@ class ModelMixin(object):
     ):
         return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)
 
-    def to_json(self, selects: tuple = None, excludes: tuple = None):
+    @property
+    def created_time(self) -> str:
+        return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+
+    @property
+    def updated_time(self) -> str:
+        return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+
+    @classmethod
+    def paginate(cls, query, page: int = 1, pagesize: int = 10):
+        return query.offset(page - 1).limit(pagesize)
+
+    def to_dict(self, selects: tuple = None, excludes: tuple = None):
         # 返回 Dict 格式数据
 
         if not hasattr(self, '_meta'):

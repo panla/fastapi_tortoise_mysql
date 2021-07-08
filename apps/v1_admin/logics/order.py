@@ -13,7 +13,7 @@ async def response_orders(orders):
 
     _orders = []
     for order in orders:
-        _order = order.to_json(selects=['id', 'amount', 'remarks', 'created_time'])
+        _order = order.to_dict(selects=['id', 'amount', 'remarks', 'created_time'])
         _order['owner'] = await order.owner
         _orders.append(_order)
     return _orders
