@@ -18,7 +18,7 @@ def register_cross(app: FastAPI):
     )
 
 
-def register_middleware(app):
+def register_middleware(app: FastAPI):
 
     @app.middleware("http")
     async def rewrite_other_exception_response(request: Request, call_next):
@@ -26,6 +26,5 @@ def register_middleware(app):
 
         middleware_code = middleware_codes.get(response.status_code, None)
         if middleware_code:
-            code = middleware_code.get('code')
-            return JSONResponse(content=middleware_code, status_code=code)
+            return JSONResponse(content=middleware_code, status_code=response.status_code)
         return response

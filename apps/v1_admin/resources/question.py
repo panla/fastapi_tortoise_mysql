@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.extension import Route
-from apps.utils import resp_success, raise_404, error_response
+from apps.extension import Route, NotFound
+from apps.utils import resp_success, error_response
 from apps.models import Question, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadQuestionSchema, ListQuestionSchema
@@ -23,7 +23,7 @@ async def read_question(
     query = await Question.filter(id=q_id).prefetch_related('owner').first()
     if query:
         return resp_success(data=query)
-    raise_404(message='该问题不存在')
+    raise NotFound(message=f'Question {q_id} 不存在')
 
 
 @router.get('', response_model=ListQuestionSchema, status_code=200, responses=error_response)

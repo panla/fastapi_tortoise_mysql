@@ -4,8 +4,8 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.extension import Route
-from apps.utils import resp_success, raise_404, error_response
+from apps.extension import Route, NotFound
+from apps.utils import resp_success, error_response
 from apps.models import AdminUser, Car
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadCarSchema, ListCarSchema, CarSchema
@@ -65,7 +65,7 @@ async def patch_car(
         await car.update_from_dict(car_item.dict())
         await car.save()
         return resp_success(data=car)
-    return raise_404(message='该汽车不存在')
+    raise NotFound(message=f'Car {c_id}不存在')
 
 
 @router.delete('/cars/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -80,4 +80,4 @@ async def delete_car(
         car.is_delete = False
         await car.save()
         return resp_success(data=car)
-    return raise_404(message='该汽车不存在')
+    raise NotFound(message=f'Car {c_id}不存在')

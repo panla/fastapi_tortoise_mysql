@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.extension import Route
-from apps.utils import resp_success, raise_404, error_response
+from apps.extension import Route, NotFound
+from apps.utils import resp_success, error_response
 from apps.models import User, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadUserSchema, ListUserSchema, UserSchema
@@ -27,7 +27,7 @@ async def read_user(
         user = query.to_dict()
         user['is_admin_user'] = await query.is_admin_user
         return user
-    return raise_404(message='该用户不存在')
+    raise NotFound(message=f'User {u_id} 不存在')
 
 
 @router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
@@ -46,19 +46,6 @@ async def list_users(
 
     return resp_success(data={'total': total, 'users': users})
 
-#
-# @router.post('', response_model=UserSchema, status_code=201, responses=error_response)
-# async def create_user(params: CreateUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
-#     """创建用户"""
-#
-#     params = params.dict()
-#     if not params.get('name'):
-#         params['name'] = params['cellphone']
-#     if not await User.get_or_none(cellphone=params.get('cellphone')):
-#         user = await User.create(**params)
-#         return user
-#     return raise_400(message='该手机号已存在')
-
 
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
 async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
@@ -75,7 +62,7 @@ async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser =
         await user.update_from_dict(patch_params)
         await user.save()
         return resp_success(data=user)
-    return raise_404(message='该用户不存在')
+    raise NotFound(message=f'User {u_id} 不存在')
 
 
 @router.delete('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
@@ -90,4 +77,4 @@ async def delete_user(
         user.is_delete = False
         await user.save()
         return resp_success(data=user)
-    return raise_404(message='该用户不存在')
+    raise NotFound(message=f'User {u_id} 不存在')

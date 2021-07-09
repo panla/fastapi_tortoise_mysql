@@ -1,20 +1,23 @@
 class StatusCode(object):
     success = 10000
 
-    http_error = 10400
-    token_expired = 10401
-    forbidden = 10403
-    no_found = 100404
-    validator_error = 10422
+    bad_request = 40000
+    unauthorized = 40001
+    forbidden = 40003
+    not_found = 40004
+    method_not_allowed = 40005
 
-    server_error = 10500
-    unknown_error = 10500
+    entity_too_large = 40013
+    validator_error = 40422
+
+    server_error = 40500
+    unknown_error = 40500
 
 
 # 不要和自定义的异常冲突，会覆盖自定义抛出的异常
 # 比如，已经自己抛出了 404，就不要在这里定义 404
 
 middleware_codes = {
-    405: {'status_code': 10405, 'message': 'Method Not Allowed', 'data': None},
-    413: {'status_code': 10413, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None}
+    405: {'status_code': StatusCode.method_not_allowed, 'message': 'Method Not Allowed', 'data': None},
+    413: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None}
 }

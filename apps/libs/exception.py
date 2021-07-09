@@ -8,9 +8,7 @@ from tortoise.validators import ValidationError
 
 from apps.utils import logger
 from apps.utils import StatusCode
-from apps.utils import UnauthorizedException
-from apps.utils import ForbiddenException
-from apps.utils import NotFoundException
+from apps.extension import BaseHTTPException
 
 
 def log_message(request: Request, e):
@@ -23,28 +21,10 @@ def log_message(request: Request, e):
 
 
 def register_exception(app: FastAPI):
-    @app.exception_handler(UnauthorizedException)
-    async def unauthorized_exception_handle(request: Request, exc: UnauthorizedException):
-        """捕获UnauthorizedException"""
-
-        log_message(request, exc.detail)
-        content = {'status_code': StatusCode.token_expired, 'message': exc.detail, 'data': None}
-        return JSONResponse(content=content, status_code=exc.status_code)
-
-    @app.exception_handler(ForbiddenException)
-    async def unauthorized_exception_handle(request: Request, exc: ForbiddenException):
-        """捕获ForbiddenException"""
-
-        log_message(request, exc.detail)
-        content = {'status_code': StatusCode.forbidden, 'message': exc.detail, 'data': None}
-        return JSONResponse(content=content, status_code=exc.status_code)
-
-    @app.exception_handler(NotFoundException)
-    async def unauthorized_exception_handle(request: Request, exc: NotFoundException):
-        """捕获NotFoundException"""
-
-        log_message(request, exc.detail)
-        content = {'status_code': StatusCode.no_found, 'message': exc.detail, 'data': None}
+    @app.exception_handler(BaseHTTPException)
+    async def catch_c_http_exception(request: Request, exc: BaseHTTPException):
+        log_message(request, exc.message)
+        content = {'status_code': exc.code, 'message': exc.message, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(HTTPException)
@@ -52,7 +32,7 @@ def register_exception(app: FastAPI):
         """捕获HTTPException"""
 
         log_message(request, exc.detail)
-        content = {'status_code': StatusCode.http_error, 'message': exc.detail, 'data': None}
+        content = {'status_code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code)
 
     @app.exception_handler(AssertionError)

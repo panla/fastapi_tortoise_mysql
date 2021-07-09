@@ -6,8 +6,9 @@ import jwt
 from fastapi import Request, Header
 
 import config
+from apps.extension import BadRequest, Unauthorized, NotFound
 from apps.redis import SMSCodeRedis
-from apps.utils import raise_400, raise_401, raise_404, logger
+from apps.utils import logger
 from apps.models import User, AdminUser
 
 
@@ -16,17 +17,17 @@ async def authentic(request: Request, cellphone: str, code: str):
     if code == await redis_obj.get():
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
-            return raise_404('该用户不存在或被删除')
+            raise NotFound(message=f'User {cellphone} 不存在或被删除')
         admin_user = await AdminUser.get_or_none(user_id=user.id)
         if not admin_user or admin_user.is_delete:
-            return raise_404('该管理员不存在或被删除')
+            raise NotFound(message=f'AdminUser {cellphone} 不存在或被删除')
         token, login_time, token_expired = encode_auth_token(user.id)
         admin_user.login_time = login_time
         admin_user.token_expired = token_expired
         await admin_user.save()
         data = {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
         return {'data': data}
-    return raise_400('验证码错误')
+    raise BadRequest(message='验证码错误')
 
 
 def encode_auth_token(account_id):
@@ -45,7 +46,7 @@ def encode_auth_token(account_id):
         token = jwt.encode(payload, config.ADMIN_SECRETS, algorithm="HS256")
         return token, login_time, token_expired
     except Exception as e:
-        return raise_400(str(e))
+        raise BadRequest(message=str(e))
 
 
 async def decode_admin_token(request: Request, token: str):
@@ -56,26 +57,29 @@ async def decode_admin_token(request: Request, token: str):
         if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
 
             data: dict = payload.get('data')
-            user = await User.get_or_none(id=data.get('id'))
-            admin_user = await AdminUser.get_or_none(user_id=data.get('id'))
+            user = await User.get_or_none(id=data.get('id'), is_delete=False)
+            if not user:
+                raise NotFound(message='User 不存在或被删除')
+
+            admin_user = await AdminUser.get_or_none(user_id=data.get('id'), is_delete=False)
             now = time.time()
 
             if not admin_user or admin_user.is_delete:
-                return raise_401('该管理员不存在')
+                raise NotFound(message=f'AdminUser 不存在或被删除')
 
             a = not (admin_user.login_time and admin_user.token_expired)
             b = data.get('token_expired') < now
             c = data.get('login_time') < admin_user.login_time.timestamp()
             d = data.get('token_expired') > admin_user.token_expired.timestamp()
             if a or b or c or d:
-                return raise_401('登录过期请重新登录')
+                raise Unauthorized(message='登录过期请重新登录')
 
             request.state.admin_user = admin_user
             request.state.user = user
             return payload
     except Exception as exc:
         logger.error(traceback.format_exc())
-        return raise_401('校验 token 异常，请重新登录')
+        raise Unauthorized(message='校验 token 异常，请重新登录')
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):
