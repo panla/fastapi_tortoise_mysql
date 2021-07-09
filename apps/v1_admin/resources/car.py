@@ -16,28 +16,6 @@ from apps.v1_admin.logics import filter_cars
 router = APIRouter(route_class=Route)
 
 
-@router.post('', response_model=CarSchema, status_code=201, responses=error_response)
-async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """创建汽车接口"""
-
-    c = await Car.create(**car.dict())
-    return resp_success(data=c)
-
-
-@router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
-async def list_cars(
-        params: dict = Depends(filter_car_dependency),
-        admin_user: AdminUser = Depends(get_current_admin_user)
-):
-    """汽车列表接口"""
-
-    query = filter_cars(params)
-    total = await query.count()
-    cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
-
-    return resp_success(data={'total': total, 'cars': cars})
-
-
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
 async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
     """汽车详情接口"""
@@ -47,7 +25,7 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
     car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
         return resp_success(data=car)
-    return raise_404(message='该汽车不存在')
+    raise NotFound(message=f'Car {c_id}不存在')
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -68,7 +46,7 @@ async def patch_car(
     raise NotFound(message=f'Car {c_id}不存在')
 
 
-@router.delete('/cars/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
+@router.delete('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
 async def delete_car(
         c_id: int = Path(..., description='汽车id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -81,3 +59,25 @@ async def delete_car(
         await car.save()
         return resp_success(data=car)
     raise NotFound(message=f'Car {c_id}不存在')
+
+
+@router.post('', response_model=CarSchema, status_code=201, responses=error_response)
+async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
+    """创建汽车接口"""
+
+    c = await Car.create(**car.dict())
+    return resp_success(data=c)
+
+
+@router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
+async def list_cars(
+        params: dict = Depends(filter_car_dependency),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
+    """汽车列表接口"""
+
+    query = filter_cars(params)
+    total = await query.count()
+    cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
+
+    return resp_success(data={'total': total, 'cars': cars})

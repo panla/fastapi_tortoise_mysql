@@ -30,23 +30,6 @@ async def read_user(
     raise NotFound(message=f'User {u_id} 不存在')
 
 
-@router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
-async def list_users(
-        params: dict = Depends(filter_user_dependency),
-        admin_user: AdminUser = Depends(get_current_admin_user)
-):
-    """用户列表接口"""
-
-    query = filter_users(params)
-    total = await query.count()
-
-    query = User.paginate(query, params['page'], params.get('pagesize') or total)
-
-    users = await response_users(await query)
-
-    return resp_success(data={'total': total, 'users': users})
-
-
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
 async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
     """更新用户"""
@@ -78,3 +61,20 @@ async def delete_user(
         await user.save()
         return resp_success(data=user)
     raise NotFound(message=f'User {u_id} 不存在')
+
+
+@router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
+async def list_users(
+        params: dict = Depends(filter_user_dependency),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
+    """用户列表接口"""
+
+    query = filter_users(params)
+    total = await query.count()
+
+    query = User.paginate(query, params['page'], params.get('pagesize') or total)
+
+    users = await response_users(await query)
+
+    return resp_success(data={'total': total, 'users': users})

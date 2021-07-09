@@ -20,7 +20,10 @@ class Route(APIRoute):
 
             logger.info('start request'.center(60, '*'))
             logger.info(f'{request.method} {request.url}')
-            if request.method in ['POST', 'PUT', 'PATCH']:
+            if (
+                    request.method in ['POST', 'PUT', 'PATCH']
+                    and request.headers.get('content-type') == 'application/json'
+            ):
                 try:
                     params = await request.json()
                     if params:
