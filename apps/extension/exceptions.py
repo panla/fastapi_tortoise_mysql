@@ -1,12 +1,12 @@
+__all__ = [
+    'BaseHTTPException', 'BadRequest', 'Unauthorized', 'Forbidden', 'NotFound', 'MethodNotAllowed',
+]
+
 from typing import Any, Optional, Dict
 
 from starlette.exceptions import HTTPException
 
 from apps.utils.define import StatusCode
-
-__all__ = [
-    'BaseHTTPException', 'BadRequest', 'Unauthorized', 'Forbidden', 'NotFound', 'MethodNotAllowed',
-]
 
 
 class BaseHTTPException(HTTPException):

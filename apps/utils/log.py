@@ -1,12 +1,11 @@
+__all__ = ['logger']
+
 import os
 import sys
 
 from loguru import logger
 
 import config
-
-__all__ = ['logger']
-
 
 os.makedirs(os.path.dirname(os.path.abspath(config.LOG_PATH)), exist_ok=True)
 

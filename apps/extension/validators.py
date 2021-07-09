@@ -1,11 +1,11 @@
+__all__ = [
+    'MaxMinValidator',
+]
+
 from typing import Union
 from decimal import Decimal
 
 from tortoise.validators import Validator, ValidationError
-
-__all__ = [
-    'MaxMinValidator',
-]
 
 
 class MaxMinValidator(Validator):

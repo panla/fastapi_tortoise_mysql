@@ -1,13 +1,13 @@
+__all__ = [
+    'register_cross', 'register_middleware',
+]
+
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from apps.utils import middleware_codes
-
-__all__ = [
-    'register_cross', 'register_middleware',
-]
 
 
 def register_cross(app: FastAPI):

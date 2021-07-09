@@ -1,3 +1,7 @@
+__all__ = [
+    'register_exception',
+]
+
 import traceback
 
 from fastapi import FastAPI
@@ -9,10 +13,6 @@ from tortoise.validators import ValidationError
 from apps.utils import logger
 from apps.utils import StatusCode
 from apps.extension import BaseHTTPException
-
-__all__ = [
-    'register_exception',
-]
 
 
 def log_message(request: Request, e):

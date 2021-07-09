@@ -1,13 +1,13 @@
+__all__ = [
+    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParameter', 'PatchCarParameter', 'filter_car_dependency',
+]
+
 from typing import Optional
 from typing import List
 
 from fastapi import Body, Query
 from pydantic import BaseModel
 from pydantic.fields import Field
-
-__all__ = [
-    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParameter', 'PatchCarParameter', 'filter_car_dependency',
-]
 
 
 class ReadCarField(BaseModel):

@@ -1,13 +1,13 @@
+__all__ = [
+    'ReadQuestionSchema', 'ListQuestionSchema', 'filter_question_dependency',
+]
+
 from typing import Optional
 from typing import List
 
 from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
-
-__all__ = [
-    'ReadQuestionSchema', 'ListQuestionSchema', 'filter_question_dependency',
-]
 
 
 class OwnerField(BaseModel):

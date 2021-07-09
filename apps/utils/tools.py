@@ -1,9 +1,9 @@
-import random
-from typing import Union
-
 __all__ = [
     'random_str', 'random_int',
 ]
+
+import random
+from typing import Union
 
 
 def random_str(length: int = 20, has_num: bool = False) -> str:

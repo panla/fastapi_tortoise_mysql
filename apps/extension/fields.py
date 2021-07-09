@@ -1,10 +1,10 @@
-from typing import Any
-
-from tortoise.fields.base import Field
-
 __all__ = [
     'UnsignedTinyIntField', 'UnsignedSmallIntField', 'UnsignedIntField', 'UnsignedBigIntField',
 ]
+
+from typing import Any
+
+from tortoise.fields.base import Field
 
 
 class UnsignedTinyIntField(Field, int):
