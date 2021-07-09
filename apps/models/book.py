@@ -1,9 +1,9 @@
 from tortoise import fields
 
-from apps.mixins import BaseModel
+from apps.mixins import BaseModel, ModelMixin
 
 
-class Book(BaseModel):
+class Book(BaseModel, ModelMixin):
 
     name = fields.CharField(max_length=100, null=False, description='书名')
     price = fields.IntField(null=False, description='价格,分')
