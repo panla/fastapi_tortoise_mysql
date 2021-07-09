@@ -4,6 +4,10 @@ from tortoise import fields
 from tortoise.models import Model
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
+__all__ = [
+    'BaseModel', 'ModelMixin',
+]
+
 
 class BaseModel(Model):
     id = fields.BigIntField(pk=True, description='主键')

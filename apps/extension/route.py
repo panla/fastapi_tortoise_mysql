@@ -5,6 +5,10 @@ from fastapi.routing import APIRoute
 
 from apps.utils import logger
 
+__all__ = [
+    'Route',
+]
+
 
 class Route(APIRoute):
     """自定义路由"""
@@ -27,4 +31,5 @@ class Route(APIRoute):
                     logger.error('encounter UnicodeDecodeError')
             logger.info('end request'.center(60, '*'))
             return await original_route_handler(request)
+
         return log_request_detail

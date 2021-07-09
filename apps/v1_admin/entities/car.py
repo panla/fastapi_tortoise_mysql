@@ -5,6 +5,10 @@ from fastapi import Body, Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+__all__ = [
+    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParameter', 'PatchCarParameter', 'filter_car_dependency',
+]
+
 
 class ReadCarField(BaseModel):
     id: int = Field(..., title='汽车id')

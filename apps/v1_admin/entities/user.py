@@ -6,6 +6,10 @@ from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+__all__ = [
+    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParams', 'filter_user_dependency'
+]
+
 
 class UserField(BaseModel):
     id: int = Field(..., title='id')

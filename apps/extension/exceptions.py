@@ -1,23 +1,29 @@
 from typing import Any, Optional, Dict
 
+from starlette.exceptions import HTTPException
+
 from apps.utils.define import StatusCode
 
+__all__ = [
+    'BaseHTTPException', 'BadRequest', 'Unauthorized', 'Forbidden', 'NotFound', 'MethodNotAllowed',
+]
 
-class BaseHTTPException(Exception):
+
+class BaseHTTPException(HTTPException):
     STATUS_CODE = 400
     CODE = 40000
     MESSAGE = None
 
     def __init__(
             self,
+            message: Any = None,
             status_code: int = 400,
             code: int = 40000,
-            message: Any = None,
             headers: Optional[Dict[str, Any]] = None
     ) -> None:
+        self.message = message or self.MESSAGE
         self.status_code = status_code or self.STATUS_CODE
         self.code = code or self.CODE
-        self.message = message or self.MESSAGE
         self.headers = headers
 
     def __repr__(self) -> str:

@@ -1,6 +1,10 @@
 import random
 from typing import Union
 
+__all__ = [
+    'random_str', 'random_int',
+]
+
 
 def random_str(length: int = 20, has_num: bool = False) -> str:
     """

@@ -5,6 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from apps.utils import middleware_codes
 
+__all__ = [
+    'register_cross', 'register_middleware',
+]
+
 
 def register_cross(app: FastAPI):
     """解决跨域"""
@@ -19,7 +23,6 @@ def register_cross(app: FastAPI):
 
 
 def register_middleware(app: FastAPI):
-
     @app.middleware("http")
     async def rewrite_other_exception_response(request: Request, call_next):
         response = await call_next(request)

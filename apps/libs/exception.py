@@ -10,6 +10,10 @@ from apps.utils import logger
 from apps.utils import StatusCode
 from apps.extension import BaseHTTPException
 
+__all__ = [
+    'register_exception',
+]
+
 
 def log_message(request: Request, e):
     """打印 error 时的日志"""

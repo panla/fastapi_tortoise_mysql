@@ -3,6 +3,10 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import Field
 
+__all__ = [
+    'CreateTokenParameter', 'TokenSchema',
+]
+
 
 class CreateTokenParameter(BaseModel):
     cellphone: str = Field(..., title='手机号', min_length=11, max_length=11)

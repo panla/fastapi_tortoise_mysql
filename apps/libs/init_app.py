@@ -6,6 +6,10 @@ from apps.libs.database import init_db
 from apps.v1_admin import init_sub_app as init_v1_admin_app
 from apps.v1_socket_io import init_sub_app as init_v1_socket_io_app
 
+__all__ = [
+    'init_app',
+]
+
 
 def init_app(app: FastAPI):
     """初始化app"""

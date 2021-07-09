@@ -3,6 +3,10 @@ from decimal import Decimal
 
 from tortoise.validators import Validator, ValidationError
 
+__all__ = [
+    'MaxMinValidator',
+]
+
 
 class MaxMinValidator(Validator):
     """
