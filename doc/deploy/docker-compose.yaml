@@ -14,11 +14,11 @@ services:
       - TZ=Asia/Shanghai
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
-      - MYSQL_DATABASE=ftm_dev
+      - MYSQL_DATABASE=ftm_prd
       - MYSQL_ROOT_PASSWORD=12345678
 
   fastapi_tm_redis:
-    image: redis:6.2.4
+    image: redis:6.2.4-alpine
     container_name: fastapi_tm_redis
     networks:
       fastapi_tm_net:
