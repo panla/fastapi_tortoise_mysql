@@ -6,7 +6,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from apps.utils import StatusCode
+from apps.utils import StatusCode, logger
 
 
 class BadRequestSchema(BaseModel):
@@ -40,6 +40,8 @@ class ValidatorErrorSchema(BaseModel):
 
 
 def resp_success(message: str = '', data: Any = None):
+    if message and message != 'success':
+        logger.info(message)
     return {'status_code': 10000, 'message': message, 'data': data}
 
 

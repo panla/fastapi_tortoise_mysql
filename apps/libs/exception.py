@@ -29,7 +29,7 @@ def register_exception(app: FastAPI):
     async def catch_c_http_exception(request: Request, exc: BaseHTTPException):
         log_message(request, exc.message)
         content = {'status_code': exc.code, 'message': exc.message, 'data': None}
-        return JSONResponse(content=content, status_code=exc.status_code)
+        return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):
@@ -37,7 +37,7 @@ def register_exception(app: FastAPI):
 
         log_message(request, exc.detail)
         content = {'status_code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
-        return JSONResponse(content=content, status_code=exc.status_code)
+        return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(AssertionError)
     async def assert_exception_handle(request: Request, exc: AssertionError):
