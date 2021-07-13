@@ -1,3 +1,5 @@
+__all__ = ['n_sio', 'sio_server', 'init_sub_app']
+
 import socketio
 from fastapi import FastAPI
 
@@ -58,6 +60,3 @@ def init_sub_app(app: FastAPI):
     app.mount(path='/api/v1', app=v1_socket_io_app, name='v1_socket_io')
     app.n_sio = n_sio
     app.sio_server = sio_server
-
-
-__all__ = ['n_sio', 'sio_server', 'init_sub_app']
