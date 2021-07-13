@@ -28,8 +28,8 @@ pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 
 ### 配置
 
-- [.env 参考](doc/config/env.example)
-- [run.sh 参考](doc/deploy/run.sh.example)
+- [.env 参考](./doc/config/env.example)
+- [run.sh 参考](./doc/config/run.example.sh)
 
 ### 运行
 
@@ -61,10 +61,10 @@ docker-compose restart container_name
 - project
   - conf
     - api
-      - .env [参考](doc/config/env.example)
-      - `run.sh` [参考](doc/deploy/run.sh.example)
+      - .env [参考](./doc/config/env.example)
+      - `run.sh` [参考](./doc/config/run.example.sh)
     - mysql
-      - my.cnf
+      - my.cnf [参考](./doc/config/my.cnf)
   - data
     - api
       - logs
@@ -74,4 +74,4 @@ docker-compose restart container_name
       - data
   - api
     ...
-  - docker-compose.yaml [参考](./doc/deploy/docker-compose.yaml)
+  - docker-compose.yaml [参考](./doc/config/docker-compose.yaml)
