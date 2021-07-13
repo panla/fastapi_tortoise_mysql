@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 
-import config
+from config import Config
 from apps.libs.init_app import init_app
 
 
 def create_app():
-    app = FastAPI(include_in_schema=config.include_in_schema)
+    app = FastAPI(include_in_schema=Config.INCLUDE_IN_SCHEMA)
 
     init_app(app)
 

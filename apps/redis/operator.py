@@ -2,7 +2,6 @@ from apps.redis import RedisToolBase
 
 
 class SMSCodeRedis(RedisToolBase):
-
     DB = 1
     PREFIX_KEY = 'sms_code:'
 

@@ -5,13 +5,13 @@ import sys
 
 from loguru import logger
 
-import config
+from config import Config
 
-os.makedirs(os.path.dirname(os.path.abspath(config.LOG_PATH)), exist_ok=True)
+os.makedirs(os.path.dirname(os.path.abspath(Config.LOG_PATH)), exist_ok=True)
 
 logger.remove()
 
 logger.add(
-    config.LOG_PATH, level=config.LOG_LEVEL.upper(), rotation="00:00", backtrace=True, diagnose=True, enqueue=True,
+    Config.LOG_PATH, level=Config.LOG_LEVEL.upper(), rotation="00:00", backtrace=True, diagnose=True, enqueue=True,
 )
-logger.add(sys.stdout, level=config.LOG_LEVEL.upper(), backtrace=True, diagnose=True, enqueue=True)
+logger.add(sys.stdout, level=Config.LOG_LEVEL.upper(), backtrace=True, diagnose=True, enqueue=True)

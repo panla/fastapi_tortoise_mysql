@@ -5,7 +5,7 @@ import traceback
 import jwt
 from fastapi import Request, Header
 
-import config
+from config import Config
 from apps.extension import BadRequest, Unauthorized, NotFound
 from apps.redis import SMSCodeRedis
 from apps.utils import logger
@@ -34,7 +34,7 @@ def encode_auth_token(account_id):
     """生成认证Token"""
 
     login_time = datetime.now()
-    token_expired = login_time + timedelta(seconds=config.TOKEN_EXP_DELTA_ADMIN)
+    token_expired = login_time + timedelta(seconds=Config.TOKEN_EXP_DELTA_ADMIN)
 
     try:
         payload = {
@@ -43,7 +43,7 @@ def encode_auth_token(account_id):
             'iss': 'ken',
             'data': {'id': account_id, 'login_time': login_time.timestamp(), 'token_expired': token_expired.timestamp()}
         }
-        token = jwt.encode(payload, config.ADMIN_SECRETS, algorithm="HS256")
+        token = jwt.encode(payload, Config.ADMIN_SECRETS, algorithm="HS256")
         return token, login_time, token_expired
     except Exception as e:
         raise BadRequest(message=str(e))
@@ -53,7 +53,7 @@ async def decode_admin_token(request: Request, token: str):
     """校验token"""
 
     try:
-        payload = jwt.decode(token, config.ADMIN_SECRETS, algorithms='HS256', options={'verify_exp': True})
+        payload = jwt.decode(token, Config.ADMIN_SECRETS, algorithms='HS256', options={'verify_exp': True})
         if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
 
             data: dict = payload.get('data')

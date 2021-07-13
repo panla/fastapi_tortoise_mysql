@@ -1,17 +1,17 @@
-import config
+from config import Config
 
 TORTOISE_ORM = {
     'connections': {
         'default': {
             'engine': 'tortoise.backends.mysql',
             'credentials': {
-                'database': config.DB_DATABASE,
-                'host': config.DB_HOST,
-                'password': config.DB_PASSWD,
-                'port': config.DB_PORT,
-                'user': config.DB_USER,
+                'database': Config.DB_DATABASE,
+                'host': Config.DB_HOST,
+                'password': Config.DB_PASSWD,
+                'port': Config.DB_PORT,
+                'user': Config.DB_USER,
                 'minsize': 1,
-                'maxsize': config.DB_MAX_SIZE,
+                'maxsize': Config.DB_MAX_SIZE,
                 'charset': 'utf8mb4'
             }
         }
