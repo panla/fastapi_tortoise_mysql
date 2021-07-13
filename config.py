@@ -32,16 +32,16 @@ class PrdConfig(BaseConfig):
 
 
 class TestConfig(BaseConfig):
-    REDIS_HOST = config('REDIS_HOST', default='127.0.0.1')
-    REDIS_PORT = config('REDIS_PORT', cast=int, default=6379)
-    REDIS_PASSWD = config('REDIS_PASSWD', default='')
+    REDIS_HOST = config('TEST_REDIS_HOST', default='127.0.0.1')
+    REDIS_PORT = config('TEST_REDIS_PORT', cast=int, default=6379)
+    REDIS_PASSWD = config('TEST_REDIS_PASSWD', default='')
 
-    DB_USER = config('DB_USER', default='root')
-    DB_PASSWD = config('DB_PASSWD')
-    DB_HOST = config('DB_HOST', default='127.0.0.1')
-    DB_PORT = config('DB_PORT', cast=int, default=3306)
-    DB_DATABASE = config('DB_DATABASE')
-    DB_MAX_SIZE = config('DB_MAX_SIZE', cast=int, default=2)
+    DB_USER = config('TEST_DB_USER', default='root')
+    DB_PASSWD = config('TEST_DB_PASSWD')
+    DB_HOST = config('TEST_DB_HOST', default='127.0.0.1')
+    DB_PORT = config('TEST_DB_PORT', cast=int, default=3306)
+    DB_DATABASE = config('TEST_DB_DATABASE')
+    DB_MAX_SIZE = config('TEST_DB_MAX_SIZE', cast=int, default=2)
 
 
 def get_tortoise_orm_conf(instance):
