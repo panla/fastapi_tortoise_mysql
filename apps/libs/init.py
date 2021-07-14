@@ -4,8 +4,8 @@ __all__ = [
 
 from fastapi import FastAPI
 
-from apps.libs import register_cross
-from apps.libs.database import init_db
+from .database import init_db
+from .middleare import register_cross
 
 from apps.v1_admin import init_sub_app as init_v1_admin_app
 from apps.v1_socket_io import init_sub_app as init_v1_socket_io_app

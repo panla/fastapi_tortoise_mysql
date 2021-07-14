@@ -55,26 +55,18 @@ def encode_auth_token(account_id):
 
 
 async def query_user(data: dict):
-    """由于 pymysql 的一个bug 导致需要做重复查询
+    """当数据库 wait_timeout 时 pymysql 可能会抛错, 需要做重复查询
     """
 
-    for i in range(3):
-        try:
-            user = await User.get_or_none(id=data.get('id'), is_delete=False)
-            if not user:
-                raise NotFound(message='User 不存在或被删除')
+    user = await User.get_or_none(id=data.get('id'), is_delete=False)
+    if not user:
+        raise NotFound(message='User 不存在或被删除')
 
-            admin_user = await AdminUser.get_or_none(user_id=data.get('id'), is_delete=False)
+    admin_user = await AdminUser.get_or_none(user_id=data.get('id'), is_delete=False)
 
-            if not admin_user or admin_user.is_delete:
-                raise NotFound(message=f'AdminUser 不存在或被删除')
-            return admin_user, user
-        except OperationalError:
-            logger.error(f'第 {i} 次 OperationalError')
-            if i == 2:
-                logger.error(traceback.format_exc())
-    else:
-        raise Unauthorized(message='当前校验 token 异常，请重新登录')
+    if not admin_user or admin_user.is_delete:
+        raise NotFound(message=f'AdminUser 不存在或被删除')
+    return admin_user, user
 
 
 def check_timeout(admin_user: AdminUser, now: float, data: dict):

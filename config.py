@@ -1,5 +1,5 @@
 __all__ = [
-    'Config', 'TORTOISE_ORM'
+    'Config', 'LINK_TORTOISE_ORM', 'MIGRATE_TORTOISE_ORM',
 ]
 
 from starlette.config import Config as StarletConfig
@@ -16,6 +16,65 @@ class BaseConfig(object):
 
     ADMIN_SECRETS = config('ADMIN_SECRETS')
     TOKEN_EXP_DELTA_ADMIN = config('TOKEN_EXP_DELTA_ADMIN', cast=int, default=86400)
+
+    REDIS_HOST = '127.0.0.1'
+    REDIS_PORT = 6379
+    REDIS_PASSWD = ''
+
+    DB_USER = 'root'
+    DB_PASSWD = 'DB_PASSWD'
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 3306
+    DB_DATABASE = 'DB_DATABASE'
+    DB_MAX_SIZE = 5
+
+    def _get_orm_base_conf(self, apps: dict):
+        return {
+            'connections': {
+                'default': {
+                    'engine': 'tortoise.backends.mysql',
+                    'credentials': {
+                        'database': self.DB_DATABASE,
+                        'host': self.DB_HOST,
+                        'password': self.DB_PASSWD,
+                        'port': self.DB_PORT,
+                        'user': self.DB_USER,
+                        'minsize': 1,
+                        'maxsize': self.DB_MAX_SIZE,
+                        'charset': 'utf8mb4'
+                    }
+                }
+            },
+            'apps': apps,
+            'use_tz': False,
+            'timezone': 'Asia/Shanghai'
+        }
+
+    @property
+    def get_orm_link_conf(self):
+        orm_apps_settings = {
+            'models': {
+                'models': [
+                    'aerich.models',
+                    'apps.models.__init__'
+                ],
+                'default_connection': 'default',
+            },
+        }
+        return self._get_orm_base_conf(orm_apps_settings)
+
+    @property
+    def get_orm_migrate_conf(self):
+        orm_apps_settings = {
+            'models': {
+                'models': [
+                    'aerich.models',
+                    'apps.models.__init__'
+                ],
+                'default_connection': 'default',
+            },
+        }
+        return self._get_orm_base_conf(orm_apps_settings)
 
 
 class PrdConfig(BaseConfig):
@@ -44,40 +103,10 @@ class TestConfig(BaseConfig):
     DB_MAX_SIZE = config('TEST_DB_MAX_SIZE', cast=int, default=2)
 
 
-def get_tortoise_orm_conf(instance):
-    return {
-        'connections': {
-            'default': {
-                'engine': 'tortoise.backends.mysql',
-                'credentials': {
-                    'database': instance.DB_DATABASE,
-                    'host': instance.DB_HOST,
-                    'password': instance.DB_PASSWD,
-                    'port': instance.DB_PORT,
-                    'user': instance.DB_USER,
-                    'minsize': 1,
-                    'maxsize': instance.DB_MAX_SIZE,
-                    'charset': 'utf8mb4'
-                }
-            }
-        },
-        'apps': {
-            'models': {
-                'models': [
-                    'aerich.models',
-                    'apps.models.__init__'
-                ],
-                'default_connection': 'default',
-            },
-        },
-        'use_tz': False,
-        'timezone': 'Asia/Shanghai'
-    }
-
-
 if CODE_ENV == 'prd':
     Config = PrdConfig
 else:
     Config = TestConfig
 
-TORTOISE_ORM = get_tortoise_orm_conf(Config)
+LINK_TORTOISE_ORM = Config().get_orm_link_conf
+MIGRATE_TORTOISE_ORM = Config().get_orm_migrate_conf
