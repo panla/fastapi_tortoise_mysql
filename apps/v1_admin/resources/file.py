@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi import APIRouter
 from fastapi import UploadFile, File
 
-from apps.extension import Route
+from apps.extensions import Route
 from apps.utils import resp_success, error_response
 from apps.v1_admin.entities import FileSchema
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from apps.extension import Route
+from apps.extensions import Route
 from apps.utils import resp_success, error_response
 from apps.models import Order, AdminUser
 from apps.modules import get_current_admin_user

@@ -12,7 +12,7 @@ from tortoise.validators import ValidationError
 
 from apps.utils import logger
 from apps.utils import StatusCode
-from apps.extension import BaseHTTPException
+from apps.extensions import BaseHTTPException
 
 
 def log_message(request: Request, e):

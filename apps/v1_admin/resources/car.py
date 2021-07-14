@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Path
 
-from apps.extension import Route, NotFound
+from apps.extensions import Route, NotFound
 from apps.utils import resp_success, error_response
 from apps.models import AdminUser, Car
 from apps.modules import get_current_admin_user

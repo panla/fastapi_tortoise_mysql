@@ -1,4 +1,4 @@
-from apps.redis import RedisToolBase
+from apps.redis_ext import RedisToolBase
 
 
 class SMSCodeRedis(RedisToolBase):

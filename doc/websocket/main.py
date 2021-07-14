@@ -12,10 +12,10 @@ redis_client = None
 
 
 async def redis_pool():
-    """redis 连接池"""
+    """redis_ext 连接池"""
 
     global redis_client
-    redis_uri = f"redis://:@127.0.0.1:6379/0?encoding=utf-8"
+    redis_uri = f"redis_ext://:@127.0.0.1:6379/0?encoding=utf-8"
 
     pool = redis_client or await create_redis_pool(redis_uri)
     redis_client = pool

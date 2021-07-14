@@ -11,7 +11,7 @@ class RedisToolBase(object):
 
     def __init__(self, key) -> None:
         self.key = f'{self.PREFIX_KEY}{key}'
-        self.redis_uri = 'redis://:{}@{}:{}/{}?encoding=utf-8'.format(
+        self.redis_uri = 'redis_ext://:{}@{}:{}/{}?encoding=utf-8'.format(
             Config.REDIS_PASSWD, Config.REDIS_HOST, Config.REDIS_PORT, self.DB
         )
 
