@@ -5,7 +5,6 @@ __all__ = [
 from fastapi import FastAPI
 
 from config import Config
-from apps.libs import register_middleware
 from apps.libs import register_exception
 
 from .resources import car
@@ -34,5 +33,4 @@ def init_sub_app(app: FastAPI):
 
     register_exception(v1_admin_app)
     register_routers(v1_admin_app)
-    register_middleware(v1_admin_app)
     app.mount(path='/api/v1/admin', app=v1_admin_app, name='v1_admin_app')
