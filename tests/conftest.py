@@ -7,11 +7,9 @@ need pip install pytest requests
 """
 
 import sys
-import asyncio
 from typing import Generator
 
 import pytest
-import requests
 from fastapi.testclient import TestClient
 from tortoise import run_async
 
