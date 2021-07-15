@@ -31,7 +31,15 @@ pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 - [.env 参考](./doc/config/env.example)
 - [run.sh 参考](./doc/config/run.example.sh)
 
-### 运行
+## 测试
+
+```bash
+CODE_ENV=test pytest --rootdir ./tests -s
+```
+
+## 运行
+
+### command 运行
 
 ```bash
 uvicorn main:app --reload
@@ -42,7 +50,7 @@ uvicorn main:app --host='0.0.0.0' --port=8001 --workers 1 --loop=uvloop --http=h
 sh ./run.sh
 ```
 
-### docker-compose
+### docker-compose 运行部署
 
 ```bash
 docker-compose up -d --build

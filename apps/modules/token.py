@@ -8,7 +8,6 @@ import traceback
 
 import jwt
 from fastapi import Request, Header
-from tortoise.exceptions import OperationalError
 
 from config import Config
 from apps.extensions import BadRequest, Unauthorized, NotFound
