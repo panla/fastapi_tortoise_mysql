@@ -1,5 +1,5 @@
 __all__ = [
-    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParameter', 'PatchCarParameter', 'filter_car_dependency',
+    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParser', 'PatchCarParser', 'filter_car_dependency',
 ]
 
 from typing import Optional
@@ -66,18 +66,18 @@ class CarSchema(BaseModel):
     data: Optional[CarField]
 
 
-class CreateCarParameter(BaseModel):
+class CreateCarParser(BaseModel):
     """创建汽车所需参数"""
 
     brand: str = Body(..., title='品牌', max_length=100, min_length=1)
-    price: int = Body(..., title='品牌', ge=1)
+    price: int = Body(..., title='价格', ge=1)
 
 
-class PatchCarParameter(BaseModel):
+class PatchCarParser(BaseModel):
     """更新汽车所需参数"""
 
     brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)
-    price: Optional[int] = Body(None, title='品牌', ge=1)
+    price: Optional[int] = Body(None, title='价格', ge=1)
 
 
 def filter_car_dependency(

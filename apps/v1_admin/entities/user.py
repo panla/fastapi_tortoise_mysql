@@ -1,5 +1,5 @@
 __all__ = [
-    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParams', 'filter_user_dependency'
+    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParser', 'filter_user_dependency'
 ]
 
 from typing import Optional
@@ -68,13 +68,13 @@ class ListUserSchema(BaseModel):
     data: Optional[ListUserField]
 
 
-class CreateUserParams(BaseModel):
+class CreateUserParser(BaseModel):
     """创建用户的参数"""
     cellphone: str = Body(..., title='手机号', min_length=11, max_length=11)
     name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
 
 
-class PatchUserParams(BaseModel):
+class PatchUserParser(BaseModel):
     """更新用户的参数"""
 
     cellphone: Optional[str] = Body(None, title='手机号', min_length=11, max_length=11)

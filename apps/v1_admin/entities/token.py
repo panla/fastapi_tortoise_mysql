@@ -1,5 +1,5 @@
 __all__ = [
-    'CreateTokenParameter', 'TokenSchema',
+    'CreateTokenParser', 'TokenSchema',
 ]
 
 from typing import Optional
@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from pydantic import Field
 
 
-class CreateTokenParameter(BaseModel):
+class CreateTokenParser(BaseModel):
     cellphone: str = Field(..., title='手机号', min_length=11, max_length=11)
     code: str = Field(..., title='短信验证码', min_length=4, max_length=8)
 

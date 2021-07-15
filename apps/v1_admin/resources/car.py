@@ -9,7 +9,7 @@ from apps.utils import resp_success
 from apps.models import AdminUser, Car
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadCarSchema, ListCarSchema, CarSchema
-from apps.v1_admin.entities import CreateCarParameter, PatchCarParameter
+from apps.v1_admin.entities import CreateCarParser, PatchCarParser
 from apps.v1_admin.entities import filter_car_dependency
 from apps.v1_admin.logics import filter_cars
 
@@ -31,7 +31,7 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
 async def patch_car(
         c_id: int,
-        car_item: Optional[PatchCarParameter],
+        parser: Optional[PatchCarParser],
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """更新汽车"""
@@ -40,7 +40,11 @@ async def patch_car(
 
     car = await Car.filter(id=c_id, is_delete=False).first()
     if car:
-        await car.update_from_dict(car_item.dict())
+        params = dict()
+        for k, v in parser.dict().items():
+            if v:
+                params[k] = v
+        await car.update_from_dict(params)
         await car.save()
         return resp_success(data=car)
     raise NotFound(message=f'Car {c_id}不存在')
@@ -62,10 +66,10 @@ async def delete_car(
 
 
 @router.post('', response_model=CarSchema, status_code=201, responses=error_response)
-async def create_car(car: CreateCarParameter, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(get_current_admin_user)):
     """创建汽车接口"""
 
-    c = await Car.create(**car.dict())
+    c = await Car.create(**parser.dict())
     return resp_success(data=c)
 
 

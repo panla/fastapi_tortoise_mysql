@@ -7,7 +7,7 @@ from apps.utils import resp_success
 from apps.models import User, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadUserSchema, ListUserSchema, UserSchema
-from apps.v1_admin.entities import PatchUserParams
+from apps.v1_admin.entities import PatchUserParser
 from apps.v1_admin.entities import filter_user_dependency
 from apps.v1_admin.logics import filter_users, response_users
 
@@ -31,7 +31,7 @@ async def read_user(
 
 
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
-async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def patch_user(u_id: int, parser: PatchUserParser, admin_user: AdminUser = Depends(get_current_admin_user)):
     """更新用户"""
 
     assert u_id > 0, f'u_id is {u_id}, it needs > 0'
@@ -39,7 +39,7 @@ async def patch_user(u_id: int, params: PatchUserParams, admin_user: AdminUser =
     user = await User.get_or_none(id=u_id)
     if user:
         patch_params = dict()
-        for k, v in params.dict().items():
+        for k, v in parser.dict().items():
             if v:
                 patch_params[k] = v
         await user.update_from_dict(patch_params)
