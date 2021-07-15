@@ -24,4 +24,4 @@ async def authentic_test(cellphone: str):
 
 
 def admin_user_test_token():
-    return authentic_test(cellphone='12345678911')
+    return authentic_test(cellphone='10000000001')

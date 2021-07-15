@@ -1,0 +1,52 @@
+phones = [
+    {
+        'id': 1,
+        'brand': 'a1',
+        'price': 100000
+    },
+    {
+        'id': 2,
+        'brand': 'b2',
+        'price': 200000
+    },
+    {
+        'id': 3,
+        'brand': 'c3',
+        'price': 300000
+    },
+    {
+        'id': 4,
+        'brand': 'd4',
+        'price': 400000
+    },
+    {
+        'id': 5,
+        'brand': 'e5',
+        'price': 500000
+    },
+    {
+        'id': 6,
+        'brand': 'f6',
+        'price': 600000
+    },
+    {
+        'id': 7,
+        'brand': 'g7',
+        'price': 700000
+    },
+    {
+        'id': 8,
+        'brand': 'h8',
+        'price': 800000
+    },
+    {
+        'id': 9,
+        'brand': 'i9',
+        'price': 900000
+    },
+    {
+        'id': 10,
+        'brand': 'j10',
+        'price': 1000000
+    }
+]
