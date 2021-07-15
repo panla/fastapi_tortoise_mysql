@@ -27,12 +27,12 @@ from apps import create_app
 # @pytest.fixture(scope="package", autouse=True)
 @pytest.fixture(scope="session", autouse=True)
 def client() -> Generator:
-    run_async(generate_db())
-    print('已成功创建数据库，表，以及预创建数据')
-    with TestClient(create_app()) as c:
-        yield c
-    run_async(delete_database())
-    print('已成功删除数据库')
+    try:
+        run_async(generate_db())
+        with TestClient(create_app()) as c:
+            yield c
+    finally:
+        run_async(delete_database())
 
 
 @pytest.fixture(scope="session", autouse=True)
