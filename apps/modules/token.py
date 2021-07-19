@@ -8,6 +8,7 @@ import traceback
 
 import jwt
 from fastapi import Request, Header
+from tortoise.exceptions import OperationalError
 
 from config import Config
 from apps.extensions import BadRequest, Unauthorized, NotFound
@@ -97,9 +98,11 @@ async def decode_admin_token(request: Request, token: str):
             request.state.admin_user = admin_user
             request.state.user = user
             return payload
-    except Exception as exc:
-        logger.error(traceback.format_exc())
+    except jwt.PyJWTError:
         raise Unauthorized(message='校验 token 异常，请重新登录')
+    except OperationalError:
+        logger.error(traceback.format_exc())
+        raise Unauthorized(message='数据库连接异常，请重新登录')
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):

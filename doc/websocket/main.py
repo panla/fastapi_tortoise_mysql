@@ -1,9 +1,8 @@
-from typing import List, Dict
+from typing import Dict
 import time
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from fastapi import Request
 from aioredis import create_redis_pool
 
 app = FastAPI()
