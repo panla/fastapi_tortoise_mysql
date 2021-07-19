@@ -70,8 +70,8 @@ class Manager:
         await web_socket.accept()
         self.active_connections.update({socket_id: web_socket})
 
-    def is_active(self, socket_id) -> bool:
-        if str(socket_id) in self.active_connections:
+    def is_active(self, socket_id: str) -> bool:
+        if socket_id in self.active_connections:
             return True
         return False
 
@@ -116,12 +116,10 @@ async def websockets_endpoint(web_socket: WebSocket, client_id: int):
             if str(client_id) in manager.active_connections:
                 redis = await redis_pool()
                 value = await redis.lpop(data)
-                time.sleep(0.1)
-                # print(client_id, time.time())
+                time.sleep(0.5)
                 if value:
-                    await manager.send_single_message(f"Client #{client_id} says: {data}", web_socket)
-                    await manager.send_single_message(f'Server says: {value}', web_socket)
-                    await manager.send_single_message(f'Server says: {int(data) ** 2}', web_socket)
+                    await manager.send_single_message(f"Client #{client_id} says: {data}", str(client_id))
+                    await manager.send_single_message(f'Server says: {value}', str(client_id))
             else:
                 print('active_connections 中没有此连接')
                 break
@@ -129,7 +127,6 @@ async def websockets_endpoint(web_socket: WebSocket, client_id: int):
     except WebSocketDisconnect:
         print('异常，关闭连接')
         await manager.disconnect(str(client_id))
-        # await manager.broadcast(f"Client #{client_id} left the chat")
 
 
 @app.post('/suspend/{client_id}')
