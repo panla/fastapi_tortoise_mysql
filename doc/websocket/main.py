@@ -12,10 +12,10 @@ redis_client = None
 
 
 async def redis_pool():
-    """redis_ext 连接池"""
+    """redis 连接池"""
 
     global redis_client
-    redis_uri = f"redis_ext://:@127.0.0.1:6379/0?encoding=utf-8"
+    redis_uri = f"redis://:@127.0.0.1:6379/0?encoding=utf-8"
 
     pool = redis_client or await create_redis_pool(redis_uri)
     redis_client = pool
@@ -107,7 +107,6 @@ async def get():
 async def websockets_endpoint(web_socket: WebSocket, client_id: int):
     try:
         print(web_socket.headers)
-        print(web_socket.headers.get('sec-websocket-extensions'))
         await manager.connect(str(client_id), web_socket)
         web_socket.socket_id = client_id
         data = await web_socket.receive_text()
