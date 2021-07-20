@@ -13,5 +13,5 @@ def init_db(app: FastAPI):
 
     register_tortoise(
         app,
-        config=config.LINK_TORTOISE_ORM
+        config=config.ORM_LINK_CONF
     )

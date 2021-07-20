@@ -1,8 +1,12 @@
 __all__ = [
-    'Config', 'LINK_TORTOISE_ORM', 'MIGRATE_TORTOISE_ORM',
+    'Config', 'ORM_LINK_CONF', 'ORM_MIGRATE_CONF', 'ORM_TEST_MIGRATE_CONF'
 ]
 
+import os
+
 from starlette.config import Config as StarletConfig
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 config = StarletConfig('.env')
 
@@ -12,7 +16,7 @@ CODE_ENV = config('CODE_ENV', default='prd')
 class BaseConfig(object):
     LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
     LOG_PATH = config('LOG_PATH')
-    INCLUDE_IN_SCHEMA = config('include_in_schema', cast=bool, default=True)
+    INCLUDE_IN_SCHEMA = config('INCLUDE_IN_SCHEMA', cast=bool, default=True)
 
     ADMIN_SECRETS = config('ADMIN_SECRETS')
     TOKEN_EXP_DELTA_ADMIN = config('TOKEN_EXP_DELTA_ADMIN', cast=int, default=86400)
@@ -28,17 +32,17 @@ class BaseConfig(object):
     DB_DATABASE = 'DB_DATABASE'
     DB_MAX_SIZE = 5
 
-    def _get_orm_base_conf(self, apps: dict):
+    def _get_orm_base_conf(self, apps: dict) -> dict:
         return {
             'connections': {
                 'default': {
                     'engine': 'tortoise.backends.mysql',
                     'credentials': {
-                        'database': self.DB_DATABASE,
                         'host': self.DB_HOST,
-                        'password': self.DB_PASSWD,
                         'port': self.DB_PORT,
                         'user': self.DB_USER,
+                        'password': self.DB_PASSWD,
+                        'database': self.DB_DATABASE,
                         'minsize': 1,
                         'maxsize': self.DB_MAX_SIZE,
                         'charset': 'utf8mb4'
@@ -51,7 +55,7 @@ class BaseConfig(object):
         }
 
     @property
-    def get_orm_link_conf(self):
+    def orm_link_conf(self) -> dict:
         orm_apps_settings = {
             'models': {
                 'models': [
@@ -64,7 +68,20 @@ class BaseConfig(object):
         return self._get_orm_base_conf(orm_apps_settings)
 
     @property
-    def get_orm_migrate_conf(self):
+    def orm_migrate_conf(self) -> dict:
+        orm_apps_settings = {
+            'models': {
+                'models': [
+                    'aerich.models',
+                    'apps.models.__init__'
+                ],
+                'default_connection': 'default',
+            },
+        }
+        return self._get_orm_base_conf(orm_apps_settings)
+
+    @property
+    def orm_migrate_test_conf(self) -> dict:
         orm_apps_settings = {
             'models': {
                 'models': [
@@ -108,5 +125,6 @@ if CODE_ENV == 'prd':
 else:
     Config = TestConfig
 
-LINK_TORTOISE_ORM = Config().get_orm_link_conf
-MIGRATE_TORTOISE_ORM = Config().get_orm_migrate_conf
+ORM_LINK_CONF = Config().orm_link_conf
+ORM_MIGRATE_CONF = Config().orm_migrate_conf
+ORM_TEST_MIGRATE_CONF = Config().orm_migrate_test_conf

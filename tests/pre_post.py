@@ -7,7 +7,7 @@ from .pre_data import users, admin_users, books, cars, orders, phones, questions
 
 sys.path.append(BASE_DIR)
 
-from config import MIGRATE_TORTOISE_ORM
+from config import ORM_TEST_MIGRATE_CONF
 
 from apps.models import User, AdminUser, Book, Car, Order, Phone, Question
 
@@ -32,7 +32,7 @@ async def create_data():
 
 async def generate_db():
     await Tortoise.init(
-        config=MIGRATE_TORTOISE_ORM,
+        config=ORM_TEST_MIGRATE_CONF,
         _create_db=True
     )
     await Tortoise.generate_schemas()
@@ -43,7 +43,7 @@ async def generate_db():
 
 async def delete_database():
     await Tortoise.init(
-        config=MIGRATE_TORTOISE_ORM,
+        config=ORM_TEST_MIGRATE_CONF,
     )
     await Tortoise._drop_databases()
     print('完成删除数据库')
