@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 ENV TZ=Asia/Shanghai LANG=C.UTF-8
 
-COPY ./doc/requirements.txt /requirements.txt
+COPY ./requirements.txt /requirements.txt
 
 RUN pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
