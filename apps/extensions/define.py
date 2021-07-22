@@ -2,16 +2,15 @@ __all__ = [
     'StatusCode', 'middleware_codes', 'error_response',
 ]
 
-from typing import Any
-
 from pydantic import BaseModel
+from pydantic.typing import NoneType
 
 
 class StatusCode(object):
     success = 10000
 
     bad_request = 40000
-    unauthorized = 400100
+    unauthorized = 40100
     forbidden = 40300
     not_found = 40400
 
@@ -32,63 +31,64 @@ class StatusCode(object):
 
 middleware_codes = {
     405: {'status_code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
-    408: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_TIMEOUT', 'data': None},
-    411: {'status_code': StatusCode.entity_too_large, 'message': 'LENGTH_REQUIRED', 'data': None},
+    408: {'status_code': StatusCode.request_timeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
+    411: {'status_code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
     413: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
-    414: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
-    432: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE', 'data': None},
+    414: {'status_code': StatusCode.request_uri_too_long, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
+    431: {'status_code': StatusCode.header_fields_too_large, 'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE',
+          'data': None},
 }
 
 
 class BadRequestSchema(BaseModel):
     status_code: int = StatusCode.bad_request
     message: str = ''
-    data: Any = None
+    data: NoneType = "null"
 
 
 class UnauthorizedSchema(BaseModel):
     status_code: int = StatusCode.unauthorized
     message: str = ''
-    data: Any = None
+    data: NoneType = "null"
 
 
 class ForbiddenSchema(BaseModel):
     status_code: int = StatusCode.forbidden
     message: str = ''
-    data: Any = None
+    data: NoneType = "null"
 
 
 class NotFoundSchema(BaseModel):
     status_code: int = StatusCode.not_found
     message: str = ''
-    data: Any = None
+    data: NoneType = "null"
 
 
 class ValidatorErrorSchema(BaseModel):
     status_code: int = StatusCode.validator_error
     message: str = ''
-    data: Any = None
+    data: NoneType = "null"
 
 
 error_response = {
     400: {
         'model': BadRequestSchema,
-        'description': 'bad_request data=null'
+        'description': 'bad_request'
     },
     401: {
         'model': UnauthorizedSchema,
-        'description': 'unauthorized data=null'
+        'description': 'unauthorized'
     },
     403: {
         'model': ForbiddenSchema,
-        'description': 'forbidden data=null'
+        'description': 'forbidden'
     },
     404: {
         'model': NotFoundSchema,
-        'description': 'not_found data=null'
+        'description': 'not_found'
     },
     422: {
         'model': ValidatorErrorSchema,
-        'description': 'request parameters validator data=null'
+        'description': 'request parameters validator'
     }
 }
