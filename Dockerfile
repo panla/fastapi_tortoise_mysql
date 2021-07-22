@@ -2,9 +2,10 @@ FROM python:3.8-slim-buster
 
 ENV TZ=Asia/Shanghai LANG=C.UTF-8
 
-COPY ./requirements.txt /requirements.txt
+COPY ./doc/mirrors /mirrors
 
-RUN pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+RUN cp /mirrors/sources.list /etc/apt/sources.list && apt update && cd /mirrors \ 
+&& pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 VOLUME ["/home/project", "/home/logs"]
 
