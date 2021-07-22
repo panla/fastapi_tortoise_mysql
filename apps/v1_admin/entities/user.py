@@ -1,5 +1,5 @@
 __all__ = [
-    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParser', 'filter_user_dependency'
+    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParser', 'FilterUserParser',
 ]
 
 from typing import Optional
@@ -82,16 +82,9 @@ class PatchUserParser(BaseModel):
     name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
 
 
-def filter_user_dependency(
-        page: Optional[int] = Query(default=1, description='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
-        cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)
-):
-    """the params of search user"""
+class FilterUserParser(BaseModel):
+    """the params of filter users"""
 
-    data = {
-        'page': page,
-        'pagesize': pagesize,
-        'cellphone': cellphone
-    }
-    return data
+    page: Optional[int] = Query(default=1, description='页数', gte=1),
+    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
+    cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)

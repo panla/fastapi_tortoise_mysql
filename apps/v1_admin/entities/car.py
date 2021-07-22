@@ -1,5 +1,5 @@
 __all__ = [
-    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParser', 'PatchCarParser', 'filter_car_dependency',
+    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParser', 'PatchCarParser', 'FilterCarParser',
 ]
 
 from typing import Optional
@@ -80,14 +80,9 @@ class PatchCarParser(BaseModel):
     price: Optional[int] = Body(None, title='价格', ge=1)
 
 
-def filter_car_dependency(
-        page: Optional[int] = Query(default=1, description='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
-        brand: Optional[str] = Query(default=None, description='品牌', max_length=50)
-):
-    data = {
-        'page': page,
-        'pagesize': pagesize,
-        'brand': brand
-    }
-    return data
+class FilterCarParser(BaseModel):
+    """the params of filter cars"""
+
+    page: Optional[int] = Query(default=1, description='页数', gte=1)
+    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
+    brand: Optional[str] = Query(default=None, description='品牌', max_length=50)

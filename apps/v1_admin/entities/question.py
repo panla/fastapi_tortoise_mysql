@@ -1,5 +1,5 @@
 __all__ = [
-    'ReadQuestionSchema', 'ListQuestionSchema', 'filter_question_dependency',
+    'ReadQuestionSchema', 'ListQuestionSchema', 'FilterQuestionParser',
 ]
 
 from typing import Optional
@@ -63,12 +63,8 @@ class ListQuestionSchema(BaseModel):
     data: Optional[ListQuestionField]
 
 
-def filter_question_dependency(
-        page: Optional[int] = Query(default=1, description='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
-):
-    data = {
-        'page': page,
-        'pagesize': pagesize
-    }
-    return data
+class FilterQuestionParser(BaseModel):
+    """the params of filter questions"""
+
+    page: Optional[int] = Query(default=1, description='页数', gte=1),
+    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)

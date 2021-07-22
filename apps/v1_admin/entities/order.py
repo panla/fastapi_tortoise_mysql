@@ -1,5 +1,5 @@
 __all__ = [
-    'ListOrderSchema', 'filter_order_dependency',
+    'ListOrderSchema', 'FilterOrderParser',
 ]
 
 from typing import Optional
@@ -63,12 +63,8 @@ class ListOrderSchema(BaseModel):
     data: Optional[ListOrderField]
 
 
-def filter_order_dependency(
-        page: Optional[int] = Query(default=1, description='页数', gte=1),
-        pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
-):
-    data = {
-        'page': page,
-        'pagesize': pagesize
-    }
-    return data
+class FilterOrderParser(BaseModel):
+    """the params of filter orders"""
+
+    page: Optional[int] = Query(default=1, description='页数', gte=1),
+    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)

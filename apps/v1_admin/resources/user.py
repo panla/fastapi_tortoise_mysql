@@ -7,8 +7,7 @@ from apps.utils import resp_success
 from apps.models import User, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import ReadUserSchema, ListUserSchema, UserSchema
-from apps.v1_admin.entities import PatchUserParser
-from apps.v1_admin.entities import filter_user_dependency
+from apps.v1_admin.entities import PatchUserParser, FilterCarParser
 from apps.v1_admin.logics import filter_users, response_users
 
 router = APIRouter(route_class=Route)
@@ -65,11 +64,12 @@ async def delete_user(
 
 @router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
 async def list_users(
-        params: dict = Depends(filter_user_dependency),
+        parser: FilterCarParser = Depends(FilterCarParser),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of read list users"""
 
+    params = parser.dict()
     query = filter_users(params)
     total = await query.count()
 
