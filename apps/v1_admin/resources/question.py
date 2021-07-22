@@ -28,7 +28,7 @@ async def read_question(
 
 @router.get('', response_model=ListQuestionSchema, status_code=200, responses=error_response)
 async def list_question(
-       parser : FilterCarParser = Depends(FilterCarParser),
+        parser : FilterCarParser = Depends(FilterCarParser),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of read list questions"""
