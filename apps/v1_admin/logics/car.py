@@ -4,7 +4,7 @@ from apps.models import Car
 
 
 def filter_cars(params: dict) -> QuerySet:
-    """搜索汽车"""
+    """search/filter cars"""
 
     cars = Car.filter(is_delete=False)
     if params.get('brand'):

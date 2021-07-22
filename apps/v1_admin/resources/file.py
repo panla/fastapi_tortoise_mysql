@@ -15,7 +15,7 @@ async def upload_file(
         file: Optional[UploadFile] = File(default=None),
         files: Optional[List[UploadFile]] = File(default=None),
 ):
-    """在 /api/v1/admin/docs swagger 上暂未找到上传多张图片的方法"""
+    """the api of upload file"""
 
     file_dic = dict()
     if file:

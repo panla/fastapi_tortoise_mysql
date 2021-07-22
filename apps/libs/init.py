@@ -12,7 +12,7 @@ from apps.v1_socket_io import init_sub_app as init_v1_socket_io_app
 
 
 def init_app(app: FastAPI):
-    """初始化app"""
+    """the entrance to init app"""
 
     init_db(app)
     register_cross(app)

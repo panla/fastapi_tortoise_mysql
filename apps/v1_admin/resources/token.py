@@ -11,5 +11,7 @@ router = APIRouter(route_class=Route)
 
 @router.post('', response_model=TokenSchema, status_code=201, responses=error_response)
 async def create_token(request: Request, parser: CreateTokenParser):
+    """the api of login and get token"""
+
     data = await authentic(request, parser.cellphone, parser.code)
     return data

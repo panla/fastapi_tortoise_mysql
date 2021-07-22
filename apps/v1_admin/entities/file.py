@@ -15,7 +15,7 @@ class FileField(BaseModel):
 
 
 class FileSchema(BaseModel):
-    """上传文件接口返回参数"""
+    """the response schema of upload file"""
 
     status_code: int = 10000
     message: str = ''

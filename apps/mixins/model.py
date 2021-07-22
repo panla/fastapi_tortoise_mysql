@@ -59,7 +59,7 @@ class ModelMixin(object):
         return query.offset(page - 1).limit(pagesize)
 
     def to_dict(self, selects: tuple = None, excludes: tuple = None):
-        # 返回 Dict 格式数据
+        # response dict data of instance serialize
 
         if not hasattr(self, '_meta'):
             raise AssertionError('<%r> does not have attribute for _meta' % self)

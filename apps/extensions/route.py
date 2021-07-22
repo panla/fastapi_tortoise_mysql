@@ -11,7 +11,7 @@ from apps.utils import logger
 
 
 class Route(APIRoute):
-    """自定义路由"""
+    """Extension Route and log request.json()"""
 
     def get_route_handler(self):
         original_route_handler = super().get_route_handler()

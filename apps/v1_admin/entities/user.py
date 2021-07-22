@@ -19,7 +19,8 @@ class UserField(BaseModel):
 
 
 class UserSchema(BaseModel):
-    """创建，更新，删除用户返回的字段"""
+    """the response schema of create/update/delete one user"""
+
     status_code: int = 10000
     message: str = ''
     data: Optional[UserField]
@@ -37,7 +38,7 @@ class ReadUserField(BaseModel):
 
 
 class ReadUserSchema(BaseModel):
-    """用户详情返回的字段"""
+    """the response schema of one user`detail info"""
 
     status_code: int = 10000
     message: str = ''
@@ -61,7 +62,7 @@ class ListUserField(BaseModel):
 
 
 class ListUserSchema(BaseModel):
-    """用户列表返回的字段"""
+    """the response schema of user`info"""
 
     status_code: int = 10000
     message: str = ''
@@ -69,13 +70,13 @@ class ListUserSchema(BaseModel):
 
 
 class CreateUserParser(BaseModel):
-    """创建用户的参数"""
+    """the params of create one user"""
     cellphone: str = Body(..., title='手机号', min_length=11, max_length=11)
     name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
 
 
 class PatchUserParser(BaseModel):
-    """更新用户的参数"""
+    """the params of update one user"""
 
     cellphone: Optional[str] = Body(None, title='手机号', min_length=11, max_length=11)
     name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
@@ -86,7 +87,7 @@ def filter_user_dependency(
         pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
         cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)
 ):
-    """搜索用户的依赖"""
+    """the params of search user"""
 
     data = {
         'page': page,

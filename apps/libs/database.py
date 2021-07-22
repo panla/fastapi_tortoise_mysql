@@ -9,7 +9,7 @@ import config
 
 
 def init_db(app: FastAPI):
-    """绑定 tortoise-orm"""
+    """init and bind tortoise-orm"""
 
     register_tortoise(
         app,

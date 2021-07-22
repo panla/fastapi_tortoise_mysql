@@ -18,14 +18,14 @@ router = APIRouter(route_class=Route)
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
 async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """汽车详情接口"""
+    """the api of read one car"""
 
     assert c_id > 0, f'c_id is {c_id}, it needs > 0'
 
     car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
         return resp_success(data=car)
-    raise NotFound(message=f'Car {c_id}不存在')
+    raise NotFound(message=f'Car {c_id} not exists')
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -34,7 +34,7 @@ async def patch_car(
         parser: Optional[PatchCarParser],
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """更新汽车"""
+    """the api of update one car"""
 
     assert c_id > 0, f'c_id is {c_id}, it needs > 0'
 
@@ -47,7 +47,7 @@ async def patch_car(
         await car.update_from_dict(params)
         await car.save()
         return resp_success(data=car)
-    raise NotFound(message=f'Car {c_id}不存在')
+    raise NotFound(message=f'Car {c_id} not exists')
 
 
 @router.delete('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
@@ -55,7 +55,7 @@ async def delete_car(
         c_id: int = Path(..., description='汽车id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """删除汽车，更新汽车删除标识"""
+    """the api of delete one car"""
 
     car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
@@ -67,7 +67,7 @@ async def delete_car(
 
 @router.post('', response_model=CarSchema, status_code=201, responses=error_response)
 async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """创建汽车接口"""
+    """the api of create one car"""
 
     c = await Car.create(**parser.dict())
     return resp_success(data=c)
@@ -78,7 +78,7 @@ async def list_cars(
         params: dict = Depends(filter_car_dependency),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """汽车列表接口"""
+    """the api of read list cars"""
 
     query = filter_cars(params)
     total = await query.count()

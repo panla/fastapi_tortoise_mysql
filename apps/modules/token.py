@@ -18,25 +18,27 @@ from apps.models import User, AdminUser
 
 
 async def authentic(request: Request, cellphone: str, code: str):
+    """the entrance to get auth token"""
+
     redis_obj = SMSCodeRedis(cellphone)
     if code == await redis_obj.get():
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
-            raise NotFound(message=f'User {cellphone} 不存在或被删除')
+            raise NotFound(message=f'User {cellphone} not exists or delete')
         admin_user = await AdminUser.get_or_none(user_id=user.id)
         if not admin_user or admin_user.is_delete:
-            raise NotFound(message=f'AdminUser {cellphone} 不存在或被删除')
+            raise NotFound(message=f'AdminUser {cellphone} not exists or delete')
         token, login_time, token_expired = encode_auth_token(user.id)
         admin_user.login_time = login_time
         admin_user.token_expired = token_expired
         await admin_user.save()
         data = {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
         return {'data': data}
-    raise BadRequest(message='验证码错误')
+    raise BadRequest(message='SMS Code error')
 
 
 def encode_auth_token(account_id):
-    """生成认证Token"""
+    """generate jwt token"""
 
     login_time = datetime.now()
     token_expired = login_time + timedelta(seconds=Config.TOKEN_EXP_DELTA_ADMIN)
@@ -55,7 +57,9 @@ def encode_auth_token(account_id):
 
 
 async def query_user(data: dict):
-    """当数据库 wait_timeout 时 pymysql 可能会抛错, 需要做重复查询
+    """select query user
+
+    当数据库 wait_timeout 时 pymysql 可能会抛错, 需要做重复查询
     """
 
     user = await User.get_or_none(id=data.get('id'), is_delete=False)
@@ -70,8 +74,7 @@ async def query_user(data: dict):
 
 
 def check_timeout(admin_user: AdminUser, now: float, data: dict):
-    """检查token是否过期
-    """
+    """check the token is expired or not"""
 
     a = not (admin_user.login_time and admin_user.token_expired)
     b = data.get('token_expired') < now
@@ -83,7 +86,7 @@ def check_timeout(admin_user: AdminUser, now: float, data: dict):
 
 
 async def decode_admin_token(request: Request, token: str):
-    """校验token"""
+    """check token"""
 
     now = time.time()
     try:
@@ -99,15 +102,14 @@ async def decode_admin_token(request: Request, token: str):
             request.state.user = user
             return payload
     except jwt.PyJWTError:
-        raise Unauthorized(message='校验 token 异常，请重新登录')
+        raise Unauthorized(message='pyjwt check token error, please login retry')
     except OperationalError:
         logger.error(traceback.format_exc())
-        raise Unauthorized(message='数据库连接异常，请重新登录')
+        raise Unauthorized(message='database connect exception，please request retry')
 
 
 async def get_current_admin_user(request: Request, x_token: str = Header(..., description='token')):
-    """从请求头中解析token获取 admin_user
-    """
+    """decode user, admin_user from request header"""
 
     await decode_admin_token(request, x_token)
     return request.state.admin_user

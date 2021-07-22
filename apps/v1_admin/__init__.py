@@ -18,7 +18,7 @@ v1_admin_app: FastAPI = FastAPI(include_in_schema=Config.INCLUDE_IN_SCHEMA)
 
 
 def register_routers(app: FastAPI):
-    """注册路由"""
+    """register routers"""
 
     app.include_router(car.router, prefix='/cars', tags=['cars'])
     app.include_router(file.router, prefix='/files', tags=['files'])
@@ -29,7 +29,7 @@ def register_routers(app: FastAPI):
 
 
 def init_sub_app(app: FastAPI):
-    """注册子app"""
+    """mount sub app"""
 
     register_exception(v1_admin_app)
     register_routers(v1_admin_app)

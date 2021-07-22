@@ -2,7 +2,7 @@ from apps.models import Question
 
 
 def filter_questions(params: dict):
-    """搜索问题"""
+    """search/filter questions"""
 
     query = Question.filter(is_delete=False)
     return query

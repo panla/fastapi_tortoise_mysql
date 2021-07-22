@@ -12,6 +12,9 @@ class MaxMinValidator(Validator):
     """
     A validator to validate the max value of given value whether greater than lte or not,
     the min value of given value whether less than gte or not
+
+    max_value = 100, value == 100 ok, value == 101 error
+    min_value = 1, value == 1 ok, value == 0 error
     """
 
     def __init__(

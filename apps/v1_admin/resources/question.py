@@ -18,7 +18,7 @@ async def read_question(
         q_id: int = Path(..., description='问题id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """问题详情接口"""
+    """the api of read one question"""
 
     query = await Question.filter(id=q_id).prefetch_related('owner').first()
     if query:
@@ -31,7 +31,7 @@ async def list_question(
         params: dict = Depends(filter_question_dependency),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """问题列表接口"""
+    """the api of read list questions"""
 
     query = filter_questions(params)
     query = query.prefetch_related('owner')

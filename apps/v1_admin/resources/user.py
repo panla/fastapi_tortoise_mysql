@@ -19,7 +19,7 @@ async def read_user(
         u_id: int = Path(..., description='用户id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """用户详情接口"""
+    """the api of read one user"""
 
     query = await User.get_or_none(id=u_id)
 
@@ -32,7 +32,7 @@ async def read_user(
 
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
 async def patch_user(u_id: int, parser: PatchUserParser, admin_user: AdminUser = Depends(get_current_admin_user)):
-    """更新用户"""
+    """the api of update one user"""
 
     assert u_id > 0, f'u_id is {u_id}, it needs > 0'
 
@@ -53,7 +53,7 @@ async def delete_user(
         u_id: int = Path(..., description='用户id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """删除用户"""
+    """the api of delete one user"""
 
     user = await User.get_or_none(id=u_id)
     if user:
@@ -68,7 +68,7 @@ async def list_users(
         params: dict = Depends(filter_user_dependency),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
-    """用户列表接口"""
+    """the api of read list users"""
 
     query = filter_users(params)
     total = await query.count()

@@ -3,6 +3,7 @@ __all__ = [
 ]
 
 import traceback
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi import Request, status
@@ -14,25 +15,27 @@ from apps.utils import logger
 from apps.extensions import StatusCode, BaseHTTPException
 
 
-def log_message(request: Request, e):
-    """打印 error 时的日志"""
+def log_message(request: Request, message: Any):
+    """log message when catch exception"""
 
     logger.error('start error'.center(60, '*'))
     logger.error(f'{request.method} {request.url}')
-    logger.error(f'error is {e}')
+    logger.error(f'error is {message}')
     logger.error('end error'.center(60, '*'))
 
 
 def register_exception(app: FastAPI):
     @app.exception_handler(BaseHTTPException)
     async def catch_c_http_exception(request: Request, exc: BaseHTTPException):
+        """catch custom exception"""
+
         log_message(request, exc.message)
         content = {'status_code': exc.code, 'message': exc.message, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):
-        """捕获HTTPException"""
+        """catch FastAPI HTTPException"""
 
         log_message(request, exc.detail)
         content = {'status_code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
@@ -40,7 +43,7 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(AssertionError)
     async def assert_exception_handle(request: Request, exc: AssertionError):
-        """捕获 AssertError"""
+        """catch Python AssertError"""
 
         exc_str = ''.join(exc.args)
         log_message(request, exc_str)
@@ -49,7 +52,7 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(ValidationError)
     async def db_validation_exception_handle(request: Request, exc: ValidationError):
-        """捕获数据库校验异常"""
+        """catch tortoise-orm ValidatorError"""
 
         exc_str = '|'.join(exc.args)
         log_message(request, exc_str)
@@ -58,7 +61,7 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
-        """捕获参数验证错误"""
+        """catch FastAPI RequestValidationError"""
 
         exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
         log_message(request, exc_str)
@@ -68,7 +71,7 @@ def register_exception(app: FastAPI):
 
     @app.exception_handler(Exception)
     async def exception_handle(request: Request, exc: Exception):
-        """捕获其他异常"""
+        """catch other exception"""
 
         log_message(request, traceback.format_exc())
         content = {'status_code': StatusCode.server_error, 'message': str(exc), 'data': None}

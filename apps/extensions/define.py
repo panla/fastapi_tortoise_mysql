@@ -27,8 +27,8 @@ class StatusCode(object):
     unknown_error = 45001
 
 
-# 不要和自定义的异常冲突，会覆盖自定义抛出的异常
-# 比如，已经自己抛出了 404，就不要在这里定义 404
+# don`t overwrite custom extension Exception and StatusCode 
+# example, already had raise and catch 404, don`t define 404
 
 middleware_codes = {
     405: {'status_code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
@@ -73,22 +73,22 @@ class ValidatorErrorSchema(BaseModel):
 error_response = {
     400: {
         'model': BadRequestSchema,
-        'description': '请求错误 data=null'
+        'description': 'bad_request data=null'
     },
     401: {
         'model': UnauthorizedSchema,
-        'description': 'TOKEN 验证失败 data=null'
+        'description': 'unauthorized data=null'
     },
     403: {
         'model': ForbiddenSchema,
-        'description': '无此权限 data=null'
+        'description': 'forbidden data=null'
     },
     404: {
         'model': NotFoundSchema,
-        'description': '请求资源不存在 data=null'
+        'description': 'not_found data=null'
     },
     422: {
         'model': ValidatorErrorSchema,
-        'description': '参数验证错误的返回值 data=null',
+        'description': 'request parameters validator data=null'
     }
 }

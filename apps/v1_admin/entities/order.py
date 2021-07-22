@@ -32,7 +32,7 @@ class ReadOrderField(BaseModel):
 
 
 class ReadOrderSchema(BaseModel):
-    """订单详情返回参数"""
+    """the response schema of one order`detail info"""
 
     status_code: int = 10000
     message: str = ''
@@ -51,7 +51,7 @@ class ListOrderBaseField(BaseModel):
 
 
 class ListOrderField(BaseModel):
-    """订单列表返回参数"""
+    """the response schema of orders`info"""
 
     total: int = 0
     orders: Optional[List[ListOrderBaseField]]

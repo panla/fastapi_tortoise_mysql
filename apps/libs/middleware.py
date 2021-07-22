@@ -11,7 +11,7 @@ from apps.extensions import middleware_codes
 
 
 def register_cross(app: FastAPI):
-    """解决跨域"""
+    """deal Cross Origin Resource Sharing"""
 
     app.add_middleware(
         CORSMiddleware,
@@ -25,6 +25,8 @@ def register_cross(app: FastAPI):
 def register_middleware(app: FastAPI):
     @app.middleware("http")
     async def rewrite_other_exception_response(request: Request, call_next):
+        """overwrite response"""
+
         response = await call_next(request)
 
         middleware_code = middleware_codes.get(response.status_code, None)

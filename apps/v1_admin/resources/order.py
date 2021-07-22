@@ -16,6 +16,7 @@ async def list_orders(
     params: dict = Depends(filter_order_dependency),
     admin_user: AdminUser = Depends(get_current_admin_user)
 ):
+    """the api of read list orders"""
 
     query = filter_orders(params)
     query =query.prefetch_related('owner')
