@@ -1,6 +1,10 @@
-from datetime import datetime
+"""
+create a blank migration sql file
+"""
+
 import os
 import sys
+from datetime import datetime
 
 migration_dir = os.environ.get('DIR')
 migration_name = os.environ.get('NAME')
@@ -24,7 +28,7 @@ data = """-- upgrade --
 -- downgrade --
 """
 
-with open(f'{migration_dir}/{new_latest_sql_file_name}', 'w', encoding='utf-8') as f:
+with open(os.path.join(migration_dir, new_latest_sql_file_name), 'w', encoding='utf-8') as f:
     f.write(data)
 
 sys.stdout.write(f'创建 {migration_name} 完成\n')

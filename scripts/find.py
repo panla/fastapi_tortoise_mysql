@@ -10,7 +10,7 @@ import argparse
 param_parser = argparse.ArgumentParser()
 param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=False, default=[], help='dirs')
 param_parser.add_argument('-t', '--targets', nargs='+', required=True, help='target')
-param_parser.add_argument('-l', '--log', type=str, required=False, default='./r.log', help='log file')
+param_parser.add_argument('-l', '--log', type=str, required=False, help='log file')
 
 params = param_parser.parse_args()
 dirs = params.dirs
@@ -23,7 +23,7 @@ targets = params.targets
 log_file = params.log
 
 
-def read_file(path: str):
+def read_file(path: str) -> str:
     try:
         with open(path, 'r', encoding='utf-8') as f:
             return f.read()
@@ -45,4 +45,6 @@ if directions:
                 file_path = os.path.join(root, file)
                 for target in targets:
                     if target in read_file(file_path):
-                        write_file(log_file, '{} {}\n'.format(target, file_path))
+                        print(file_path)
+                        if log_file:
+                            write_file(log_file, '{} {}\n'.format(target, file_path))
