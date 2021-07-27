@@ -12,7 +12,7 @@ def filter_users(params: dict) -> QuerySet:
     return users
 
 
-async def response_users(users):
+async def response_users(users) -> list:
     """merge response users"""
 
     _users = []

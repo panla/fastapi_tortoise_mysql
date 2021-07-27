@@ -35,8 +35,11 @@ middleware_codes = {
     411: {'status_code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
     413: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
     414: {'status_code': StatusCode.request_uri_too_long, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
-    431: {'status_code': StatusCode.header_fields_too_large, 'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE',
-          'data': None},
+    431: {
+        'status_code': StatusCode.header_fields_too_large,
+        'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE',
+        'data': None
+    },
 }
 
 
