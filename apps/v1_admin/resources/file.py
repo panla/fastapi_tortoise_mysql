@@ -1,7 +1,6 @@
 from typing import Optional, List
 
-from fastapi import APIRouter
-from fastapi import UploadFile, File
+from fastapi import APIRouter, UploadFile, File
 
 from apps.extensions import Route, error_response
 from apps.utils import resp_success

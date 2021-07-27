@@ -1,13 +1,12 @@
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import Path
+from fastapi import APIRouter, Depends, Path
 
 from apps.extensions import Route, NotFound, error_response
 from apps.utils import resp_success
 from apps.models import Question, AdminUser
 from apps.modules import get_current_admin_user
-from apps.v1_admin.entities import ReadQuestionSchema, ListQuestionSchema
-from apps.v1_admin.entities import FilterCarParser
+from apps.v1_admin.entities import (
+    ReadQuestionSchema, ListQuestionSchema, FilterCarParser
+)
 from apps.v1_admin.logics import filter_questions
 
 router = APIRouter(route_class=Route)

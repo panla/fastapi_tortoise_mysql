@@ -1,15 +1,14 @@
 from typing import Optional
 
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import Path
+from fastapi import APIRouter, Depends, Path
 
 from apps.extensions import Route, NotFound, error_response
 from apps.utils import resp_success
 from apps.models import AdminUser, Car
 from apps.modules import get_current_admin_user
-from apps.v1_admin.entities import ReadCarSchema, ListCarSchema, CarSchema
-from apps.v1_admin.entities import CreateCarParser, PatchCarParser, FilterCarParser
+from apps.v1_admin.entities import (
+    ReadCarSchema, ListCarSchema, CarSchema, CreateCarParser, PatchCarParser, FilterCarParser
+)
 from apps.v1_admin.logics import filter_cars
 
 router = APIRouter(route_class=Route)

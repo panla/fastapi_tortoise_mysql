@@ -1,10 +1,8 @@
-from fastapi import APIRouter
-from fastapi import Request
+from fastapi import APIRouter, Request
 
 from apps.extensions import Route, error_response
 from apps.modules import authentic
-from apps.v1_admin.entities import CreateTokenParser
-from apps.v1_admin.entities import TokenSchema
+from apps.v1_admin.entities import CreateTokenParser, TokenSchema
 
 router = APIRouter(route_class=Route)
 
