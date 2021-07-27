@@ -16,5 +16,6 @@ from .exceptions import (
     Unauthorized,
     Forbidden,
     NotFound,
-    MethodNotAllowed
+    MethodNotAllowed,
+    Locked
 )

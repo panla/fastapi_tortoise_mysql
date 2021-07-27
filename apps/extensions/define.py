@@ -13,13 +13,14 @@ class StatusCode(object):
     unauthorized = 40100
     forbidden = 40300
     not_found = 40400
-
     method_not_allowed = 40500
+    not_acceptable = 40600
     request_timeout = 40800
     length_required = 41100
     entity_too_large = 41300
     request_uri_too_long = 41400
     validator_error = 42200
+    locked = 42300
     header_fields_too_large = 43100
 
     server_error = 45000
@@ -31,6 +32,7 @@ class StatusCode(object):
 
 middleware_codes = {
     405: {'status_code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
+    406: {'status_code': StatusCode.not_acceptable, 'message': 'NOT_ACCEPTABLE', 'data': None},
     408: {'status_code': StatusCode.request_timeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
     411: {'status_code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
     413: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},

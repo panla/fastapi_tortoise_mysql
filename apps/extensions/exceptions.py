@@ -1,5 +1,6 @@
 __all__ = [
     'BaseHTTPException', 'BadRequest', 'Unauthorized', 'Forbidden', 'NotFound', 'MethodNotAllowed',
+    'Locked',
 ]
 
 from typing import Any, Optional, Dict
@@ -54,3 +55,8 @@ class NotFound(BaseHTTPException):
 class MethodNotAllowed(BaseHTTPException):
     STATUS_CODE = 405
     CODE = StatusCode.method_not_allowed
+
+
+class Locked(BaseHTTPException):
+    STATUS_CODE = 423
+    CODE = StatusCode.locked
