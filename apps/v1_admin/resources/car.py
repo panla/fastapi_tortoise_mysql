@@ -15,10 +15,11 @@ router = APIRouter(route_class=Route)
 
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
-async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def read_car(
+        c_id: int = Path(..., description='汽车id', ge=1),
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """the api of read one car"""
-
-    assert c_id > 0, f'c_id is {c_id}, it needs > 0'
 
     car = await Car.get_or_none(id=c_id, is_delete=False)
     if car:
@@ -28,13 +29,11 @@ async def read_car(c_id: int, admin_user: AdminUser = Depends(get_current_admin_
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
 async def patch_car(
-        c_id: int,
-        parser: Optional[PatchCarParser],
+        c_id: int = Path(..., description='汽车id', ge=1),
+        parser: Optional[PatchCarParser] = PatchCarParser,
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of update one car"""
-
-    assert c_id > 0, f'c_id is {c_id}, it needs > 0'
 
     car = await Car.filter(id=c_id, is_delete=False).first()
     if car:

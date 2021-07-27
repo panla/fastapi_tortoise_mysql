@@ -29,10 +29,12 @@ async def read_user(
 
 
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
-async def patch_user(u_id: int, parser: PatchUserParser, admin_user: AdminUser = Depends(get_current_admin_user)):
+async def patch_user(
+        u_id: int = Path(..., description='用户id', ge=1),
+        parser: PatchUserParser = PatchUserParser,
+        admin_user: AdminUser = Depends(get_current_admin_user)
+):
     """the api of update one user"""
-
-    assert u_id > 0, f'u_id is {u_id}, it needs > 0'
 
     user = await User.get_or_none(id=u_id)
     if user:
