@@ -15,10 +15,11 @@ def register_cross(app: FastAPI):
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origin_regex='https?://.*',
-        allow_credentials=True,
         allow_methods=['*'],
         allow_headers=['*'],
+        allow_credentials=True,
+        allow_origin_regex='https?://.*',
+        expose_headers=['X-TOKEN']
     )
 
 
