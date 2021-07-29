@@ -1,2 +1,2 @@
 aerich upgrade
-uvicorn main:app --host='0.0.0.0' --port=8000 --workers 2 --loop=uvloop --http=httptools --reload
+gunicorn main:app --bind 0.0.0.0:8000 --worker-class uvicorn.workers.UvicornWorker --workers 2 --worker-connections 10000 --log-level INFO --timeout 60
