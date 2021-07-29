@@ -74,15 +74,17 @@ the project dir example
     - api
       - .env [example](./doc/config/env.example)
       - `run.sh` [example](./doc/config/run.example.sh)
+      - `gunicorn_config.py` [example](./doc/config/gunicorn_settings_example.py)
     - mysql
       - my.cnf [example](./doc/config/my.cnf)
   - data
     - api
-      - logs
     - redis
       - data
     - mysql
       - data
+  - logs
+    - api
   - api
     ...
   - docker-compose.yaml [example](./doc/config/docker-compose.yaml)
