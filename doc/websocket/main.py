@@ -1,11 +1,14 @@
-from typing import Dict
 import time
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from aioredis import create_redis_pool
 
+from .html_string import html_a, html_b
+from .manager import Manager
+
 app = FastAPI()
+manager = Manager()
 
 redis_client = None
 
@@ -21,88 +24,17 @@ async def redis_pool():
     return pool
 
 
-html = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Chat</title>
-    </head>
-    <body>
-        <h1>WebSocket Chat</h1>
-        <h2>Your ID: <span id="ws-id"></span></h2>
-        <form action="" onsubmit="sendMessage(event)">
-            <input type="text" id="messageText" autocomplete="off"/>
-            <button>Send</button>
-        </form>
-        <ul id='messages'>
-        </ul>
-        <script>
-            var client_id = Date.now()
-            document.querySelector("#ws-id").textContent = client_id;
-            var ws = new WebSocket(`ws://localhost:18010/ws/${client_id}`);
-            ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
-                var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)
-            };
-            function sendMessage(event) {
-                var input = document.getElementById("messageText")
-                ws.send(input.value)
-                input.value = ''
-                event.preventDefault()
-            }
-        </script>
-    </body>
-</html>
-"""
-
-
-class Manager:
-    _instance = None
-
-    def __init__(self):
-        self.active_connections: Dict[str: WebSocket] = dict()
-
-    async def connect(self, socket_id: str, web_socket: WebSocket):
-        await web_socket.accept()
-        self.active_connections.update({socket_id: web_socket})
-
-    def is_active(self, socket_id: str) -> bool:
-        if socket_id in self.active_connections:
-            return True
-        return False
-
-    async def disconnect(self, socket_id: str):
-        connection = self.active_connections.pop(socket_id, None)
-        if connection:
-            await connection.close()
-
-    async def send_single_message(self, message, socket_id: str):
-        if self.is_active(socket_id):
-            ws = self.active_connections.get(socket_id)
-            await ws.send_text(message)
-
-    async def broadcast(self, message: str):
-        for _, web_socket in self.active_connections.items():
-            await web_socket.send_text(message)
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
-
-
-manager = Manager()
-
-
-@app.get("/")
+@app.get("/ws_a/html")
 async def get():
-    return HTMLResponse(html)
+    return HTMLResponse(html_a)
 
 
-@app.websocket("/ws/{client_id}")
+@app.get("/ws_b/html")
+async def get():
+    return HTMLResponse(html_b)
+
+
+@app.websocket("/ws_a/{client_id}")
 async def websockets_endpoint(web_socket: WebSocket, client_id: int):
     try:
         print(web_socket.headers)
@@ -118,6 +50,29 @@ async def websockets_endpoint(web_socket: WebSocket, client_id: int):
                 if value:
                     await manager.send_single_message(f"Client #{client_id} says: {data}", str(client_id))
                     await manager.send_single_message(f'Server says: {value}', str(client_id))
+            else:
+                print('active_connections 中没有此连接')
+                break
+
+    except WebSocketDisconnect:
+        print('异常，关闭连接')
+        await manager.disconnect(str(client_id))
+
+
+@app.websocket("/ws_b/{client_id}")
+async def websockets_endpoint2(web_socket: WebSocket, client_id: int):
+    await manager.connect(str(client_id), web_socket)
+    try:
+        print(web_socket.headers)
+        web_socket.socket_id = client_id
+        receive_data = await web_socket.receive_text()
+        print(receive_data)
+        while True:
+            if str(client_id) in manager.active_connections:
+                send_data = receive_data * 2
+                time.sleep(0.5)
+                await manager.send_single_message(f"Client #{client_id} send: {receive_data}", str(client_id))
+                await manager.send_single_message(f'Server response: {send_data}', str(client_id))
             else:
                 print('active_connections 中没有此连接')
                 break
