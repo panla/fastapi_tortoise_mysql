@@ -11,10 +11,10 @@ from apps.v1_admin.entities import (
 )
 from apps.v1_admin.logics import filter_cars
 
-router = APIRouter(route_class=Route)
+router = APIRouter(route_class=Route, responses=error_response)
 
 
-@router.get('/{c_id}', response_model=ReadCarSchema, status_code=200, responses=error_response)
+@router.get('/{c_id}', response_model=ReadCarSchema, status_code=200)
 async def read_car(
         c_id: int = Path(..., description='汽车id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -27,7 +27,7 @@ async def read_car(
     raise NotFound(message=f'Car {c_id} not exists')
 
 
-@router.patch('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
+@router.patch('/{c_id}', response_model=CarSchema, status_code=201)
 async def patch_car(
         c_id: int = Path(..., description='汽车id', ge=1),
         parser: Optional[PatchCarParser] = Depends(PatchCarParser),
@@ -47,7 +47,7 @@ async def patch_car(
     raise NotFound(message=f'Car {c_id} not exists')
 
 
-@router.delete('/{c_id}', response_model=CarSchema, status_code=201, responses=error_response)
+@router.delete('/{c_id}', response_model=CarSchema, status_code=201)
 async def delete_car(
         c_id: int = Path(..., description='汽车id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -62,7 +62,7 @@ async def delete_car(
     raise NotFound(message=f'Car {c_id}不存在')
 
 
-@router.post('', response_model=CarSchema, status_code=201, responses=error_response)
+@router.post('', response_model=CarSchema, status_code=201)
 async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(get_current_admin_user)):
     """the api of create one car"""
 
@@ -70,7 +70,7 @@ async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(ge
     return resp_success(data=c)
 
 
-@router.get('', response_model=ListCarSchema, status_code=200, responses=error_response)
+@router.get('', response_model=ListCarSchema, status_code=200)
 async def list_cars(
         parser: FilterCarParser = Depends(FilterCarParser),
         admin_user: AdminUser = Depends(get_current_admin_user)

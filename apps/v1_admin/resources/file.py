@@ -6,10 +6,10 @@ from apps.extensions import Route, error_response
 from apps.utils import resp_success
 from apps.v1_admin.entities import FileSchema
 
-router = APIRouter(route_class=Route)
+router = APIRouter(route_class=Route, responses=error_response)
 
 
-@router.post('', response_model=FileSchema, responses=error_response)
+@router.post('', response_model=FileSchema)
 async def upload_file(
         file: Optional[UploadFile] = File(default=None),
         files: Optional[List[UploadFile]] = File(default=None),

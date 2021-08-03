@@ -9,10 +9,10 @@ from apps.v1_admin.entities import (
 )
 from apps.v1_admin.logics import filter_questions
 
-router = APIRouter(route_class=Route)
+router = APIRouter(route_class=Route, responses=error_response)
 
 
-@router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200, responses=error_response)
+@router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200)
 async def read_question(
         q_id: int = Path(..., description='问题id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -25,7 +25,7 @@ async def read_question(
     raise NotFound(message=f'Question {q_id} 不存在')
 
 
-@router.get('', response_model=ListQuestionSchema, status_code=200, responses=error_response)
+@router.get('', response_model=ListQuestionSchema, status_code=200)
 async def list_question(
         parser : FilterCarParser = Depends(FilterCarParser),
         admin_user: AdminUser = Depends(get_current_admin_user)

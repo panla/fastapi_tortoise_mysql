@@ -9,10 +9,10 @@ from apps.v1_admin.entities import (
 )
 from apps.v1_admin.logics import filter_users, response_users
 
-router = APIRouter(route_class=Route)
+router = APIRouter(route_class=Route, responses=error_response)
 
 
-@router.get('/{u_id}', response_model=ReadUserSchema, status_code=200, responses=error_response)
+@router.get('/{u_id}', response_model=ReadUserSchema, status_code=200)
 async def read_user(
         u_id: int = Path(..., description='用户id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -28,7 +28,7 @@ async def read_user(
     raise NotFound(message=f'User {u_id} 不存在')
 
 
-@router.patch('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
+@router.patch('/{u_id}', response_model=UserSchema, status_code=201)
 async def patch_user(
         u_id: int = Path(..., description='用户id', ge=1),
         parser: PatchUserParser = Depends(PatchUserParser),
@@ -48,7 +48,7 @@ async def patch_user(
     raise NotFound(message=f'User {u_id} 不存在')
 
 
-@router.delete('/{u_id}', response_model=UserSchema, status_code=201, responses=error_response)
+@router.delete('/{u_id}', response_model=UserSchema, status_code=201)
 async def delete_user(
         u_id: int = Path(..., description='用户id', ge=1),
         admin_user: AdminUser = Depends(get_current_admin_user)
@@ -63,7 +63,7 @@ async def delete_user(
     raise NotFound(message=f'User {u_id} 不存在')
 
 
-@router.get('', response_model=ListUserSchema, status_code=200, responses=error_response)
+@router.get('', response_model=ListUserSchema, status_code=200)
 async def list_users(
         parser: FilterCarParser = Depends(FilterCarParser),
         admin_user: AdminUser = Depends(get_current_admin_user)

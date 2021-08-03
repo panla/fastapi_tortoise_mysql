@@ -9,10 +9,10 @@ from apps.v1_admin.entities import (
 )
 from apps.v1_admin.logics import filter_orders
 
-router = APIRouter(route_class=Route)
+router = APIRouter(route_class=Route, responses=error_response)
 
 
-@router.get('', response_model=ListOrderSchema, status_code=200, responses=error_response)
+@router.get('', response_model=ListOrderSchema, status_code=200)
 async def list_orders(
     parser: FilterCarParser = Depends(FilterCarParser),
     admin_user: AdminUser = Depends(get_current_admin_user)
