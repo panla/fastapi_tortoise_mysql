@@ -11,20 +11,18 @@ from apps.extensions import StatusCode
 
 
 class BaseHTTPException(HTTPException):
+    MESSAGE = None
     STATUS_CODE = 400
     CODE = 40000
-    MESSAGE = None
 
     def __init__(
             self,
             message: Any = None,
-            status_code: int = 400,
-            code: int = 40000,
             headers: Optional[Dict[str, Any]] = None
     ) -> None:
         self.message = message or self.MESSAGE
-        self.status_code = status_code or self.STATUS_CODE
-        self.code = code or self.CODE
+        self.status_code = self.STATUS_CODE
+        self.code = self.CODE
         self.headers = headers
 
     def __repr__(self) -> str:
