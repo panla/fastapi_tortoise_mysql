@@ -30,8 +30,8 @@ def register_exception(app: FastAPI):
         """catch custom exception"""
 
         log_message(request, exc.message)
-        content = {'status_code': exc.code, 'message': exc.message, 'data': None}
-        return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
+        content = {'status_code': exc.CODE, 'message': exc.message, 'data': None}
+        return JSONResponse(content=content, status_code=exc.STATUS_CODE, headers=exc.headers)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):
