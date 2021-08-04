@@ -21,6 +21,8 @@ class BaseHTTPException(HTTPException):
             headers: Optional[Dict[str, Any]] = None
     ) -> None:
         self.message = message or self.MESSAGE
+        self.status_code = self.STATUS_CODE
+        self.detail = self.message
         self.headers = headers
 
     def __repr__(self) -> str:

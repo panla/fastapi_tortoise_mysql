@@ -6,12 +6,10 @@ class SMSCodeRedis(RedisToolBase):
     PREFIX_KEY = 'sms_code:'
 
     async def set(self, value):
-        pool = await self.init()
-        await pool.set(self.key, value)
-        pool.close()
+        client = await self.init()
+        await client.set(self.key, value)
 
     async def get(self):
-        pool = await self.init()
-        rt = await pool.get(self.key)
-        pool.close()
+        client = await self.init()
+        rt = await client.get(self.key)
         return rt

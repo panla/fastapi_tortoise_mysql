@@ -20,8 +20,8 @@ from apps.models import User, AdminUser
 async def authentic(cellphone: str, code: str):
     """the entrance to get auth token"""
 
-    redis_obj = SMSCodeRedis(cellphone)
-    if code == await redis_obj.get():
+    redis_client = SMSCodeRedis(cellphone)
+    if code == await redis_client.get():
         user = await User.get_or_none(cellphone=cellphone)
         if not user or user.is_delete:
             raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')

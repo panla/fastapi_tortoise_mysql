@@ -1,10 +1,10 @@
-from aioredis import create_redis_pool
+import aioredis
 
 from config import Config
 
 
 class RedisToolBase(object):
-    _instance = None
+    _client = None
 
     DB = 0
     PREFIX_KEY = ''
@@ -16,5 +16,5 @@ class RedisToolBase(object):
         )
 
     async def init(self):
-        self._instance = self._instance or await create_redis_pool(self.redis_uri)
-        return self._instance
+        self._client = self._client or aioredis.from_url(self.redis_uri, decode_responses=True)
+        return self._client

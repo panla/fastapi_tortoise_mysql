@@ -31,7 +31,7 @@ def register_exception(app: FastAPI):
 
         log_message(request, exc.message)
         content = {'status_code': exc.CODE, 'message': exc.message, 'data': None}
-        return JSONResponse(content=content, status_code=exc.STATUS_CODE, headers=exc.headers)
+        return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):
