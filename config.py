@@ -60,7 +60,7 @@ class BaseConfig(object):
             'models': {
                 'models': [
                     'aerich.models',
-                    'apps.models.__init__'
+                    'apps.models.models'
                 ],
                 'default_connection': 'default',
             },
@@ -73,7 +73,7 @@ class BaseConfig(object):
             'models': {
                 'models': [
                     'aerich.models',
-                    'apps.models.__init__'
+                    'apps.models.models'
                 ],
                 'default_connection': 'default',
             },
@@ -86,7 +86,7 @@ class BaseConfig(object):
             'models': {
                 'models': [
                     'aerich.models',
-                    'apps.models.__init__'
+                    'apps.models.models'
                 ],
                 'default_connection': 'default',
             },
