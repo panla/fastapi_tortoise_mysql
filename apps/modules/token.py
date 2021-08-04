@@ -14,26 +14,27 @@ from config import Config
 from apps.extensions import BadRequest, Unauthorized, NotFound
 from apps.redis_ext import SMSCodeRedis
 from apps.utils import logger
-from apps.models import User, AdminUser
+from apps.models import AdminUser
 
 
-async def authentic(request: Request, cellphone: str, code: str):
+async def authentic(cellphone: str, code: str):
     """the entrance to get auth token"""
 
     redis_obj = SMSCodeRedis(cellphone)
     if code == await redis_obj.get():
-        user = await User.get_or_none(cellphone=cellphone)
-        if not user or user.is_delete:
-            raise NotFound(message=f'User {cellphone} not exists or delete')
-        admin_user = await AdminUser.get_or_none(user_id=user.id)
-        if not admin_user or admin_user.is_delete:
-            raise NotFound(message=f'AdminUser {cellphone} not exists or delete')
+        admin_user = await AdminUser.filter(
+            is_delete=False, user__cellphone=cellphone, user__is_delete=False).prefetch_related('user').first()
+
+        if not admin_user:
+            raise NotFound(message=f'AdminUser User.cellphone = {cellphone} not exists or delete')
+        user = admin_user.user
+
         token, login_time, token_expired = encode_auth_token(user.id)
         admin_user.login_time = login_time
         admin_user.token_expired = token_expired
         await admin_user.save()
-        data = {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
-        return {'data': data}
+
+        return {'token': token, 'user_id': user.id, 'admin_user_id': admin_user.id}
     raise BadRequest(message='SMS Code error')
 
 
@@ -56,21 +57,19 @@ def encode_auth_token(account_id):
         raise BadRequest(message=str(e))
 
 
-async def query_user(data: dict):
-    """select query user
+async def query_admin_user(user_id: int):
+    """select query user, admin_user
 
     当数据库 wait_timeout 时 pymysql 可能会抛错, 需要做重复查询
     """
 
-    user = await User.get_or_none(id=data.get('id'), is_delete=False)
-    if not user:
-        raise NotFound(message='User 不存在或被删除')
+    admin_user = await AdminUser.filter(
+        user_id=user_id, is_delete=False, user__is_delete=False).prefetch_related('user').first()
 
-    admin_user = await AdminUser.get_or_none(user_id=data.get('id'), is_delete=False)
+    if not admin_user:
+        raise NotFound(message=f'AdminUser User.id = {user_id} is not exists or is deleted')
 
-    if not admin_user or admin_user.is_delete:
-        raise NotFound(message=f'AdminUser 不存在或被删除')
-    return admin_user, user
+    return admin_user, admin_user.user
 
 
 def check_timeout(admin_user: AdminUser, now: float, data: dict):
@@ -94,7 +93,7 @@ async def decode_admin_token(request: Request, token: str):
         if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
             data: dict = payload.get('data')
 
-            admin_user, user = await query_user(data)
+            admin_user, user = await query_admin_user(data.get('id'))
 
             check_timeout(admin_user, now, data)
 
