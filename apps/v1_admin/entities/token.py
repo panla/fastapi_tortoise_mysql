@@ -7,6 +7,8 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import Field
 
+from apps.mixins import SchemaMixin
+
 
 class CreateTokenParser(BaseModel):
     cellphone: str = Field(..., title='手机号', min_length=11, max_length=11)
@@ -19,7 +21,7 @@ class TokenField(BaseModel):
     admin_user_id: int = Field(..., title='管理员id')
 
 
-class TokenSchema(BaseModel):
-    status_code: int = 10000
-    message: str = ''
+class TokenSchema(SchemaMixin):
+    """the response schema of login and get token"""
+
     data: Optional[TokenField]

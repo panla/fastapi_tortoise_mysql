@@ -10,6 +10,8 @@ from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+from apps.mixins import SchemaMixin, FilterParserMixin
+
 
 class UserField(BaseModel):
     id: int = Field(..., title='id')
@@ -18,11 +20,9 @@ class UserField(BaseModel):
         orm_model = True
 
 
-class UserSchema(BaseModel):
+class UserSchema(SchemaMixin):
     """the response schema of create/update/delete one user"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[UserField]
 
 
@@ -37,11 +37,9 @@ class ReadUserField(BaseModel):
         orm_model = True
 
 
-class ReadUserSchema(BaseModel):
+class ReadUserSchema(SchemaMixin):
     """the response schema of one user`detail info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ReadUserField]
 
 
@@ -61,11 +59,9 @@ class ListUserField(BaseModel):
     users: Optional[List[ListUserBaseField]]
 
 
-class ListUserSchema(BaseModel):
+class ListUserSchema(SchemaMixin):
     """the response schema of user`info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ListUserField]
 
 
@@ -82,9 +78,7 @@ class PatchUserParser(BaseModel):
     name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
 
 
-class FilterUserParser(BaseModel):
+class FilterUserParser(FilterParserMixin):
     """the params of filter users"""
 
-    page: Optional[int] = Query(default=1, description='页数', gte=1),
-    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40),
     cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)

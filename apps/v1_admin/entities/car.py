@@ -9,6 +9,8 @@ from fastapi import Body, Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+from apps.mixins import SchemaMixin, FilterParserMixin
+
 
 class ReadCarField(BaseModel):
     id: int = Field(..., title='汽车id')
@@ -20,11 +22,9 @@ class ReadCarField(BaseModel):
         orm_mode = True
 
 
-class ReadCarSchema(BaseModel):
+class ReadCarSchema(SchemaMixin):
     """the response schema of one car`detail info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ReadCarField]
 
 
@@ -43,11 +43,9 @@ class ListCarField(BaseModel):
     cars: Optional[List[ListCarBaseField]]
 
 
-class ListCarSchema(BaseModel):
+class ListCarSchema(SchemaMixin):
     """the response schema of cars`info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ListCarField]
 
 
@@ -58,11 +56,9 @@ class CarField(BaseModel):
         orm_mode = True
 
 
-class CarSchema(BaseModel):
+class CarSchema(SchemaMixin):
     """the response schema of create/delete/update one car"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[CarField]
 
 
@@ -80,9 +76,7 @@ class PatchCarParser(BaseModel):
     price: Optional[int] = Body(None, title='价格', ge=1)
 
 
-class FilterCarParser(BaseModel):
+class FilterCarParser(FilterParserMixin):
     """the params of filter cars"""
 
-    page: Optional[int] = Query(default=1, description='页数', gte=1)
-    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
     brand: Optional[str] = Query(default=None, description='品牌', max_length=50)

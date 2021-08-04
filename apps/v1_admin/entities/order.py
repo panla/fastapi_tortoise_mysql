@@ -9,6 +9,8 @@ from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+from apps.mixins import SchemaMixin, FilterParserMixin
+
 
 class OwnerField(BaseModel):
     id: int = Field(..., title='提问者id')
@@ -31,11 +33,9 @@ class ReadOrderField(BaseModel):
         orm_mode = True
 
 
-class ReadOrderSchema(BaseModel):
+class ReadOrderSchema(SchemaMixin):
     """the response schema of one order`detail info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ReadOrderField]
 
 
@@ -51,20 +51,16 @@ class ListOrderBaseField(BaseModel):
 
 
 class ListOrderField(BaseModel):
-    """the response schema of orders`info"""
 
     total: int = 0
     orders: Optional[List[ListOrderBaseField]]
 
 
-class ListOrderSchema(BaseModel):
-    status_code: int = 10000
-    message: str = ''
+class ListOrderSchema(SchemaMixin):
+    """the response schema of orders`info"""
+
     data: Optional[ListOrderField]
 
 
-class FilterOrderParser(BaseModel):
+class FilterOrderParser(FilterParserMixin):
     """the params of filter orders"""
-
-    page: Optional[int] = Query(default=1, description='页数', gte=1),
-    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)

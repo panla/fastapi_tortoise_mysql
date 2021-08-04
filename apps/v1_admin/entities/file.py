@@ -4,6 +4,8 @@ from typing import List
 from pydantic import BaseModel
 from pydantic.fields import Field
 
+from apps.mixins import SchemaMixin
+
 
 class FileBaseField(BaseModel):
     filename: Optional[str] = Field(default=None, title='文件名')
@@ -14,9 +16,7 @@ class FileField(BaseModel):
     files: Optional[List[FileBaseField]]
 
 
-class FileSchema(BaseModel):
+class FileSchema(SchemaMixin):
     """the response schema of upload file"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[FileField]

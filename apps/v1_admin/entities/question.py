@@ -5,9 +5,10 @@ __all__ = [
 from typing import Optional
 from typing import List
 
-from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
+
+from apps.mixins import SchemaMixin, FilterParserMixin
 
 
 class OwnerField(BaseModel):
@@ -31,11 +32,9 @@ class ReadQuestionField(BaseModel):
         orm_mode = True
 
 
-class ReadQuestionSchema(BaseModel):
+class ReadQuestionSchema(SchemaMixin):
     """the response schema of one question`detail info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ReadQuestionField]
 
 
@@ -55,16 +54,11 @@ class ListQuestionField(BaseModel):
     questions: Optional[List[ListQuestionBaseField]]
 
 
-class ListQuestionSchema(BaseModel):
+class ListQuestionSchema(SchemaMixin):
     """the response schema of questions`info"""
 
-    status_code: int = 10000
-    message: str = ''
     data: Optional[ListQuestionField]
 
 
-class FilterQuestionParser(BaseModel):
+class FilterQuestionParser(FilterParserMixin):
     """the params of filter questions"""
-
-    page: Optional[int] = Query(default=1, description='页数', gte=1),
-    pagesize: Optional[int] = Query(default=None, description='每页数', gte=1, lte=40)
