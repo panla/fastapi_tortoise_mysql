@@ -7,7 +7,7 @@ class User(BaseModel, ModelMixin):
     cellphone = fields.CharField(max_length=16, null=False, description='手机号')
     name = fields.CharField(max_length=30, null=False, description='用户名')
 
-    admin_user: fields.ReverseRelation['AdminUser']
+    admin_user: fields.OneToOneRelation['AdminUser']
     questions: fields.ReverseRelation['Question']
     orders: fields.ReverseRelation['Order']
 

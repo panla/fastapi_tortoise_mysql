@@ -14,7 +14,7 @@ from config import Config
 from apps.extensions import BadRequest, Unauthorized, NotFound
 from apps.redis_ext import SMSCodeRedis
 from apps.utils import logger
-from apps.models import AdminUser
+from apps.models import User, AdminUser
 
 
 async def authentic(cellphone: str, code: str):
@@ -22,12 +22,14 @@ async def authentic(cellphone: str, code: str):
 
     redis_obj = SMSCodeRedis(cellphone)
     if code == await redis_obj.get():
-        admin_user = await AdminUser.filter(
-            is_delete=False, user__cellphone=cellphone, user__is_delete=False).prefetch_related('user').first()
+        user = await User.get_or_none(cellphone=cellphone)
+        if not user or user.is_delete:
+            raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
 
-        if not admin_user:
-            raise NotFound(message=f'AdminUser User.cellphone = {cellphone} not exists or delete')
-        user = admin_user.user
+        admin_user = await user.admin_user
+
+        if not admin_user or admin_user.is_delete:
+            raise NotFound(message=f'AdminUser User.cellphone = {cellphone} is not exists or is deleted')
 
         token, login_time, token_expired = encode_auth_token(user.id)
         admin_user.login_time = login_time
@@ -63,13 +65,14 @@ async def query_admin_user(user_id: int):
     当数据库 wait_timeout 时 pymysql 可能会抛错, 需要做重复查询
     """
 
-    admin_user = await AdminUser.filter(
-        user_id=user_id, is_delete=False, user__is_delete=False).prefetch_related('user').first()
-
-    if not admin_user:
+    admin_user = await AdminUser.filter(user_id=user_id).first()
+    if not admin_user or admin_user.is_delete:
         raise NotFound(message=f'AdminUser User.id = {user_id} is not exists or is deleted')
+    user = await admin_user.user
+    if not user or user.is_delete:
+        raise NotFound(message=f'User User.id = {user_id} is not exists or is deleted')
 
-    return admin_user, admin_user.user
+    return admin_user, user
 
 
 def check_timeout(admin_user: AdminUser, now: float, data: dict):
