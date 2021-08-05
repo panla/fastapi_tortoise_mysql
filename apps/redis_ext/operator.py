@@ -1,7 +1,7 @@
-from .base import RedisToolBase
+from .base import RedisClientBase
 
 
-class SMSCodeRedis(RedisToolBase):
+class SMSCodeRedis(RedisClientBase):
     DB = 1
     PREFIX_KEY = 'sms_code:'
 

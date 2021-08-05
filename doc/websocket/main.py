@@ -2,26 +2,14 @@ import time
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from aioredis import create_redis_pool
 
 from .html_string import html_a, html_b
 from .manager import Manager
+from .redis_client import RedisClient
+
 
 app = FastAPI()
 manager = Manager()
-
-redis_client = None
-
-
-async def redis_pool():
-    """redis 连接池"""
-
-    global redis_client
-    redis_uri = f"redis://:@127.0.0.1:6379/0?encoding=utf-8"
-
-    pool = redis_client or await create_redis_pool(redis_uri)
-    redis_client = pool
-    return pool
 
 
 @app.get("/ws_a/html")
@@ -44,8 +32,9 @@ async def websockets_endpoint(web_socket: WebSocket, client_id: int):
         print(data)
         while True:
             if str(client_id) in manager.active_connections:
-                redis = await redis_pool()
-                value = await redis.lpop(data)
+                redis_client = RedisClient(data)
+
+                value = await redis_client.lpop(data)
                 time.sleep(0.5)
                 if value:
                     await manager.send_single_message(f"Client #{client_id} says: {data}", str(client_id))
