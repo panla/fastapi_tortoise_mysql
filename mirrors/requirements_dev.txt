@@ -1,14 +1,32 @@
-aerich==0.5.5
-aiomysql==0.0.21
-aioredis==2.0.0
+# web framework
 fastapi==0.68.0
-gunicorn==20.1.0
-httptools==0.2.0
-loguru==0.5.3
-PyJWT==2.1.0
-python-multipart==0.0.5
-python-socketio==5.4.0
-starlette==0.14.2
+
+# orm and database client
 tortoise-orm==0.17.6
+aiomysql==0.0.21
+# migrate
+aerich==0.5.5
+
+# web server
+gunicorn==20.1.0
 uvicorn==0.14.0
+
+# speed
 uvloop==0.15.3
+httptools==0.2.0
+
+# redis
+aioredis==2.0.0
+hiredis==2.0.0
+
+# log
+loguru==0.5.3
+
+# JSON Web Token
+PyJWT==2.1.0
+
+# fastapi UploadFile
+python-multipart==0.0.5
+
+# socket.io
+python-socketio==5.4.0
