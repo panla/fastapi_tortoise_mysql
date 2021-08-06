@@ -1,24 +1,21 @@
-import sys
 import json
 import random
 import string
 
-from tests import BASE_DIR
-
-sys.path.append(BASE_DIR)
-
-from apps.extensions import NotFound
-from apps.models import User, AdminUser
-from apps.modules.token import encode_auth_token
+from tests.context import NotFound
+from tests.context import User
+from tests.context import encode_auth_token
 
 
 async def authentic_test(cellphone: str):
     user = await User.get_or_none(cellphone=cellphone)
     if not user or user.is_delete:
-        raise NotFound(message=f'User {cellphone} 不存在或被删除')
-    admin_user = await AdminUser.get_or_none(user_id=user.id)
+        raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
+
+    admin_user = await user.admin_user
+
     if not admin_user or admin_user.is_delete:
-        raise NotFound(message=f'AdminUser {cellphone} 不存在或被删除')
+        raise NotFound(message=f'AdminUser User.cellphone = {cellphone} is not exists or is deleted')
     token, login_time, token_expired = encode_auth_token(user.id)
     admin_user.login_time = login_time
     admin_user.token_expired = token_expired

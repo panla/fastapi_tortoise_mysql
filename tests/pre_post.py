@@ -1,15 +1,8 @@
-import sys
-
 from tortoise import Tortoise
 
-from tests import BASE_DIR
-from .pre_data import users, admin_users, books, cars, orders, phones, questions
-
-sys.path.append(BASE_DIR)
-
-from config import ORM_TEST_MIGRATE_CONF
-
-from apps.models import User, AdminUser, Book, Car, Order, Phone, Question
+from tests.pre_data import users, admin_users, books, cars, orders, phones, questions
+from tests.context import ORM_TEST_MIGRATE_CONF
+from tests.context import User, AdminUser, Book, Car, Order, Phone, Question
 
 
 def build_instances(Model, dic_list: list):

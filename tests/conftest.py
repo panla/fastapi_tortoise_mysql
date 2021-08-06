@@ -6,19 +6,14 @@ __all__ = [
 need pip install pytest requests
 """
 
-import sys
 from typing import Generator
 
 import pytest
 from fastapi.testclient import TestClient
 from tortoise import run_async
 
-from tests import BASE_DIR
-from .pre_post import generate_db, delete_database
-
-sys.path.append(BASE_DIR)
-
-from apps import create_app
+from tests.context import create_app
+from tests.pre_post import generate_db, delete_database
 
 
 # @pytest.fixture(scope="function", autouse=True)
