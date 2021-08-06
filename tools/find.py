@@ -4,22 +4,35 @@
 如果查找到就把 target 和 文件路径记录到 log 中
 """
 
-import os
 import argparse
+import os
+import sys
 
 param_parser = argparse.ArgumentParser()
-param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=False, default=[], help='dirs')
+param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=True, help='dirs')
 param_parser.add_argument('-t', '--targets', nargs='+', required=True, help='target')
 param_parser.add_argument('-l', '--log', type=str, required=False, help='log file')
 
 params = param_parser.parse_args()
 dirs = params.dirs
 directions = []
+
 if dirs:
     for d in dirs:
         if os.path.isdir(os.path.abspath(d)):
             directions.append(os.path.abspath(d))
+else:
+    sys.stderr.write(f'your input -d/--dirs error', dirs)
+
+if not directions:
+    sys.stderr.write(f'your input -d/--dirs error', dirs)
+    sys.exit(1)
+
 targets = params.targets
+if not targets:
+    sys.stderr.write(f'your input -t/--targets error', targets)
+    sys.exit(1)
+
 log_file = params.log
 
 
@@ -48,3 +61,5 @@ if directions:
                         print(file_path)
                         if log_file:
                             write_file(log_file, '{} {}\n'.format(target, file_path))
+
+sys.stdout.write('find done\n')

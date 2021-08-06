@@ -1,5 +1,5 @@
 """
-扩展 gunicorn worker_class 如果安装 uvloop httptols 的话，指明用上
+extend gunicorn worker_class, if had installed uvloop httptols, use them
 """
 
 from uvicorn.workers import UvicornWorker

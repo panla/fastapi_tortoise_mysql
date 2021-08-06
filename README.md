@@ -5,7 +5,7 @@
 - [gitee](https://gitee.com/pankla/fastapi_tortoise_mysql)
 - [github](https://github.com/panla/fastapi_tortoise_mysql)
 
-## 环境
+## environment
 
 Python: 3.8
 
@@ -32,7 +32,7 @@ pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 - [run.sh 参考](./doc/config/run.example.sh)
 - [mysql my.cnf](./doc/config/my.cnf)
 
-## 测试
+## test
 
 ```bash
 CODE_ENV=test pytest --rootdir ./tests -s

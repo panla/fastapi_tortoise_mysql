@@ -31,4 +31,4 @@ data = """-- upgrade --
 with open(os.path.join(migration_dir, new_latest_sql_file_name), 'w', encoding='utf-8') as f:
     f.write(data)
 
-sys.stdout.write(f'创建 {migration_name} 完成\n')
+sys.stdout.write(f'create {migration_name} done\n')
