@@ -14,17 +14,27 @@ CODE_ENV = config('CODE_ENV', default='prd')
 
 
 class BaseConfig(object):
+    ###################################################################################################################
+    ## log
     LOG_LEVEL = config('LOG_LEVEL', default='DEBUG')
     LOG_PATH = config('LOG_PATH')
+
+    ###################################################################################################################
+    ## openapi swagger
     INCLUDE_IN_SCHEMA = config('INCLUDE_IN_SCHEMA', cast=bool, default=True)
 
+    ###################################################################################################################
+    ## token
     ADMIN_SECRETS = config('ADMIN_SECRETS')
     TOKEN_EXP_DELTA_ADMIN = config('TOKEN_EXP_DELTA_ADMIN', cast=int, default=86400)
 
-    REDIS_HOST = '127.0.0.1'
-    REDIS_PORT = 6379
-    REDIS_PASSWD = ''
+    ###################################################################################################################
+    ## socket.io
+    SOCKET_IO_NAMESPACE = config('SOCKET_IO_NAMESPACE', cast=str, default='/')
+    SOCKET_IO_PATH = config('SOCKET_IO_PATH', cast=str, default='socket.io')
 
+    ###################################################################################################################
+    ## mysql database
     DB_USER = 'root'
     DB_PASSWD = 'DB_PASSWD'
     DB_HOST = '127.0.0.1'
@@ -32,6 +42,8 @@ class BaseConfig(object):
     DB_DATABASE = 'DB_DATABASE'
     DB_MAX_SIZE = 5
 
+    ###################################################################################################################
+    ## orm
     def _get_orm_base_conf(self, apps: dict) -> dict:
         return {
             'connections': {
@@ -95,10 +107,14 @@ class BaseConfig(object):
 
 
 class PrdConfig(BaseConfig):
+    ###################################################################################################################
+    ## redis
     REDIS_HOST = config('REDIS_HOST', default='127.0.0.1')
     REDIS_PORT = config('REDIS_PORT', cast=int, default=6379)
     REDIS_PASSWD = config('REDIS_PASSWD', default='')
 
+    ###################################################################################################################
+    ## mysql database
     DB_USER = config('DB_USER', default='root')
     DB_PASSWD = config('DB_PASSWD')
     DB_HOST = config('DB_HOST', default='127.0.0.1')
@@ -108,10 +124,14 @@ class PrdConfig(BaseConfig):
 
 
 class TestConfig(BaseConfig):
+    ###################################################################################################################
+    ## redis
     REDIS_HOST = config('TEST_REDIS_HOST', default='127.0.0.1')
     REDIS_PORT = config('TEST_REDIS_PORT', cast=int, default=6379)
     REDIS_PASSWD = config('TEST_REDIS_PASSWD', default='')
 
+    ###################################################################################################################
+    ## mysql database
     DB_USER = config('TEST_DB_USER', default='root')
     DB_PASSWD = config('TEST_DB_PASSWD')
     DB_HOST = config('TEST_DB_HOST', default='127.0.0.1')

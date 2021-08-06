@@ -1,22 +1,34 @@
 import socketio
 
+url = 'http://172.22.0.4:8000'
+namespaces = ['/chat']
+namespace = '/chat'
+socket_io_path = 'socket.io'
+
 sio = socketio.Client()
-sio.connect('http://127.0.0.1:8000/ws/socket.io', namespaces=['/chat'])
+
+sio.connect(url, namespaces=namespaces, socketio_path=socket_io_path)
 
 
-@sio.on('connect')
+@sio.on('connect', namespace=namespace)
 def connect():
     print('I start connect')
 
-    sio.emit('join_room', data=1, namespace='/chat')
+
+@sio.on('response', namespace=namespace)
+def response(data):
+    print(data)
+    data['num'] += 1
+
+    print('向 my_event 发送消息')
+    sio.emit('my_event', data=data, namespace=namespace)
+
+
+def main():
+    connect()
+
+    sio.emit('join_room', data={'num': 1, 'room': '1'}, namespace=namespace)
     print('加入房间')
 
 
-@sio.on('my_response', namespace='/chat')
-def my_response(data):
-    print(data)
-    sio.emit('my_event', data=data + 1, namespace='/chat')
-    print('向 my_event 发送')
-
-
-connect()
+main()
