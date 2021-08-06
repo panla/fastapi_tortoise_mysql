@@ -12,20 +12,20 @@ from apps.mixins import SchemaMixin, FilterParserMixin
 
 
 class OwnerField(BaseModel):
-    id: int = Field(..., title='提问者id')
-    cellphone: str = Field(..., title='提问者手机号')
-    name: str = Field(default='', title='提问者用户名')
+    id: int = Field(..., title='the question`s owner`s id')
+    cellphone: str = Field(..., title='the question`s owner`s cellphone')
+    name: str = Field(default='', title='the question`s owner`s name')
 
     class Config:
         orm_mode = True
 
 
 class ReadQuestionField(BaseModel):
-    id: int = Field(..., title='问题id')
-    title: str = Field(..., title='问题')
-    content: str = Field(..., title='问题内容')
-    created_time: str = Field(..., title='创建时间')
-    updated_time: str = Field(..., title='更新时间')
+    id: int = Field(..., title='the id of question')
+    title: str = Field(..., title='title of question')
+    content: str = Field(..., title='content of question')
+    created_time: str = Field(..., title='create datetime of question')
+    updated_time: str = Field(..., title='update datetime of question')
     owner: Optional[OwnerField]
 
     class Config:
@@ -39,10 +39,10 @@ class ReadQuestionSchema(SchemaMixin):
 
 
 class ListQuestionBaseField(BaseModel):
-    id: int = Field(..., title='问题id')
-    title: str = Field(..., title='问题')
-    content: str = Field(..., title='问题内容')
-    created_time: str = Field(..., title='创建时间')
+    id: int = Field(..., title='the id of question')
+    title: str = Field(..., title='title of question')
+    content: str = Field(..., title='content of question')
+    created_time: str = Field(..., title='create datetime of question')
     owner: Optional[OwnerField]
 
     class Config:

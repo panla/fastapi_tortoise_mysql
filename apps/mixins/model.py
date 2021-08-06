@@ -48,11 +48,13 @@ class ModelMixin(object):
 
     @property
     def created_time(self) -> str:
-        return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        created_at = getattr(self, 'created_at')
+        return created_at.strftime('%Y-%m-%d %H:%M:%S') if created_at else ''
 
     @property
     def updated_time(self) -> str:
-        return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+        updated_at = getattr(self, 'updated_at')
+        return updated_at.strftime('%Y-%m-%d %H:%M:%S') if updated_at else ''
 
     @classmethod
     def paginate(cls, query, page: int = 1, pagesize: int = 10):

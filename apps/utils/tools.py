@@ -24,8 +24,8 @@ def random_str(length: int = 20, has_num: bool = False) -> str:
 def random_int(length: int = 4) -> str:
     """
     generate a random str/int and len == length
-    :param length: 指定的长度，默认4
-    :param is_int: 是否返回整型
+    :param length: Specified length，default = 4
+    :param is_int: whether return int
     :return: Union[str, int]
     """
 

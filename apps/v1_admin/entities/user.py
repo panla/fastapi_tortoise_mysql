@@ -14,7 +14,7 @@ from apps.mixins import SchemaMixin, FilterParserMixin
 
 
 class UserField(BaseModel):
-    id: int = Field(..., title='id')
+    id: int = Field(..., title='id of user')
 
     class Config:
         orm_model = True
@@ -27,11 +27,11 @@ class UserSchema(SchemaMixin):
 
 
 class ReadUserField(BaseModel):
-    id: int = Field(..., title='id')
-    cellphone: str = Field(..., title='手机号')
-    name: str = Field(..., title='账户名')
-    is_delete: bool = Field(..., title='删除标识')
-    is_admin_user: bool = Field(..., title='是否是管理员')
+    id: int = Field(..., title='id of user')
+    cellphone: str = Field(..., title='cellphone of user')
+    name: str = Field(..., title='name of user')
+    is_delete: bool = Field(..., title='is_delete flag of user')
+    is_admin_user: bool = Field(..., title='is admin user')
 
     class Config:
         orm_model = True
@@ -44,11 +44,11 @@ class ReadUserSchema(SchemaMixin):
 
 
 class ListUserBaseField(BaseModel):
-    id: int = Field(..., title='id')
-    cellphone: str = Field(..., title='手机号')
-    name: str = Field(..., title='账户名')
-    is_delete: bool = Field(..., title='删除标识')
-    is_admin_user: bool = Field(..., title='是否是管理员')
+    id: int = Field(..., title='id of user')
+    cellphone: str = Field(..., title='cellphone of user')
+    name: str = Field(..., title='name of user')
+    is_delete: bool = Field(..., title='is_delete flag of user')
+    is_admin_user: bool = Field(..., title='is admin user')
 
     class Config:
         orm_model = True
@@ -67,18 +67,18 @@ class ListUserSchema(SchemaMixin):
 
 class CreateUserParser(BaseModel):
     """the params of create one user"""
-    cellphone: str = Body(..., title='手机号', min_length=11, max_length=11)
-    name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
+    cellphone: str = Body(..., title='cellphone of user', min_length=11, max_length=11)
+    name: Optional[str] = Body(None, title='name of user', min_length=2, max_length=30)
 
 
 class PatchUserParser(BaseModel):
     """the params of update one user"""
 
-    cellphone: Optional[str] = Body(None, title='手机号', min_length=11, max_length=11)
-    name: Optional[str] = Body(None, title='名称', min_length=2, max_length=30)
+    cellphone: Optional[str] = Body(None, title='cellphone of user', min_length=11, max_length=11)
+    name: Optional[str] = Body(None, title='name of user', min_length=2, max_length=30)
 
 
 class FilterUserParser(FilterParserMixin):
     """the params of filter users"""
 
-    cellphone: Optional[str] = Query(default=None, description='手机号', min_length=4, max_length=11)
+    cellphone: Optional[str] = Query(default=None, description='cellphone of user', min_length=4, max_length=11)

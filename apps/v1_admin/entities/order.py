@@ -5,7 +5,6 @@ __all__ = [
 from typing import Optional
 from typing import List
 
-from fastapi import Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
@@ -13,20 +12,20 @@ from apps.mixins import SchemaMixin, FilterParserMixin
 
 
 class OwnerField(BaseModel):
-    id: int = Field(..., title='提问者id')
-    cellphone: str = Field(..., title='提问者手机号')
-    name: str = Field(..., title='提问者用户名')
+    id: int = Field(..., title='the order`s owner`s id')
+    cellphone: str = Field(..., title='the order`s owner`s cellphone')
+    name: str = Field(..., title='the order`s owner`s name')
 
     class Config:
         orm_mode = True
 
 
 class ReadOrderField(BaseModel):
-    id: int = Field(..., title='问题id')
-    amount: int = Field(..., title='订单总额')
-    remarks: str = Field(..., title='备注')
-    created_time: str = Field(..., title='创建时间')
-    updated_time: str = Field(..., title='更新时间')
+    id: int = Field(..., title='id of order')
+    amount: int = Field(..., title='the amount of order')
+    remarks: str = Field(..., title='the remarks of order')
+    created_time: str = Field(..., title='the create datetime of order')
+    updated_time: str = Field(..., title='the update datetime of order')
     owner: OwnerField
 
     class Config:
@@ -40,10 +39,10 @@ class ReadOrderSchema(SchemaMixin):
 
 
 class ListOrderBaseField(BaseModel):
-    id: int = Field(..., title='问题id')
-    amount: int = Field(..., title='订单总额')
-    remarks: str = Field(..., title='备注')
-    created_time: str = Field(..., title='创建时间')
+    id: int = Field(..., title='id of order')
+    amount: int = Field(..., title='the amount of order')
+    remarks: str = Field(..., title='the remarks of order')
+    created_time: str = Field(..., title='the create datetime of order')
     owner: OwnerField
 
     class Config:

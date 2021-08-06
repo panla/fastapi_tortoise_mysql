@@ -8,7 +8,7 @@ from apps.mixins import SchemaMixin
 
 
 class FileBaseField(BaseModel):
-    filename: Optional[str] = Field(default=None, title='文件名')
+    filename: Optional[str] = Field(default=None, title='file name')
 
 
 class FileField(BaseModel):

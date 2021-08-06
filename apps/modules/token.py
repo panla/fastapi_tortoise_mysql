@@ -84,7 +84,7 @@ def check_timeout(admin_user: AdminUser, now: float, data: dict):
     d = data.get('token_expired') > admin_user.token_expired.timestamp()
     if any([a, b, c, d]):
         logger.error([a, b, c, d])
-        raise Unauthorized(message='登录过期请重新登录')
+        raise Unauthorized(message='登录过期，请重新登录。')
 
 
 async def decode_admin_token(request: Request, token: str):
@@ -104,7 +104,7 @@ async def decode_admin_token(request: Request, token: str):
             request.state.user = user
             return payload
     except jwt.PyJWTError:
-        raise Unauthorized(message='pyjwt check token error, please login retry')
+        raise Unauthorized(message='登录过期，请重新登录！')
     except OperationalError:
         logger.error(traceback.format_exc())
         raise Unauthorized(message='database connect exception，please request retry')

@@ -1,10 +1,9 @@
-import aioredis
-from aioredis.client import Redis
+from aioredis import Redis, from_url
 
 from config import Config
 
 
-CLIENT_CACHE_DIC = {}
+REDIS_CLIENT_CACHE = {}
 
 
 class RedisClientBase(object):
@@ -26,13 +25,13 @@ class RedisClientBase(object):
     #     whether it is good or bad?
     #     """
 
-    #     client = CLIENT_CACHE_DIC.get(self.class_name) or aioredis.from_url(self.uri, **self.CONNECTION_PARAMS)
-    #     CLIENT_CACHE_DIC[self.class_name] = client
+    #     client = REDIS_CLIENT_CACHE.get(self.class_name) or from_url(self.uri, **self.CONNECTION_PARAMS)
+    #     REDIS_CLIENT_CACHE[self.class_name] = client
     #     return client
 
     @property
     def client(self) -> Redis:
-        return aioredis.from_url(self.uri, **self.CONNECTION_PARAMS)
+        return from_url(self.uri, **self.CONNECTION_PARAMS)
 
     @property
     def class_name(self):

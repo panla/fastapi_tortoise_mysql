@@ -13,10 +13,10 @@ from apps.mixins import SchemaMixin, FilterParserMixin
 
 
 class ReadCarField(BaseModel):
-    id: int = Field(..., title='汽车id')
-    brand: str = Field(..., title='品牌')
-    price: int = Field(..., title='价格')
-    is_delete: bool = Field(..., title='删除标识')
+    id: int = Field(..., title='id of car')
+    brand: str = Field(..., title='brand of car')
+    price: int = Field(..., title='price of car', description='the unit is cent')
+    is_delete: bool = Field(..., title='is_delete flag of car')
 
     class Config:
         orm_mode = True
@@ -29,10 +29,10 @@ class ReadCarSchema(SchemaMixin):
 
 
 class ListCarBaseField(BaseModel):
-    id: int = Field(..., title='汽车id')
-    brand: str = Field(..., title='品牌')
-    price: int = Field(..., title='价格')
-    is_delete: bool = Field(..., title='删除标识')
+    id: int = Field(..., title='id of car')
+    brand: str = Field(..., title='brand of car')
+    price: int = Field(..., title='price of car', description='the unit is cent')
+    is_delete: bool = Field(..., title='is_delete flag of car')
 
     class Config:
         orm_mode = True
@@ -65,18 +65,18 @@ class CarSchema(SchemaMixin):
 class CreateCarParser(BaseModel):
     """the params of create one car"""
 
-    brand: str = Body(..., title='品牌', max_length=100, min_length=1)
-    price: int = Body(..., title='价格', ge=1)
+    brand: str = Body(..., title='brand of car', max_length=100, min_length=1)
+    price: int = Body(..., title='price of car', ge=1)
 
 
 class PatchCarParser(BaseModel):
     """the params of update one car"""
 
-    brand: Optional[str] = Body(None, title='品牌', max_length=100, min_length=1)
-    price: Optional[int] = Body(None, title='价格', ge=1)
+    brand: Optional[str] = Body(None, title='brand of car', max_length=100, min_length=1)
+    price: Optional[int] = Body(None, title='price of car', ge=1)
 
 
 class FilterCarParser(FilterParserMixin):
     """the params of filter cars"""
 
-    brand: Optional[str] = Query(default=None, description='品牌', max_length=50)
+    brand: Optional[str] = Query(default=None, description='brand of car', max_length=50)
