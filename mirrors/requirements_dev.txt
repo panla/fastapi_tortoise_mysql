@@ -30,3 +30,7 @@ python-multipart==0.0.5
 
 # socket.io
 python-socketio==5.4.0
+websockets==9.1
+
+# hash
+passlib==1.7.4

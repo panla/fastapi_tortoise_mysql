@@ -16,6 +16,7 @@ hiredis==2.0.0
 httptools==0.2.0
 iso8601==0.1.16
 loguru==0.5.3
+passlib==1.7.4
 pydantic==1.8.2
 PyJWT==2.1.0
 PyMySQL==0.9.3
@@ -31,3 +32,4 @@ tortoise-orm==0.17.6
 typing-extensions==3.10.0.0
 uvicorn==0.14.0
 uvloop==0.15.3
+websockets==9.1
