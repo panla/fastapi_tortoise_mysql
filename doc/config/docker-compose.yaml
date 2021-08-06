@@ -42,7 +42,8 @@ services:
       - ./api:/home/project
       - ./conf/api/.env:/home/project/.env
       - ./conf/api/run.sh:/home/project/run.sh
-      - ./data/api/logs:/home/logs
+      - ./logs/api:/home/logs
+      - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
     ports:
       - 127.0.0.1:18020:8000
     networks:

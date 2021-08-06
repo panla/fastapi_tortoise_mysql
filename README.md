@@ -1,9 +1,9 @@
 # README
 
 > a demo that use the async web_frame_work FastAPI, async orm tortoise-orm, the database MySQL
- 
-- [gitee](https://gitee.com/pankla/fastapi_tortoise_mysql)
-- [github](https://github.com/panla/fastapi_tortoise_mysql)
+
+- <https://github.com/panla/fastapi_tortoise_mysql>
+- <https://gitee.com/pankla/fastapi_tortoise_mysql>
 
 ## environment
 
@@ -28,9 +28,9 @@ pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
 
 ### settings example
 
-- [.env 参考](./doc/config/env.example)
-- [run.sh 参考](./doc/config/run.example.sh)
-- [mysql my.cnf](./doc/config/my.cnf)
+- [.env example](./doc/config/env.example)
+- [run.sh example](./doc/config/run.example.sh)
+- [mysql my.cnf example](./doc/config/my.cnf)
 
 ## test
 

@@ -1,6 +1,6 @@
 """
-gunicorn 配置文件示例
-参考
+gunicorn config example
+reference resources
     https://docs.gunicorn.org/en/stable/settings.html
 """
 
