@@ -5,7 +5,7 @@
 ## run
 
 ```bash
-uvicorn server:app
+uvicorn server:app --reload
 
-python client.py
+python client.py --help
 ```

@@ -1,7 +1,7 @@
 import socketio
 
 
-class NameSpaceIO(socketio.AsyncNamespace):
+class NameSpaceSIO(socketio.AsyncNamespace):
 
     def on_connect(self, sid, *args, **kwargs):
         print(f'{sid} connect')
