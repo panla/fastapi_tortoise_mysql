@@ -16,9 +16,16 @@ def main():
 
     sio_server.register_namespace(ns_sio)
 
-    sio_app = socketio.ASGIApp(sio_server, other_asgi_app=app, socketio_path=socket_io_path)
+    sio_app = socketio.ASGIApp(sio_server, socketio_path=socket_io_path)
 
-    return sio_app
+    app.mount('/', sio_app)
+
+    return app
 
 
-sio_app = main()
+@app.get('/')
+def index():
+    return {'success': True}
+
+
+app = main()

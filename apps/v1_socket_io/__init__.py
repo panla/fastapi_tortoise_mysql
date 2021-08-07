@@ -15,11 +15,13 @@ sio_server.register_namespace(ns_sio)
 
 
 def init_sub_app(app: FastAPI):
-    """注册子app"""
+    """mount sub app"""
 
-    v1_socket_io_app = socketio.ASGIApp(sio_server, other_asgi_app=app, socketio_path=Config.SOCKET_IO_PATH)
+    v1_socket_io_app = socketio.ASGIApp(sio_server, socketio_path=Config.SOCKET_IO_PATH)
+
+    app.mount('/', v1_socket_io_app)
 
     logger.info('start socket.io service')
     logger.info('start socket.io version 5')
 
-    return v1_socket_io_app
+    return app
