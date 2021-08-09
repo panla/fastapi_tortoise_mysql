@@ -1,34 +1,43 @@
 import socketio
 
+from apps.utils import logger
+
 
 class NameSpaceSIO(socketio.AsyncNamespace):
 
     def on_connect(self, sid, *args, **kwargs):
-        print(f'{sid} connect')
+        logger.info(f'{sid} connect')
 
     def on_disconnect(self, sid):
-        print(f'{sid} disconnect')
+        logger.info(f'{sid} disconnect')
 
-    async def on_join_room(self, sid, data: dict, *args, **kwargs):
+    async def on_join_room(self, sid, data: dict):
         room = data.get('room', '1')
-        print(f'{sid} join room {room}')
+
+        logger.info(f'sid = {sid}, join room, room = {room}')
+        logger.info(f'receive: {data}')
+
+        self.enter_room(sid=sid, room=room)
+
+        logger.info(f'sid = {sid}, enter room, room = {room}')
 
         data['num'] += 1
 
-        self.enter_room(sid=sid, room=room, namespace=self.namespace)
+        await self.emit(event='response', data=data, room=room)
 
-        print(f'sid = {sid}, enter room room = {room}')
-
-        await self.emit(event='response', data=data, room=room, namespace=self.namespace)
-
-    def on_leave_room(self, sid, data: dict, *args, **kwargs):
+    def on_leave_room(self, sid, data: dict):
         room = data.get('room', '1')
-        print(f'{sid} leave room {room}')
 
-        self.leave_room(sid=sid, room=room, namespace=self.namespace)
+        logger.info(f'{sid} leave room {room}')
 
-    async def on_my_event(self, sid, data: dict, *args, **kwargs):
+        self.leave_room(sid=sid, room=room)
+
+    async def on_my_event(self, sid, data: dict):
         room = data.get('room', '1')
-        print(f'sid = {sid}, on my event, room = {room}, receive data: ', data)
 
-        await self.emit(event='response', data=data, room=room, namespace=self.namespace)
+        logger.info(f'sid = {sid}, my event, room = {room}')
+        logger.info(f'receive: {data}')
+
+        data['num'] += 1
+
+        await self.emit(event='response', data=data, room=room)

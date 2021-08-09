@@ -1,4 +1,4 @@
-import aioredis
+from aioredis import from_url, Redis
 
 
 class RedisClient(object):
@@ -14,11 +14,9 @@ class RedisClient(object):
             '', '127.0.0.1', 6379, self.DB
         )
 
-        self.client = self._get_client()
-        self._client = self.client
-
-    def _get_client(self):
-        return self._client or aioredis.from_url(self.uri, **self.CONNECTION_PARAMS)
+    @property
+    def client(self) -> Redis:
+        return from_url(self.uri, **self.CONNECTION_PARAMS)
 
     async def get(self):
         rt = await self.client.get(self.key)
