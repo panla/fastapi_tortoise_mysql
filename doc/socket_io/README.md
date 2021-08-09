@@ -18,7 +18,7 @@ pip install "python-socketio[asyncio_client]"
 ## run
 
 ```bash
-uvicorn server:app --reload
+python server.py --help
 
 python client.py --help
 ```

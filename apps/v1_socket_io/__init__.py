@@ -19,7 +19,7 @@ def init_sub_app(app: FastAPI):
 
     v1_socket_io_app = socketio.ASGIApp(sio_server, socketio_path=Config.SOCKET_IO_PATH)
 
-    app.mount('/', v1_socket_io_app)
+    app.mount(Config.SOCKET_IO_MOUNT, v1_socket_io_app)
 
     logger.info('start socket.io service')
     logger.info('start socket.io version 5')

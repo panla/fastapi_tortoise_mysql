@@ -32,6 +32,7 @@ class BaseConfig(object):
     ## socket.io
     SOCKET_IO_NAMESPACE = config('SOCKET_IO_NAMESPACE', cast=str, default='/')
     SOCKET_IO_PATH = config('SOCKET_IO_PATH', cast=str, default='socket.io')
+    SOCKET_IO_MOUNT = config('SOCKET_IO_MOUNT', cast=str, default='/')
 
     ###################################################################################################################
     ## mysql database
