@@ -4,7 +4,7 @@ from typing import List
 from pydantic import BaseModel
 from pydantic.fields import Field
 
-from apps.mixins import SchemaMixin
+from mixins import SchemaMixin
 
 
 class FileBaseField(BaseModel):

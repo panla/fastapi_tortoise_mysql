@@ -1,6 +1,6 @@
 from tortoise import fields
 
-from apps.mixins import BaseModel, ModelMixin
+from mixins import BaseModel, ModelMixin
 
 
 class User(BaseModel, ModelMixin):

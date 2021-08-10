@@ -8,7 +8,7 @@ from typing import List
 from pydantic import BaseModel
 from pydantic.fields import Field
 
-from apps.mixins import SchemaMixin, FilterParserMixin
+from mixins import SchemaMixin, FilterParserMixin
 
 
 class OwnerField(BaseModel):

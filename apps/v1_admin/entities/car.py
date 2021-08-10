@@ -9,7 +9,7 @@ from fastapi import Body, Query
 from pydantic import BaseModel
 from pydantic.fields import Field
 
-from apps.mixins import SchemaMixin, FilterParserMixin
+from mixins import SchemaMixin, FilterParserMixin
 
 
 class ReadCarField(BaseModel):

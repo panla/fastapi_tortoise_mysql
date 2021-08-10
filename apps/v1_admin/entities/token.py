@@ -7,7 +7,7 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import Field
 
-from apps.mixins import SchemaMixin
+from mixins import SchemaMixin
 
 
 class CreateTokenParser(BaseModel):
