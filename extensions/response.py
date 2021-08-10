@@ -1,6 +1,6 @@
 from typing import Any
 
-from apps.utils import logger
+from extensions import logger
 
 
 def resp_success(message: str = '', print_msg: str = '', data: Any = None):

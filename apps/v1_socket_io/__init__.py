@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from .event import NameSpaceSIO
 from config import Config
-from apps.utils import logger
+from extensions import logger
 
 sio_server = socketio.AsyncServer(async_mode='asgi', cors_allowed_origins='*')
 

@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Path
 
-from apps.extensions import Route, NotFound, error_response
-from apps.utils import resp_success
+from extensions import Route, NotFound, error_response, resp_success
 from apps.models import Car
 from apps.v1_admin.entities import ReadCarSchema
 

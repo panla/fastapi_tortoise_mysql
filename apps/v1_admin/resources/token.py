@@ -1,7 +1,6 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 
-from apps.utils import resp_success
-from apps.extensions import Route, error_response
+from extensions import Route, error_response, resp_success
 from apps.modules import authentic
 from apps.v1_admin.entities import CreateTokenParser, TokenSchema
 

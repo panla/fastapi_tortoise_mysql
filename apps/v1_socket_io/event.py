@@ -1,6 +1,6 @@
 import socketio
 
-from apps.utils import logger
+from extensions import logger
 
 
 class NameSpaceSIO(socketio.AsyncNamespace):

@@ -11,9 +11,8 @@ from fastapi import Request, Header
 from tortoise.exceptions import OperationalError
 
 from config import Config
-from apps.extensions import BadRequest, Unauthorized, NotFound
-from apps.redis_ext import SMSCodeRedis
-from apps.utils import logger
+from extensions import BadRequest, Unauthorized, NotFound, logger
+from redis_ext import SMSCodeRedis
 from apps.models import User, AdminUser
 
 

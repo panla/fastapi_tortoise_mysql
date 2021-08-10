@@ -7,7 +7,7 @@ from json import JSONDecodeError
 from fastapi import Request
 from fastapi.routing import APIRoute
 
-from apps.utils import logger
+from extensions import logger
 
 
 class Route(APIRoute):

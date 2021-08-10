@@ -11,8 +11,7 @@ from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
 from tortoise.validators import ValidationError
 
-from apps.utils import logger
-from apps.extensions import StatusCode, BaseHTTPException
+from extensions import StatusCode, BaseHTTPException, logger
 
 
 def log_message(request: Request, message: Any):

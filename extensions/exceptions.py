@@ -7,7 +7,7 @@ from typing import Any, Optional, Dict
 
 from starlette.exceptions import HTTPException
 
-from apps.extensions import StatusCode
+from extensions import StatusCode
 
 
 class BaseHTTPException(HTTPException):
