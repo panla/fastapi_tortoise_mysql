@@ -9,29 +9,6 @@
 
 Python: 3.8
 
-### create virtual environment by venv
-
-```bash
-mkdir venv && cd venv
-python3 -m venv .
-cd ../
-pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
-```
-
-### create virtual environment by Anaconda/Miniconda
-
-```bash
-conda create -n name python=3.8
-conda activate name
-pip install -r doc/requirements.txt[-i https://mirrors.aliyun.com/pypi/simple/]
-```
-
-### settings example
-
-- [.env example](./doc/config/env.example)
-- [run.sh example](./doc/config/run.example.sh)
-- [mysql my.cnf example](./doc/config/my.cnf)
-
 ## test
 
 ```bash
@@ -42,49 +19,60 @@ sh ./run_test.sh
 
 ## run
 
-### start run by command
-
-```bash
-uvicorn main:app --reload
-uvicorn main:app --host='0.0.0.0' --port=8001 --reload
-uvicorn main:app --host='0.0.0.0' --port=8001 --workers 1 --reload
-uvicorn main:app --host='0.0.0.0' --port=8001 --workers 1 --loop=uvloop --http=httptools --reload
-
-sh ./run.sh
-```
-
 ### build and deploy by docker-compose
 
 ```bash
+# download docker and docker-compose
+
+# create docker network: example
+docker network create --driver bridge --subnet 172.22.0.0/16 --gateway 172.22.0.1 fastapi_net
+
+# mkdir project dir
+mkdir /srv/project && cd /srv/project && mkdir conf/api conf/mysql -p
+
+# clone source code
+git clone this api
+
+## edit config settings
+# reference resources ./doc/config/docker-compose.yaml
+touch docker-compose.yaml
+
+# reference resources ./doc/config/my.cnf
+touch conf/mysql/my.cnf
+
+# reference resources ./doc/config/env.example
+touch conf/api/.env
+
+# reference resources ./doc/config/gunicorn_settings_example.py
+touch conf/api/gunicorn_config.py
+
+# reference resources ./doc/config/run.example.sh
+touch conf/api/run.sh
+
+# build and start
 docker-compose up -d --build
-
-docker-compose ps
-
-docker-compose restart
-
-docker-compose stop
-
-docker-compose restart container_name
 ```
 
-the project dir example
+## the project dir example
 
-- project
-  - conf
-    - api
-      - .env [example](./doc/config/env.example)
-      - `run.sh` [example](./doc/config/run.example.sh)
-      - `gunicorn_config.py` [example](./doc/config/gunicorn_settings_example.py)
-    - mysql
-      - my.cnf [example](./doc/config/my.cnf)
-  - data
-    - api
-    - redis
-      - data
-    - mysql
-      - data
-  - logs
-    - api
-  - api
-    ...
-  - docker-compose.yaml [example](./doc/config/docker-compose.yaml)
+```text
+project
+    ├── api
+    │   ├── ...
+    ├── conf
+    │   ├── api
+    │   │   ├── .env
+    │   │   ├── gunicorn_config.py
+    │   │   └── run.sh
+    │   └── mysql
+    │       └── my.cnf
+    ├── data
+    │   ├── mysql
+    │   │   └── data
+    │   └── redis
+    │       └── data
+    │           └── dump.rdb
+    ├── docker-compose.yml
+    ├── logs
+    │   └── api
+```
