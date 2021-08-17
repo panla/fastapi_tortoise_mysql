@@ -1,9 +1,19 @@
 # README
 
-> a demo that use the async web_frame_work FastAPI, async orm tortoise-orm, the database MySQL
+> a demo that use the async web frame work: FastAPI, async orm: tortoise-orm, the database: MySQL
 
 - <https://github.com/panla/fastapi_tortoise_mysql>
 - <https://gitee.com/pankla/fastapi_tortoise_mysql>
+
+## tags
+
+- *asyncio*
+- *tortoise-orm*
+- *fastapi*
+- *MySQL*
+- *Redis*
+- *socket.io*
+- *websockets*
 
 ## environment
 
@@ -52,6 +62,13 @@ touch conf/api/run.sh
 # build and start
 docker-compose up -d --build
 ```
+
+## some tools
+
+- [the script of create blank migration sql file](./tools/create_migration_template_file.py)
+- [the script of find target in some dirs](./tools/find.py)
+- [the script of insert some data into database](./tools/insert_data.py)
+- [the extend worker](./tools/worker.py)
 
 ## the project dir example
 

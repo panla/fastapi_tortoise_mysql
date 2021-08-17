@@ -1,7 +1,7 @@
 """
-遍历单个/多个文件夹下的所有文件（可以使用utf-8 read 的文件）
-根据参数中的 targets 在读取的文件中查找 target
-如果查找到就把 target 和 文件路径记录到 log 中
+Traverse all files under single or multiple folders (UTF-8 files)
+Find the target in the file according to the targets in the parameter
+If found, record the target and file path in the log
 """
 
 import argparse
@@ -22,15 +22,16 @@ if dirs:
         if os.path.isdir(os.path.abspath(d)):
             directions.append(os.path.abspath(d))
 else:
-    sys.stderr.write(f'your input -d/--dirs error', dirs)
+    sys.stderr.write(f'your input -d/--dirs {dirs} error')
+    sys.exit(1)
 
 if not directions:
-    sys.stderr.write(f'your input -d/--dirs error', dirs)
+    sys.stderr.write(f'your input -d/--dirs {directions} error')
     sys.exit(1)
 
 targets = params.targets
 if not targets:
-    sys.stderr.write(f'your input -t/--targets error', targets)
+    sys.stderr.write(f'your input -t/--targets {targets} error')
     sys.exit(1)
 
 log_file = params.log
@@ -49,17 +50,21 @@ def write_file(path: str, content: str):
         f.write(content)
 
 
-os.makedirs(os.path.dirname(os.path.abspath(log_file)), exist_ok=True)
 
-if directions:
-    for direction in directions:
-        for root, _, files in os.walk(direction):
-            for file in files:
-                file_path = os.path.join(root, file)
-                for target in targets:
-                    if target in read_file(file_path):
-                        print(file_path)
-                        if log_file:
-                            write_file(log_file, '{} {}\n'.format(target, file_path))
+found_data = []
+for direction in directions:
+    for root, _, files in os.walk(direction):
+        for file in files:
+            file_path = os.path.join(root, file)
+            txt = read_file(file_path)
+            for target in targets:
+                if target in txt:
+                    sys.stdout.write(f'{file_path}\n')
+                    found_data.append(f'{target} {file_path}\n')
+
+if log_file:
+    os.makedirs(os.path.dirname(os.path.abspath(log_file)), exist_ok=True)
+    for found_d in found_data:
+        write_file(log_file, found_d)
 
 sys.stdout.write('find done\n')
