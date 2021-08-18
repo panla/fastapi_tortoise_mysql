@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from extensions import Route, error_response, resp_success
-from apps.models import Order, AdminUser
+from extensions import Route, error_response, resp_success, Pagination
+from apps.models import AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
     ListOrderSchema, FilterCarParser
@@ -23,5 +23,5 @@ async def list_orders(
     query = query.prefetch_related('owner')
     total = await query.count()
 
-    query = await Order.paginate(query, params['page'], params['pagesize'] or total)
-    return resp_success(data={'total': total, 'orders': query})
+    result = await Pagination(query, params['page'], params['pagesize'] or total).result()
+    return resp_success(data={'total': total, 'orders': result})

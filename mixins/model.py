@@ -1,11 +1,12 @@
 __all__ = [
-    'BaseModel', 'ModelMixin',
+    'BaseModel', 'ModelMixin'
 ]
 
 from typing import Tuple
 
 from tortoise import fields
 from tortoise.models import Model
+from tortoise.queryset import QuerySet
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
 
@@ -57,10 +58,10 @@ class ModelMixin(object):
         return updated_at.strftime('%Y-%m-%d %H:%M:%S') if updated_at else ''
 
     @classmethod
-    def paginate(cls, query, page: int = 1, pagesize: int = 10):
-        return query.offset(page - 1).limit(pagesize)
+    def paginate(cls, query, page: int = 1, pagesize: int = 10) -> QuerySet:
+        return query.offset((page - 1) * pagesize).limit(pagesize)
 
-    def to_dict(self, selects: tuple = None, excludes: tuple = None):
+    def to_dict(self, selects: tuple = None, excludes: tuple = None) -> dict:
         # response dict data of instance serialize
 
         if not hasattr(self, '_meta'):

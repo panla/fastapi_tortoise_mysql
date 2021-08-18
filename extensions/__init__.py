@@ -22,3 +22,4 @@ from .route import Route
 from .validators import MaxMinValidator
 from .response import resp_success
 from .tools import random_int, random_str
+from .paginate import Pagination

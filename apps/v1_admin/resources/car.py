@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, NotFound, error_response, resp_success
+from extensions import Route, error_response, resp_success, NotFound, Pagination
 from apps.models import AdminUser, Car
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
@@ -79,6 +79,6 @@ async def list_cars(
     params = parser.dict()
     query = filter_cars(params)
     total = await query.count()
-    cars = await Car.paginate(query, params['page'], params['pagesize'] or total)
+    result = await Pagination(query, params['page'], params['pagesize'] or total).result()
 
-    return resp_success(data={'total': total, 'cars': cars})
+    return resp_success(data={'total': total, 'cars': result})

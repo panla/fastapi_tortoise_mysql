@@ -40,7 +40,7 @@ class ReadUserField(BaseModel):
 class ReadUserSchema(SchemaMixin):
     """the response schema of one user`detail info"""
 
-    data: Optional[ReadUserField]
+    data: ReadUserField
 
 
 class ListUserBaseField(BaseModel):

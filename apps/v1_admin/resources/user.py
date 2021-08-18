@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, NotFound, error_response, resp_success
+from extensions import Route, error_response, resp_success, NotFound, Pagination
 from apps.models import User, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
-    ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterCarParser
+    ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser
 )
 from apps.v1_admin.logics import filter_users, response_users
 
@@ -23,7 +23,7 @@ async def read_user(
     if query:
         user = query.to_dict()
         user['is_admin_user'] = await query.is_admin_user
-        return user
+        return resp_success(data=user)
     raise NotFound(message=f'User {u_id} 不存在')
 
 
@@ -64,7 +64,7 @@ async def delete_user(
 
 @router.get('', response_model=ListUserSchema, status_code=200)
 async def list_users(
-        parser: FilterCarParser = Depends(FilterCarParser),
+        parser: FilterUserParser = Depends(FilterUserParser),
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of read list users"""
@@ -72,8 +72,7 @@ async def list_users(
     params = parser.dict()
     query = filter_users(params)
     total = await query.count()
-
-    query = User.paginate(query, params['page'], params.get('pagesize') or total)
+    query = Pagination(query, params['page'], params.get('pagesize') or total).result()
 
     users = await response_users(await query)
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, NotFound, error_response, resp_success
+from extensions import Route, error_response, resp_success, NotFound, Pagination
 from apps.models import Question, AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
@@ -33,9 +33,8 @@ async def list_question(
 
     params = parser.dict()
     query = filter_questions(params)
-    query = query.prefetch_related('owner')
     total = await query.count()
+    query = Pagination(query, params['page'], params['pagesize'] or total).result()
+    result = await query.prefetch_related('owner')
 
-    query = await Question.paginate(query, params['page'], params.get('pagesize') or total)
-
-    return resp_success(data={'total': total, 'questions': query})
+    return resp_success(data={'total': total, 'questions': result})
