@@ -1,1 +1,1 @@
-CODE_ENV=test pytest --rootdir ./ -s
+CODE_ENV=test pytest --rootdir ./tests -s

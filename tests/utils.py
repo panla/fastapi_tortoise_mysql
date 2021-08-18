@@ -2,9 +2,7 @@ import json
 import random
 import string
 
-from tests.context import NotFound
-from tests.context import User
-from tests.context import encode_auth_token
+from tests import NotFound, User, encode_auth_token
 
 
 async def authentic_test(cellphone: str):
@@ -28,10 +26,6 @@ def admin_user_test_token():
 
 
 def read_json_file(path: str):
-    """读取JSON文件
-    :param path: JSON文件路径
-    :return dict
-    """
 
     with open(path, 'r', encoding='utf-8') as f:
         return json.loads(f.read())

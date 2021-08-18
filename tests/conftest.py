@@ -12,8 +12,8 @@ import pytest
 from fastapi.testclient import TestClient
 from tortoise import run_async
 
-from tests.context import create_app
-from tests.pre_post import generate_db, delete_database
+from tests import create_app
+from tests.pre_post import create_database, delete_database
 
 
 # @pytest.fixture(scope="function", autouse=True)
@@ -23,9 +23,9 @@ from tests.pre_post import generate_db, delete_database
 @pytest.fixture(scope="session", autouse=True)
 def client() -> Generator:
     try:
-        run_async(generate_db())
-        with TestClient(create_app()) as c:
-            yield c
+        run_async(create_database())
+        with TestClient(create_app()) as test_client:
+            yield test_client
     finally:
         run_async(delete_database())
 

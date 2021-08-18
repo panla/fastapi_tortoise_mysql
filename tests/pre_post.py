@@ -1,8 +1,8 @@
 from tortoise import Tortoise
 
+from tests import ORM_TEST_MIGRATE_CONF
+from tests import User, AdminUser, Book, Car, Order, Phone, Question
 from tests.pre_data import users, admin_users, books, cars, orders, phones, questions
-from tests.context import ORM_TEST_MIGRATE_CONF
-from tests.context import User, AdminUser, Book, Car, Order, Phone, Question
 
 
 def build_instances(Model, dic_list: list):
@@ -10,7 +10,7 @@ def build_instances(Model, dic_list: list):
         yield Model(**per_dic)
 
 
-async def create_data():
+async def write_data():
     batch_size = 5
 
     await User.bulk_create(objects=build_instances(User, users), batch_size=batch_size)
@@ -20,23 +20,30 @@ async def create_data():
     await Order.bulk_create(objects=build_instances(Order, orders), batch_size=batch_size)
     await Phone.bulk_create(objects=build_instances(Phone, phones), batch_size=batch_size)
     await Question.bulk_create(objects=build_instances(Question, questions), batch_size=batch_size)
-    print('完成预创建数据')
+    print('write pre data over')
 
 
-async def generate_db():
+async def create_database():
+    # create database
     await Tortoise.init(
         config=ORM_TEST_MIGRATE_CONF,
         _create_db=True
     )
-    await Tortoise.generate_schemas()
+    print('create database over')
 
-    await create_data()
-    print('完成创建数据库与表')
+    # create tables
+    await Tortoise.generate_schemas()
+    print('create tables over')
+
+    await write_data()
 
 
 async def delete_database():
+    # link to database
     await Tortoise.init(
         config=ORM_TEST_MIGRATE_CONF,
     )
+
+    # drop database
     await Tortoise._drop_databases()
-    print('完成删除数据库')
+    print('drop database over')
