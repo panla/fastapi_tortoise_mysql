@@ -20,8 +20,8 @@ async def list_orders(
 
     params = parser.dict()
     query = filter_orders(params)
-    query = query.prefetch_related('owner')
     total = await query.count()
+    result = Pagination(query, params['page'], params['pagesize'] or total).result()
+    query = await query.prefetch_related('owner')
 
-    result = await Pagination(query, params['page'], params['pagesize'] or total).result()
     return resp_success(data={'total': total, 'orders': result})

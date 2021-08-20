@@ -73,7 +73,6 @@ async def list_users(
     query = filter_users(params)
     total = await query.count()
     query = Pagination(query, params['page'], params.get('pagesize') or total).result()
+    result = await response_users(await query)
 
-    users = await response_users(await query)
-
-    return resp_success(data={'total': total, 'users': users})
+    return resp_success(data={'total': total, 'users': result})
