@@ -14,6 +14,7 @@ from tortoise import run_async
 
 from tests import create_app
 from tests.pre_post import create_database, delete_database
+from tests.utils import admin_user_test_token
 
 
 # @pytest.fixture(scope="function", autouse=True)
@@ -33,3 +34,9 @@ def client() -> Generator:
 @pytest.fixture(scope="session", autouse=True)
 def event_loop(client: TestClient) -> Generator:
     yield client.task.get_loop()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def admin_user_token(client: TestClient):
+    event_loop = client.task.get_loop()
+    yield event_loop.run_until_complete(admin_user_test_token())
