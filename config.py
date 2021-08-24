@@ -20,11 +20,15 @@ class BaseConfig(object):
     LOG_PATH = config('LOG_PATH')
 
     ###################################################################################################################
-    ## openapi swagger
+    ## service on down
+    # openapi swagger
     INCLUDE_IN_SCHEMA = config('INCLUDE_IN_SCHEMA', cast=bool, default=True)
 
+    # socket.io on
+    SOCKET_IO_ON = config('SOCKET_IO_ON', cast=bool, default=False)
+
     ###################################################################################################################
-    ## token
+    ## authentic token
     ADMIN_SECRETS = config('ADMIN_SECRETS')
     TOKEN_EXP_DELTA_ADMIN = config('TOKEN_EXP_DELTA_ADMIN', cast=int, default=86400)
 

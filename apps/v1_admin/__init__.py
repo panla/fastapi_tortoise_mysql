@@ -29,9 +29,12 @@ def register_routers(app: FastAPI):
     app.include_router(user.router, prefix='/users', tags=['users'])
     app.include_router(test.router, prefix='/tests', tags=['tests'])
 
+
 def init_sub_app(app: FastAPI):
     """mount sub app"""
 
     register_exception(v1_admin_app)
     register_routers(v1_admin_app)
     app.mount(path='/api/v1/admin', app=v1_admin_app, name='v1_admin_app')
+
+    return app

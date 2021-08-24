@@ -1,6 +1,27 @@
+"""
+Num
+    8-bit : TinyInt     UnsignedTinyInt
+    16-bit: SmallInt    UnsignedSmallInt
+    24-bit: MediumInt   UnsignedMediumInt
+    32-bit: Int         UnsigendInt
+    64-bit: BitInt      UnsignedBitInt
+
+    FloatField: DOUBLE
+    DecimalField
+
+EnumField
+    IntEnumField    0 <= value < 32768
+    CharEnumField
+"""
+
 __all__ = [
-    'TinyIntField', 'MediumIntField', 'UnsignedTinyIntField', 'UnsignedSmallIntField', 'UnsignedMediumIntField',
-    'UnsignedIntField', 'UnsignedBigIntField',
+    'TinyIntField',
+    'MediumIntField',
+    'UnsignedTinyIntField',
+    'UnsignedSmallIntField',
+    'UnsignedMediumIntField',
+    'UnsignedIntField',
+    'UnsignedBigIntField',
 ]
 
 from typing import Any
