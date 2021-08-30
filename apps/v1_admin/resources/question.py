@@ -13,8 +13,7 @@ router = APIRouter(route_class=Route, responses=error_response)
 
 @router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200)
 async def read_question(
-        q_id: int = Path(..., description='问题id', ge=1),
-        admin_user: AdminUser = Depends(get_current_admin_user)
+        q_id: int = Path(..., description='问题id', ge=1)
 ):
     """the api of read one question"""
 
@@ -26,8 +25,7 @@ async def read_question(
 
 @router.get('', response_model=ListQuestionSchema, status_code=200)
 async def list_question(
-        parser: FilterCarParser = Depends(FilterCarParser),
-        admin_user: AdminUser = Depends(get_current_admin_user)
+        parser: FilterCarParser = Depends(FilterCarParser)
 ):
     """the api of read list questions"""
 

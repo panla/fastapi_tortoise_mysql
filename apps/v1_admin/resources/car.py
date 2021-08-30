@@ -15,8 +15,7 @@ router = APIRouter(route_class=Route, responses=error_response)
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200)
 async def read_car(
-        c_id: int = Path(..., description='汽车id', ge=1),
-        admin_user: AdminUser = Depends(get_current_admin_user)
+        c_id: int = Path(..., description='汽车id', ge=1)
 ):
     """the api of read one car"""
 
@@ -71,8 +70,7 @@ async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(ge
 
 @router.get('', response_model=ListCarSchema, status_code=200)
 async def list_cars(
-        parser: FilterCarParser = Depends(FilterCarParser),
-        admin_user: AdminUser = Depends(get_current_admin_user)
+        parser: FilterCarParser = Depends(FilterCarParser)
 ):
     """the api of read list cars"""
 
