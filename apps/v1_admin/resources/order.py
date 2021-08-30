@@ -22,6 +22,6 @@ async def list_orders(
     query = filter_orders(params)
     total = await query.count()
     result = Pagination(query, params['page'], params['pagesize'] or total).result()
-    query = await query.prefetch_related('owner')
+    orders = await query.prefetch_related('owner')
 
-    return resp_success(data={'total': total, 'orders': result})
+    return resp_success(data={'total': total, 'orders': orders})

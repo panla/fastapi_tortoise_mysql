@@ -70,9 +70,10 @@ class ModelMixin(object):
                 setattr(self, attr, await getattr(self, attr))
         return self
 
-    def to_dict(self, instance, selects: tuple = None, excludes: tuple = None) -> dict:
+    @staticmethod
+    def to_dict(instance, selects: tuple = None, excludes: tuple = None) -> dict:
 
-        if not hasattr(self, '_meta'):
+        if not hasattr(instance, '_meta'):
             raise AssertionError('<%r> does not have attribute for _meta' % instance)
 
         if selects:

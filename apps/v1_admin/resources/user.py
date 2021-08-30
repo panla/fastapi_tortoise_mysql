@@ -21,7 +21,7 @@ async def read_user(
     query = await User.get_or_none(id=u_id)
 
     if query:
-        user = query.to_dict()
+        user = User.to_dict(query)
         user['is_admin_user'] = await query.is_admin_user
         return resp_success(data=user)
     raise NotFound(message=f'User {u_id} 不存在')
