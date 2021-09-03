@@ -12,3 +12,5 @@ from .question import FilterQuestionParser
 from .token import CreateTokenParser, TokenSchema
 
 from .user import ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser
+
+from .code import CreateCodeParser, CreateCodeSchema

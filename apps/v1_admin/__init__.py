@@ -14,6 +14,7 @@ from .resources import question
 from .resources import token
 from .resources import user
 from .resources import test
+from .resources import code
 
 v1_admin_app: FastAPI = FastAPI(include_in_schema=Config.INCLUDE_IN_SCHEMA)
 
@@ -28,6 +29,7 @@ def register_routers(app: FastAPI):
     app.include_router(token.router, prefix='/tokens', tags=['tokens'])
     app.include_router(user.router, prefix='/users', tags=['users'])
     app.include_router(test.router, prefix='/tests', tags=['tests'])
+    app.include_router(code.router, prefix='/code', tags=['code'])
 
 
 def init_sub_app(app: FastAPI):
