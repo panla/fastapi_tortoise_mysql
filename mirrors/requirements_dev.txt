@@ -37,3 +37,4 @@ websockets==9.1
 
 # hash
 passlib==1.7.4
+cryptography==3.4.8
