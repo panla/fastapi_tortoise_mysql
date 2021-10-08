@@ -52,7 +52,7 @@ class BaseConfig(object):
 
     ###############################################################################################
     ## orm
-    def _get_orm_base_conf(self, apps: dict) -> dict:
+    def _base_orm_conf(self, apps: dict) -> dict:
         return {
             'connections': {
                 'default': {
@@ -86,7 +86,7 @@ class BaseConfig(object):
                 'default_connection': 'default',
             },
         }
-        return self._get_orm_base_conf(orm_apps_settings)
+        return self._base_orm_conf(orm_apps_settings)
 
     @property
     def orm_migrate_conf(self) -> dict:
@@ -99,10 +99,10 @@ class BaseConfig(object):
                 'default_connection': 'default',
             },
         }
-        return self._get_orm_base_conf(orm_apps_settings)
+        return self._base_orm_conf(orm_apps_settings)
 
     @property
-    def orm_migrate_test_conf(self) -> dict:
+    def orm_test_migrate_conf(self) -> dict:
         orm_apps_settings = {
             'models': {
                 'models': [
@@ -112,7 +112,7 @@ class BaseConfig(object):
                 'default_connection': 'default',
             },
         }
-        return self._get_orm_base_conf(orm_apps_settings)
+        return self._base_orm_conf(orm_apps_settings)
 
 
 class PrdConfig(BaseConfig):
@@ -156,4 +156,4 @@ else:
 
 ORM_LINK_CONF = Config().orm_link_conf
 ORM_MIGRATE_CONF = Config().orm_migrate_conf
-ORM_TEST_MIGRATE_CONF = Config().orm_migrate_test_conf
+ORM_TEST_MIGRATE_CONF = Config().orm_test_migrate_conf
