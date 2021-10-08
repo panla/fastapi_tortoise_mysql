@@ -1,40 +1,62 @@
-# web framework
-fastapi==0.68.0
-
-# orm and database client
-tortoise-orm==0.17.7
-asyncmy==0.2.0
-# aiomysql==0.0.21
-
-# migrate
 aerich==0.5.8
-
-# web server
-gunicorn==20.1.0
-uvicorn==0.14.0
-
-# speed
-uvloop==0.15.3
-httptools==0.2.0
-Cython==0.29.24
-
-# redis
+aiohttp==3.7.4.post0
 aioredis==2.0.0
+aiosqlite==0.17.0
+appdirs==1.4.4
+asgiref==3.4.1
+async-timeout==3.0.1
+asyncmy==0.2.0
+attrs==21.2.0
+bidict==0.21.3
+certifi==2021.5.30
+cffi==1.14.6
+chardet==4.0.0
+charset-normalizer==2.0.6
+click==8.0.1
+cryptography==35.0.0
+Cython==0.29.24
+ddlparse==1.10.0
+dictdiffer==0.9.0
+fastapi==0.68.0
+gunicorn==20.1.0
+h11==0.12.0
 hiredis==2.0.0
-
-# log
+httptools==0.3.0
+idna==3.2
+iniconfig==1.1.1
+iso8601==0.1.16
+jedi==0.18.0
 loguru==0.5.3
-
-# JSON Web Token
-PyJWT==2.1.0
-
-# fastapi UploadFile
-python-multipart==0.0.5
-
-# socket.io
-python-socketio==5.4.0
-websockets==9.1
-
-# hash
+multidict==5.1.0
+packaging==21.0
+parso==0.8.2
 passlib==1.7.4
-cryptography==3.4.8
+pluggy==1.0.0
+prompt-toolkit==3.0.20
+ptpython==3.0.20
+py==1.10.0
+pycparser==2.20
+pydantic==1.8.2
+Pygments==2.10.0
+PyJWT==2.2.0
+pyparsing==2.4.7
+pypika-tortoise==0.1.1
+pytest==6.2.5
+python-engineio==4.2.1
+python-multipart==0.0.5
+python-socketio==5.4.0
+pytz==2021.1
+requests==2.26.0
+six==1.16.0
+starlette==0.14.2
+toml==0.10.2
+tortoise-cli==0.1.1
+tortoise-orm==0.17.8
+typing-extensions==3.10.0.2
+urllib3==1.26.6
+uvicorn==0.15.0
+uvloop==0.16.0
+wcwidth==0.2.5
+websocket-client==1.2.1
+websockets==9.1
+yarl==1.6.3
