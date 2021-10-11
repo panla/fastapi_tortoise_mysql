@@ -3,6 +3,7 @@ __all__ = [
 ]
 
 import os
+from functools import lru_cache
 
 from starlette.config import Config as StarletConfig
 
@@ -76,6 +77,7 @@ class BaseConfig(object):
         }
 
     @property
+    @lru_cache
     def orm_link_conf(self) -> dict:
         orm_apps_settings = {
             'models': {
@@ -84,7 +86,7 @@ class BaseConfig(object):
                     'apps.models.models'
                 ],
                 'default_connection': 'default',
-            },
+            }
         }
         return self._base_orm_conf(orm_apps_settings)
 
@@ -97,7 +99,7 @@ class BaseConfig(object):
                     'apps.models.models'
                 ],
                 'default_connection': 'default',
-            },
+            }
         }
         return self._base_orm_conf(orm_apps_settings)
 
@@ -110,7 +112,7 @@ class BaseConfig(object):
                     'apps.models.models'
                 ],
                 'default_connection': 'default',
-            },
+            }
         }
         return self._base_orm_conf(orm_apps_settings)
 
@@ -149,10 +151,16 @@ class TestConfig(BaseConfig):
     DB_MAX_SIZE = config('TEST_DB_MAX_SIZE', cast=int, default=2)
 
 
-if CODE_ENV == 'prd':
-    Config = PrdConfig
-else:
-    Config = TestConfig
+@lru_cache
+def get_config(env):
+    if env == 'prd':
+        return PrdConfig
+    else:
+        return TestConfig
+
+
+Config = get_config(CODE_ENV)
+
 
 ORM_LINK_CONF = Config().orm_link_conf
 ORM_MIGRATE_CONF = Config().orm_migrate_conf

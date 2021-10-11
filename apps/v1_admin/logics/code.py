@@ -1,15 +1,7 @@
-from apps.v1_admin import entities
-import asyncio
-import time
-import uuid
-import typing
-
-from starlette.concurrency import run_in_threadpool
-
-
 from apps.models import User
 from extensions.tools import random_int
-from extensions import NotFound, logger
+from extensions import NotFound
+from redis_ext import SMSCodeRedis
 
 
 async def create_sms_code(params: dict) -> str:
@@ -20,9 +12,10 @@ async def create_sms_code(params: dict) -> str:
     raise NotFound(message=f'there is no this user {cellphone}')
 
 
-async def create_sms_code_task(params: dict):
+async def create_sms_code_task(params: dict, code: str):
 
-    for _ in range(1, 11):
-        print(params)
+    await SMSCodeRedis(key=params.get('cellphone')).set(value=code, ex=60)
 
-    asyncio.sleep(0.01)
+    """
+    send code to cellphone
+    """
