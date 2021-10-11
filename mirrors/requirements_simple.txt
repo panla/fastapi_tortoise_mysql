@@ -1,43 +1,57 @@
-# orm
-tortoise-orm==0.17.8
-
-# migrate
-aerich==0.5.8
-
-# db driver
-asyncmy==0.2.0
-
-# redis
-aioredis==2.0.0
-hiredis==2.0.0
-
-# webframework
+## webframework
 fastapi==0.68.0
 pydantic==1.8.2
 
-# web server
+## db driver
+asyncmy==0.2.1
+
+## orm
+tortoise-orm==0.17.8
+# orm cli
+tortoise-cli
+
+## migrate
+aerich==0.5.8
+
+## redis
+aioredis==2.0.0
+hiredis==2.0.0
+
+## web server
 gunicorn==20.1.0
 uvicorn==0.15.0
 
-# log
+## log
 loguru==0.5.3
 
-# jwt
+## jwt
 PyJWT==2.2.0
 
-# password
+## password
 cryptography==35.0.0
 passlib==1.7.4
 
-# form file
+## form file
 python-multipart==0.0.5
 
-# speed
+## speed
 Cython==0.29.24
 uvloop==0.16.0
 httptools==0.3.0
 
-# socket.io websockets
+## socket.io websockets
 python-engineio==4.2.1
 python-socketio==5.4.0
 websockets==9.1
+
+## socket.io websockets client
+"python-socketio[client]"
+"python-socketio[asyncio_client]"
+websocket-client==1.2.1
+
+## test
+pytest==6.2.5
+requests==2.26.0
+# test report
+pytest-html==3.1.1
+pytest-metadata==1.11.0

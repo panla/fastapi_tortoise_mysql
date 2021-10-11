@@ -5,7 +5,7 @@ aiosqlite==0.17.0
 appdirs==1.4.4
 asgiref==3.4.1
 async-timeout==3.0.1
-asyncmy==0.2.0
+asyncmy==0.2.1
 attrs==21.2.0
 bidict==0.21.3
 certifi==2021.5.30
@@ -42,6 +42,8 @@ PyJWT==2.2.0
 pyparsing==2.4.7
 pypika-tortoise==0.1.1
 pytest==6.2.5
+pytest-html==3.1.1
+pytest-metadata==1.11.0
 python-engineio==4.2.1
 python-multipart==0.0.5
 python-socketio==5.4.0
