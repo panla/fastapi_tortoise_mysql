@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, error_response, resp_success, NotFound, Pagination
-from apps.models import User, AdminUser
+from extensions import Route, error_response, resp_success, Pagination
+from apps.models import AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
     ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser
 )
-from apps.v1_admin.logics import filter_users, response_users
+from apps.v1_admin.logics import UserResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 
@@ -18,48 +18,20 @@ async def read_user(
 ):
     """the api of read one user"""
 
-    query = await User.get_or_none(id=u_id)
-
-    if query:
-        user = User.to_dict(query)
-        user['is_admin_user'] = await query.is_admin_user
-        return resp_success(data=user)
-    raise NotFound(message=f'User {u_id} 不存在')
+    rt = await UserResolver.read_user(u_id)
+    return resp_success(data=rt)
 
 
 @router.patch('/{u_id}', response_model=UserSchema, status_code=201)
 async def patch_user(
         u_id: int = Path(..., description='用户id', ge=1),
-        parser: PatchUserParser = Depends(PatchUserParser),
+        parser: PatchUserParser = PatchUserParser,
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of update one user"""
 
-    user = await User.get_or_none(id=u_id)
-    if user:
-        patch_params = dict()
-        for k, v in parser.dict().items():
-            if v:
-                patch_params[k] = v
-        await user.update_from_dict(patch_params)
-        await user.save()
-        return resp_success(data=user)
-    raise NotFound(message=f'User {u_id} 不存在')
-
-
-@router.delete('/{u_id}', response_model=UserSchema, status_code=201)
-async def delete_user(
-        u_id: int = Path(..., description='用户id', ge=1),
-        admin_user: AdminUser = Depends(get_current_admin_user)
-):
-    """the api of delete one user"""
-
-    user = await User.get_or_none(id=u_id)
-    if user:
-        user.is_delete = False
-        await user.save()
-        return resp_success(data=user)
-    raise NotFound(message=f'User {u_id} 不存在')
+    user = await UserResolver.patch_user(u_id, parser.dict())
+    return resp_success(data=user)
 
 
 @router.get('', response_model=ListUserSchema, status_code=200)
@@ -69,10 +41,11 @@ async def list_users(
 ):
     """the api of read list users"""
 
-    params = parser.dict()
-    query = filter_users(params)
+    payload = parser.dict()
+
+    query = UserResolver.list_users(payload)
     total = await query.count()
-    query = Pagination(query, params['page'], params.get('pagesize') or total).result()
-    result = await response_users(await query)
+    query = Pagination(query, payload['page'], payload.get('pagesize') or total).result()
+    result = await UserResolver.response_users(await query)
 
     return resp_success(data={'total': total, 'users': result})

@@ -1,14 +1,12 @@
-from typing import Optional
-
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, error_response, resp_success, NotFound, Pagination
-from apps.models import AdminUser, Car
+from extensions import Route, error_response, resp_success, Pagination
+from apps.models import AdminUser
 from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
     ReadCarSchema, ListCarSchema, CarSchema, CreateCarParser, PatchCarParser, FilterCarParser
 )
-from apps.v1_admin.logics import filter_cars
+from apps.v1_admin.logics import CarResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 
@@ -19,52 +17,27 @@ async def read_car(
 ):
     """the api of read one car"""
 
-    car = await Car.get_or_none(id=c_id, is_delete=False)
-    if car:
-        return resp_success(data=car)
-    raise NotFound(message=f'Car {c_id} not exists')
+    car = await CarResolver.read_car(c_id)
+    return resp_success(data=car)
 
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201)
 async def patch_car(
         c_id: int = Path(..., description='汽车id', ge=1),
-        parser: Optional[PatchCarParser] = Depends(PatchCarParser),
+        parser: PatchCarParser = PatchCarParser,
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of update one car"""
 
-    car = await Car.filter(id=c_id, is_delete=False).first()
-    if car:
-        params = dict()
-        for k, v in parser.dict().items():
-            if v:
-                params[k] = v
-        await car.update_from_dict(params)
-        await car.save()
-        return resp_success(data=car)
-    raise NotFound(message=f'Car {c_id} not exists')
-
-
-@router.delete('/{c_id}', response_model=CarSchema, status_code=201)
-async def delete_car(
-        c_id: int = Path(..., description='汽车id', ge=1),
-        admin_user: AdminUser = Depends(get_current_admin_user)
-):
-    """the api of delete one car"""
-
-    car = await Car.get_or_none(id=c_id, is_delete=False)
-    if car:
-        car.is_delete = False
-        await car.save()
-        return resp_success(data=car)
-    raise NotFound(message=f'Car {c_id}不存在')
+    car = await CarResolver.patch_car(c_id, parser.dict())
+    return resp_success(data=car)
 
 
 @router.post('', response_model=CarSchema, status_code=201)
 async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(get_current_admin_user)):
     """the api of create one car"""
 
-    c = await Car.create(**parser.dict())
+    c = await CarResolver.create_car(parser.dict())
     return resp_success(data=c)
 
 
@@ -74,9 +47,10 @@ async def list_cars(
 ):
     """the api of read list cars"""
 
-    params = parser.dict()
-    query = filter_cars(params)
+    payload = parser.dict()
+
+    query = CarResolver.list_cars(payload)
     total = await query.count()
-    result = await Pagination(query, params['page'], params['pagesize'] or total).result()
+    result = await Pagination(query, payload['page'], payload['pagesize'] or total).result()
 
     return resp_success(data={'total': total, 'cars': result})

@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, error_response, resp_success, NotFound, Pagination
-from apps.models import Question, AdminUser
-from apps.modules import get_current_admin_user
+from extensions import Route, error_response, resp_success, Pagination
 from apps.v1_admin.entities import (
     ReadQuestionSchema, ListQuestionSchema, FilterCarParser
 )
-from apps.v1_admin.logics import filter_questions
+from apps.v1_admin.logics import QuestionResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 
@@ -17,10 +15,8 @@ async def read_question(
 ):
     """the api of read one question"""
 
-    query = await Question.filter(id=q_id).prefetch_related('owner').first()
-    if query:
-        return resp_success(data=query)
-    raise NotFound(message=f'Question {q_id} 不存在')
+    query = await QuestionResolver.read_question(q_id)
+    return resp_success(data=query)
 
 
 @router.get('', response_model=ListQuestionSchema, status_code=200)
@@ -29,10 +25,11 @@ async def list_question(
 ):
     """the api of read list questions"""
 
-    params = parser.dict()
-    query = filter_questions(params)
+    payload = parser.dict()
+
+    query = QuestionResolver.list_questions(payload)
     total = await query.count()
-    query = Pagination(query, params['page'], params['pagesize'] or total).result()
+    query = Pagination(query, payload['page'], payload['pagesize'] or total).result()
     result = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'questions': result})

@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends
 
 from extensions import Route, error_response, resp_success, Pagination
-from apps.models import AdminUser
-from apps.modules import get_current_admin_user
 from apps.v1_admin.entities import (
     ListOrderSchema, FilterCarParser
 )
-from apps.v1_admin.logics import filter_orders
+from apps.v1_admin.logics import OrderResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 
@@ -17,10 +15,11 @@ async def list_orders(
 ):
     """the api of read list orders"""
 
-    params = parser.dict()
-    query = filter_orders(params)
+    payload = parser.dict()
+
+    query = OrderResolver.list_orders(payload)
     total = await query.count()
-    query = Pagination(query, params['page'], params['pagesize'] or total).result()
+    query = Pagination(query, payload['page'], payload['pagesize'] or total).result()
     orders = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'orders': orders})

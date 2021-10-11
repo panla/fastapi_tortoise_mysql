@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Path
 
 from extensions import Route, error_response, resp_success, NotFound
-from apps.models import Car
 from apps.v1_admin.entities import ReadCarSchema
+from apps.v1_admin.logics import CarResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 
@@ -20,7 +20,8 @@ async def read_car(
 ):
     """the api of read one car"""
 
-    car = await Car.get_or_none(id=c_id, is_delete=False)
+    car = await CarResolver.read_car(c_id)
+
     if car:
         return resp_success(data=car)
     raise NotFound(message=f'Car {c_id} not exists')
