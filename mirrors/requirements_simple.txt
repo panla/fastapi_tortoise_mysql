@@ -3,7 +3,7 @@ fastapi==0.68.0
 pydantic==1.8.2
 
 ## db driver
-asyncmy==0.2.1
+asyncmy==0.2.2
 
 ## orm
 tortoise-orm==0.17.8

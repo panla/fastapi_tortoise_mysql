@@ -4,7 +4,8 @@
 
 ### 0.6.3
 
-- upgrade `asyncmy`==0.2.1
+- upgrade require packet
+  - `asyncmy`==0.2.2
 - update redis ext and add resource lock
 - update config.py add lru_cache
 - update `v1_admin` logics func -> Class
