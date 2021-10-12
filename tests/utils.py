@@ -2,33 +2,11 @@ import json
 import random
 import string
 
-from tests import NotFound, User, encode_auth_token
-
-
-async def authentic_test(cellphone: str):
-    user = await User.get_or_none(cellphone=cellphone)
-    if not user or user.is_delete:
-        raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
-
-    admin_user = await user.admin_user
-
-    if not admin_user or admin_user.is_delete:
-        raise NotFound(message=f'AdminUser User.cellphone = {cellphone} is not exists or is deleted')
-    token, login_time, token_expired = encode_auth_token(user.id)
-    admin_user.login_time = login_time
-    admin_user.token_expired = token_expired
-    await admin_user.save()
-    return token
-
-
-def admin_user_test_token():
-    return authentic_test(cellphone='10000000001')
-
 
 def read_json_file(path: str):
 
     with open(path, 'r', encoding='utf-8') as f:
-        return json.loads(f.read())
+        return json.load(f)
 
 
 def random_str(length: int = 20, has_num: bool = False) -> str:

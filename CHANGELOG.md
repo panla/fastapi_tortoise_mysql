@@ -9,6 +9,7 @@
 - update redis ext and add resource lock
 - update config.py add lru_cache
 - update `v1_admin` logics func -> Class
+- update tests
 
 ### 0.6.2
 
