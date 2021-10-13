@@ -17,19 +17,32 @@
 
 ## environment
 
-Python: 3.8
+[require packets](./mirrors/requirements.txt)
 
-## test
+- Python: 3.8
+
+## command
 
 ```bash
+# test
+make test
+
 CODE_ENV=test pytest --rootdir ./tests -s
 
-sh ./run_test.sh
+# run
+make run
 ```
 
-## run
+## some tools
 
-### build and deploy by docker-compose
+- [the script of create blank migration sql file](./tools/create_migration_template_file.py)
+- [the script of find target in some dirs](./tools/find.py)
+- [the script of insert some data into database](./tools/insert_data.py)
+- [the extend worker](./tools/worker.py)
+
+## deploy and dir
+
+### build and run
 
 ```bash
 # download docker and docker-compose
@@ -63,14 +76,7 @@ touch conf/api/run.sh
 docker-compose up -d --build
 ```
 
-## some tools
-
-- [the script of create blank migration sql file](./tools/create_migration_template_file.py)
-- [the script of find target in some dirs](./tools/find.py)
-- [the script of insert some data into database](./tools/insert_data.py)
-- [the extend worker](./tools/worker.py)
-
-## the project dir example
+### the project dir example
 
 ```text
 project

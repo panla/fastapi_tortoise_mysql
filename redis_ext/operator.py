@@ -8,9 +8,9 @@ class SMSCodeRedis(RedisClientBase):
 
 class OrderLock(ResourceLock):
     DB = 2
-    PREFIX_KEY = 'order_lock:'
+    LOCK_PREFIX_KEY = 'orders:'
     _timeout = 3600
 
-    def __init__(self, key, order_id) -> None:
+    def __init__(self, key) -> None:
         super().__init__(key)
-        self.key = f'{self.PREFIX_KEY}{key}:{order_id}'
+        self.key = f'{self.PREFIX_KEY}{self.LOCK_PREFIX_KEY}{key}'

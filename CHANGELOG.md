@@ -10,6 +10,7 @@
 - update config.py add lru_cache
 - update `v1_admin` logics func -> Class
 - update tests
+- update and add Makefile
 
 ### 0.6.2
 

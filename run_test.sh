@@ -1,1 +1,0 @@
-CODE_ENV=test pytest --rootdir ./tests -s
