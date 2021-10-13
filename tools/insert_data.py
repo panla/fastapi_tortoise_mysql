@@ -36,10 +36,10 @@ parser.add_argument('-f', '--file', type=str, required=True, help='JSON File Pat
 parser.add_argument('-m', '--model', type=str, required=True, help='Model Class Str')
 parser.add_argument('-b', '--batch_size', type=int, required=False, default=5, help='Batch Size')
 
-params = parser.parse_args()
-file_path = params.file
-ModelClassStr = params.model
-batch_size = params.batch_size
+params = parser.parse_args().__dict__
+file_path = params.get('file')
+ModelClassStr = params.get('model')
+batch_size = params.get('batch_size')
 
 if not Path(file_path).is_file():
     sys.stderr.write(f'parameter -f/--file error: {file_path} not exists')

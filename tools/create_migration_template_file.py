@@ -11,9 +11,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--dir', type=str, required=True, help='Migration Dir')
 parser.add_argument('-n', '--name', type=str, required=True, help='Migration Name')
 
-params = parser.parse_args()
-migration_dir = params.dir
-migration_name = params.name
+params = parser.parse_args().__dict__
+migration_dir = params.get('dir')
+migration_name = params.get('name')
 
 if not os.path.isdir(migration_dir):
     os.makedirs(migration_dir, exist_ok=True)

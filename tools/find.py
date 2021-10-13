@@ -13,8 +13,8 @@ param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=True, he
 param_parser.add_argument('-t', '--targets', nargs='+', required=True, help='target')
 param_parser.add_argument('-l', '--log', type=str, required=False, help='log file')
 
-params = param_parser.parse_args()
-dirs = params.dirs
+params = param_parser.parse_args().__dict__
+dirs = params.get('dirs')
 directions = []
 
 if dirs:
@@ -29,12 +29,12 @@ if not directions:
     sys.stderr.write(f'your input -d/--dirs {directions} error')
     sys.exit(1)
 
-targets = params.targets
+targets = params.get('targets')
 if not targets:
     sys.stderr.write(f'your input -t/--targets {targets} error')
     sys.exit(1)
 
-log_file = params.log
+log_file = params.get('log')
 
 
 def read_file(path: str) -> str:

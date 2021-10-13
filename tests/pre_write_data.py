@@ -9,7 +9,7 @@ from tortoise import Tortoise
 from tests import ORM_TEST_MIGRATE_CONF, BASE_DIR
 from tests import NotFound, encode_auth_token
 from tests import User, AdminUser, Book, Car, Order, Phone, Question
-from tests.utils import read_json_file
+from tests.utils import JsonFileOperator
 
 
 async def authentic_test(cellphone: str):
@@ -30,7 +30,7 @@ async def authentic_test(cellphone: str):
 
 def _build_instances(Model, file: str):
     file = os.path.join(BASE_DIR, f'tests/fixture_data/{file}')
-    for per_dic in read_json_file(file):
+    for per_dic in JsonFileOperator(file).read():
         yield Model(**per_dic)
 
 

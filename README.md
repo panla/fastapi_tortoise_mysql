@@ -57,19 +57,19 @@ mkdir /srv/project && cd /srv/project && mkdir conf/api conf/mysql -p
 git clone this api
 
 ## edit config settings
-# reference resources ./doc/config/docker-compose.yaml
+# reference resources ./docs/config/docker-compose.yaml
 touch docker-compose.yaml
 
-# reference resources ./doc/config/my.cnf
+# reference resources ./docs/config/my.cnf
 touch conf/mysql/my.cnf
 
-# reference resources ./doc/config/env.example
+# reference resources ./docs/config/env.example
 touch conf/api/.env
 
-# reference resources ./doc/config/gunicorn_settings_example.py
+# reference resources ./docs/config/gunicorn_settings_example.py
 touch conf/api/gunicorn_config.py
 
-# reference resources ./doc/config/run.example.sh
+# reference resources ./docs/config/run.example.sh
 touch conf/api/run.sh
 
 # build and start
