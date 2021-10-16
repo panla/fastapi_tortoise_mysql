@@ -5,12 +5,13 @@
 ### 0.6.3
 
 - upgrade require packet
-  - `asyncmy`==0.2.2
+  - `asyncmy`==0.2.3
 - update redis ext and add resource lock
 - update config.py add lru_cache
 - update `v1_admin` logics func -> Class
 - update tests
 - update and add Makefile
+- add build.txt and `__init__.py` to adapt Cython cythonize
 
 ### 0.6.2
 

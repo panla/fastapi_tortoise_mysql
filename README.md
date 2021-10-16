@@ -17,9 +17,10 @@
 
 ## environment
 
-[require packets](./mirrors/requirements.txt)
-
 - Python: 3.8
+
+- [require packets for work](./mirrors/requirements.txt)
+- [require packets for dev and test](./mirrors/requirements_dev.txt)
 
 ## command
 
@@ -33,7 +34,22 @@ CODE_ENV=test pytest --rootdir ./tests -s
 make run
 ```
 
-## some tools
+## dir and file
+
+### project file
+
+- [license](./LICENSE)
+- [a global config file](./config.py)
+- [dir or file for using Cython cythonize](./build.txt)
+- [the program entry file](./main.py)
+- [Dokerfile](./Dockerfile)
+- [Makefile](./Makefile)
+- [the conf file of aerich](./aerich.ini)
+- [the conf file oh aerich, new](./pyproject.toml)
+- [the different version`s change log record for this project](./CHANGELOG.md)
+- [the config of pytest](./pytest.init)
+
+### some tools
 
 - [the script of create blank migration sql file](./tools/create_migration_template_file.py)
 - [the script of find target in some dirs](./tools/find.py)
