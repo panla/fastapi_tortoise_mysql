@@ -2,6 +2,11 @@
 
 ## 0.6
 
+### 0.6.4
+
+- update create and verify token
+- update dirs
+
 ### 0.6.3
 
 - upgrade require packet
