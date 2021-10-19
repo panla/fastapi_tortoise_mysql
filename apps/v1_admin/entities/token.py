@@ -18,7 +18,8 @@ class CreateTokenParser(BaseModel):
 class TokenField(BaseModel):
     token: str = Field(..., title='JSON Web Token string')
     user_id: int = Field(..., title='id of user')
-    admin_user_id: int = Field(..., title='admin_user.id')
+    extend_user_id: int = Field(..., title='extend user.id')
+    extend_model: str = Field(..., title='Model')
 
 
 class TokenSchema(SchemaMixin):

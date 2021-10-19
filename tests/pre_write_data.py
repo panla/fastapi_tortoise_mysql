@@ -7,24 +7,32 @@ import os
 from tortoise import Tortoise
 
 from tests import ORM_TEST_MIGRATE_CONF, BASE_DIR
-from tests import NotFound, encode_auth_token
+from tests import NotFound, BadRequest, TokenResolver
 from tests import User, AdminUser, Book, Car, Order, Phone, Question
 from tests.utils import JsonFileOperator
 
 
-async def authentic_test(cellphone: str):
+EXTEND_MODEL_MAP = {'AdminUser': AdminUser, 'User': User}
+
+
+async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
     user = await User.get_or_none(cellphone=cellphone)
     if not user or user.is_delete:
         raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
 
-    admin_user = await user.admin_user
+    Model = EXTEND_MODEL_MAP.get(extend_model)
+    if not Model:
+        raise BadRequest(message=f'Model {extend_model} error')
 
-    if not admin_user or admin_user.is_delete:
-        raise NotFound(message=f'AdminUser User.cellphone = {cellphone} is not exists or is deleted')
-    token, login_time, token_expired = encode_auth_token(user.id)
-    admin_user.login_time = login_time
-    admin_user.token_expired = token_expired
-    await admin_user.save()
+    extend_user = await Model.filter(user_id=user.id, is_delete=False).first()
+
+    if not extend_user:
+        raise NotFound(message=f'{extend_model} User.cellphone = {cellphone} is not exists or is deleted')
+
+    token, login_time, token_expired = TokenResolver.encode_auth_token(user.id, extend_user.id, 'AdminUser')
+    extend_user.login_time = login_time
+    extend_user.token_expired = token_expired
+    await extend_user.save()
     return token
 
 
