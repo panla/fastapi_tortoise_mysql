@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from extensions import Route, error_response, resp_success
 from apps.modules import TokenResolver
-from apps.v1_admin.entities import CreateTokenParser, TokenSchema
+from apps.api_admin.entities import CreateTokenParser, TokenSchema
 
 router = APIRouter(route_class=Route, responses=error_response)
 

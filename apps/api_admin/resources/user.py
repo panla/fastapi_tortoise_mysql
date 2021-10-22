@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, Path
 from extensions import Route, error_response, resp_success, Pagination
 from apps.models import AdminUser
 from apps.modules import get_current_admin_user
-from apps.v1_admin.entities import (
+from apps.api_admin.entities import (
     ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser
 )
-from apps.v1_admin.logics import UserResolver
+from apps.api_admin.logics import UserResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 

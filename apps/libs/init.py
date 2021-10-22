@@ -7,8 +7,9 @@ from fastapi import FastAPI
 from .database import init_db
 from .middleware import register_cross, register_middleware
 
-from apps.v1_admin import init_sub_app as init_v1_admin_app
-from apps.v1_socket_io import init_sub_app as init_v1_socket_io_app
+from apps.api_admin import init_sub_app as init_api_admin_app
+from apps.api_test import init_sub_app as init_api_test_app
+from sockets import init_sub_app as init_socket_io_app
 
 
 def init_app(app: FastAPI):
@@ -18,7 +19,8 @@ def init_app(app: FastAPI):
     register_cross(app)
     register_middleware(app)
 
-    app = init_v1_admin_app(app)
-    app = init_v1_socket_io_app(app)
+    app = init_socket_io_app(app)
+    app = init_api_admin_app(app)
+    app = init_api_test_app(app)
 
     return app

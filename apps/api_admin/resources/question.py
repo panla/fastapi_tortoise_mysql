@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Path
 
 from extensions import Route, error_response, resp_success, Pagination
-from apps.v1_admin.entities import (
+from apps.api_admin.entities import (
     ReadQuestionSchema, ListQuestionSchema, FilterCarParser
 )
-from apps.v1_admin.logics import QuestionResolver
+from apps.api_admin.logics import QuestionResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 

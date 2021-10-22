@@ -1,3 +1,3 @@
-from apps import create_app
+from apps.application import create_app
 
 app = create_app()

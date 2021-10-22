@@ -35,7 +35,7 @@ class BaseConfig(object):
 
     ###############################################################################################
     ## socket.io
-    SOCKET_IO_NAMESPACE = config('SOCKET_IO_NAMESPACE', cast=str, default='/')
+    SOCKET_IO_NAMESPACES = config('SOCKET_IO_NAMESPACES', cast=str, default='/')
     SOCKET_IO_PATH = config('SOCKET_IO_PATH', cast=str, default='socket.io')
     SOCKET_IO_MOUNT = config('SOCKET_IO_MOUNT', cast=str, default='/')
 
@@ -161,7 +161,7 @@ def get_config(env):
 
 Config = get_config(CODE_ENV)
 
-
+SOCKET_IO_NAMESPACES = Config.SOCKET_IO_NAMESPACES.split(' ')
 ORM_LINK_CONF = Config().orm_link_conf
 ORM_MIGRATE_CONF = Config().orm_migrate_conf
 ORM_TEST_MIGRATE_CONF = Config().orm_test_migrate_conf

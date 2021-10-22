@@ -6,6 +6,9 @@
 
 - update create and verify token
 - update dirs
+- update api prefix `/api/v1/admin` -> `/api/admin`
+- update encapsulation socket.io
+- add socket.io test api
 
 ### 0.6.3
 

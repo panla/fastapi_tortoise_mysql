@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 
 from extensions import Route, error_response, resp_success, Pagination
-from apps.v1_admin.entities import (
+from apps.api_admin.entities import (
     ListOrderSchema, FilterCarParser
 )
-from apps.v1_admin.logics import OrderResolver
+from apps.api_admin.logics import OrderResolver
 
 router = APIRouter(route_class=Route, responses=error_response)
 

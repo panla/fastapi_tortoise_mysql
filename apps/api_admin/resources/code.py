@@ -1,8 +1,8 @@
 from fastapi import APIRouter, BackgroundTasks
 
 from extensions import Route, error_response, resp_success
-from apps.v1_admin.entities import CreateCodeSchema, CreateCodeParser
-from apps.v1_admin.logics import create_sms_code, create_sms_code_task
+from apps.api_admin.entities import CreateCodeSchema, CreateCodeParser
+from apps.api_admin.logics import create_sms_code, create_sms_code_task
 
 router = APIRouter(route_class=Route, responses=error_response)
 
