@@ -8,8 +8,6 @@ from functools import lru_cache
 
 from pydantic import BaseModel
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 class LogConfig(BaseModel):
     LOG_LEVEL: str = 'DEBUG'

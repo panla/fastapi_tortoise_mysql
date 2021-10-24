@@ -33,7 +33,6 @@ def get_settings() -> Setting:
 
     with open(setting_path) as f:
         settings = Setting.parse_obj(pytomlpp.load(f))
-        print(settings)
     return settings
 
 
