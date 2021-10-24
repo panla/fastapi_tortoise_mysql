@@ -47,7 +47,7 @@ make run
 - [the conf file of aerich](./aerich.ini)
 - [the conf file oh aerich, new](./pyproject.toml)
 - [the different version`s change log record for this project](./CHANGELOG.md)
-- [the config of pytest](./pytest.init)
+- [the config of pytest](./pytest.ini)
 
 ### some tools
 
@@ -73,20 +73,20 @@ mkdir /srv/project && cd /srv/project && mkdir conf/api conf/mysql -p
 git clone this api
 
 ## edit config settings
-# reference resources ./docs/config/docker-compose.yaml
+# reference resources ./docs/deploy/docker-compose.yaml
 touch docker-compose.yaml
 
-# reference resources ./docs/config/my.cnf
+# reference resources ./docs/deploy/my.cnf
 touch conf/mysql/my.cnf
 
-# reference resources ./docs/config/env.example
-touch conf/api/.env
+# reference resources ./docs/deploy/product.toml test.toml
+touch conf/api/conf/product.toml test.toml
 
-# reference resources ./docs/config/gunicorn_settings_example.py
+# reference resources ./docs/deploy/gunicorn_settings_example.py
 touch conf/api/gunicorn_config.py
 
-# reference resources ./docs/config/run.example.sh
-touch conf/api/run.sh
+# reference resources ./docs/deploy/docker-entrypoint.sh
+touch conf/api/docker-entrypoint.sh
 
 # build and start
 docker-compose up -d --build
@@ -98,13 +98,17 @@ docker-compose up -d --build
 project
     ├── api
     │   ├── ...
-    ├── conf
-    │   ├── api
-    │   │   ├── .env
-    │   │   ├── gunicorn_config.py
-    │   │   └── run.sh
-    │   └── mysql
-    │       └── my.cnf
+    conf
+    │   ├── api
+    │   │   ├── conf
+    │   │   │   ├── product.toml
+    │   │   │   └── test.toml
+    │   │   ├── docker-entrypoint.sh
+    │   │   ├── gunicorn_config.py
+    │   │   └── run.sh
+    │   └── mysql
+    │       ├── my.cnf
+    │       └── sources.list
     ├── data
     │   ├── mysql
     │   │   └── data

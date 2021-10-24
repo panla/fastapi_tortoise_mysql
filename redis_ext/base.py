@@ -18,7 +18,7 @@ class RedisClientBase(object):
         self.key = f'{self.PREFIX_KEY}{key}'
 
         self.uri = 'redis://:{}@{}:{}/{}'.format(
-            Config.REDIS_PASSWD, Config.REDIS_HOST, Config.REDIS_PORT, self.DB
+            Config.redis.REDIS_PASSWD, Config.redis.REDIS_HOST, Config.redis.REDIS_PORT, self.DB
         )
 
     @property

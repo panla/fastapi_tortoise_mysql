@@ -18,3 +18,5 @@ venv
 /.env
 /tortoise_conf_test.py
 /gunicorn_config.py
+/conf/*.toml
+/docker-entrypoint.sh

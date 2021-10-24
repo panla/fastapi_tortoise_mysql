@@ -1,0 +1,36 @@
+[redis]
+
+REDIS_HOST = "172.22.0.3"
+REDIS_PORT = 6379
+REDIS_PASSWD = "12345678"
+
+[db]
+
+DB_POOL_RECYCLE = 1800
+
+DB_USER = "root"
+DB_PASSWD = "txy000***txy"
+DB_HOST = "172.22.0.2"
+DB_PORT = 3306
+DB_DATABASE = "ftm_test"
+DB_MAX_SIZE = 2
+
+[log]
+
+LOG_LEVEL = "INFO"
+LOG_PATH = "/srv/fastapi_tortoise_mysql/logs/x.log"
+
+[service]
+# schema swagger
+INCLUDE_IN_SCHEMA = true
+SOCKET_IO_ON = true
+
+[authentic]
+
+ADMIN_SECRETS = "SZjj5S8NgOcuq8LH+bAtDw=="
+TOKEN_EXP_DELTA_ADMIN = 864000
+
+[socket_io]
+SOCKET_IO_PATH = "socket.io"
+SOCKET_IO_NAMESPACES = ["/message", "/chat"]
+SOCKET_IO_MOUNT = "/"

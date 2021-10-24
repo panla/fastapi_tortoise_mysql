@@ -19,8 +19,8 @@ def init_app(app: FastAPI):
     register_cross(app)
     register_middleware(app)
 
-    app = init_socket_io_app(app)
     app = init_api_admin_app(app)
     app = init_api_test_app(app)
+    app = init_socket_io_app(app)
 
     return app

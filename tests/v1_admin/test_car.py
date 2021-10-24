@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 
 def test_read_book_first(client: TestClient):
 
-    url = '/api/v1/admin/cars/1'
+    url = '/api/admin/cars/1'
     headers = {
         'X-TOKEN': os.environ.get('AdminUserTestToken')
     }
@@ -16,7 +16,7 @@ def test_read_book_first(client: TestClient):
 
 def test_update_book(client: TestClient):
 
-    url = '/api/v1/admin/cars/1'
+    url = '/api/admin/cars/1'
     params = {
         'price': 200
     }
@@ -30,7 +30,7 @@ def test_update_book(client: TestClient):
 
 def test_read_cup_two(client: TestClient):
 
-    url = '/api/v1/admin/cars/1'
+    url = '/api/admin/cars/1'
     headers = {
         'X-TOKEN': os.environ.get('AdminUserTestToken')
     }
@@ -42,7 +42,7 @@ def test_read_cup_two(client: TestClient):
 
 def test_cars_count(client: TestClient):
 
-    url = '/api/v1/admin/cars'
+    url = '/api/admin/cars'
     headers = {
         'X-TOKEN': os.environ.get('AdminUserTestToken')
     }

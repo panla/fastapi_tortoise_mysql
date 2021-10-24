@@ -48,7 +48,7 @@ class TokenResolver:
         """generate jwt token"""
 
         login_time = datetime.now()
-        token_expired = login_time + timedelta(seconds=Config.TOKEN_EXP_DELTA_ADMIN)
+        token_expired = login_time + timedelta(seconds=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
 
         try:
             payload = {
@@ -63,7 +63,7 @@ class TokenResolver:
                     'token_expired': token_expired.timestamp()
                     }
             }
-            token = jwt.encode(payload, Config.ADMIN_SECRETS, algorithm="HS256")
+            token = jwt.encode(payload, Config.authentic.ADMIN_SECRETS, algorithm="HS256")
             return token, login_time, token_expired
         except Exception as e:
             raise BadRequest(message=str(e))
@@ -105,7 +105,8 @@ class TokenResolver:
 
         now = time.time()
         try:
-            payload = jwt.decode(token, Config.ADMIN_SECRETS, algorithms='HS256', options={'verify_exp': True})
+            secret = Config.authentic.ADMIN_SECRETS
+            payload = jwt.decode(token, secret, algorithms='HS256', options={'verify_exp': True})
             if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
                 data: dict = payload.get('data')
 

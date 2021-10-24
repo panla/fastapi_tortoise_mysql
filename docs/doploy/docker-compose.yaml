@@ -39,13 +39,14 @@ services:
     build:
       context: "./api"
       dockerfile: ./Dockerfile
-    command: /bin/bash ./run.sh
+    command: /bin/bash ./docker-entrypoint.sh
     volumes:
       - ./api:/home/project
-      - ./conf/api/.env:/home/project/.env
-      - ./conf/api/run.sh:/home/project/run.sh
-      - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
+      - ./conf/api/conf/product.toml:/home/project/conf/product.toml
+      - ./conf/api/conf/test.toml:/home/project/conf/test.toml
+      - ./conf/api/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./logs/api:/home/logs
+      - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
     ports:
       - 127.0.0.1:18020:8000
     networks:

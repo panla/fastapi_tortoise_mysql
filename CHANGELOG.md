@@ -9,6 +9,8 @@
 - update api prefix `/api/v1/admin` -> `/api/admin`
 - update encapsulation socket.io
 - add socket.io test api
+- update config settings and deploy docs
+- add require package `pytomlpp`
 
 ### 0.6.3
 

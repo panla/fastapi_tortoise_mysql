@@ -9,13 +9,13 @@ from apps.libs import register_exception
 
 from .resources import router
 
-api_test_app: FastAPI = FastAPI(include_in_schema=Config.INCLUDE_IN_SCHEMA)
+api_test_app: FastAPI = FastAPI(include_in_schema=Config.service.INCLUDE_IN_SCHEMA)
 
 
 def register_routers(app: FastAPI):
     """register routers"""
 
-    app.include_router(router, prefix='/tests', tags=['tests'])
+    app.include_router(router, tags=['tests'])
 
 
 def init_sub_app(app: FastAPI):
@@ -23,6 +23,6 @@ def init_sub_app(app: FastAPI):
 
     register_exception(api_test_app)
     register_routers(api_test_app)
-    app.mount(path='/api/admin', app=api_test_app, name='api_test_app')
+    app.mount(path='/api/test', app=api_test_app, name='api_test_app')
 
     return app

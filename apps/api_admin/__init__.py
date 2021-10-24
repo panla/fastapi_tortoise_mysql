@@ -15,7 +15,7 @@ from .resources import token
 from .resources import user
 from .resources import code
 
-api_admin_app: FastAPI = FastAPI(include_in_schema=Config.INCLUDE_IN_SCHEMA)
+api_admin_app: FastAPI = FastAPI(include_in_schema=Config.service.INCLUDE_IN_SCHEMA)
 
 
 def register_routers(app: FastAPI):
@@ -33,8 +33,8 @@ def register_routers(app: FastAPI):
 def init_sub_app(app: FastAPI):
     """mount sub app"""
 
+    app.mount(path='/api/admin', app=api_admin_app, name='api_admin_app')
     register_exception(api_admin_app)
     register_routers(api_admin_app)
-    app.mount(path='/api/admin', app=api_admin_app, name='api_admin_app')
 
     return app
