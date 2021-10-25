@@ -6,6 +6,7 @@ apps/modules
 apps/models
 apps/libs
 apps
+conf
 extensions
 mixins
 redis_ext

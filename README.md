@@ -8,8 +8,8 @@
 ## tags
 
 - *asyncio*
-- *tortoise-orm*
 - *fastapi*
+- *tortoise-orm*
 - *MySQL*
 - *Redis*
 - *socket.io*
