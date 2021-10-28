@@ -1,7 +1,3 @@
-__all__ = [
-    'init_app',
-]
-
 from fastapi import FastAPI
 
 from .database import init_db

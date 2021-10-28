@@ -23,8 +23,8 @@ async def read_car(
 
 @router.patch('/{c_id}', response_model=CarSchema, status_code=201)
 async def patch_car(
-        c_id: int = Path(..., description='汽车id', ge=1),
-        parser: PatchCarParser = PatchCarParser,
+        c_id: int,
+        parser: PatchCarParser,
         admin_user: AdminUser = Depends(get_current_admin_user)
 ):
     """the api of update one car"""
