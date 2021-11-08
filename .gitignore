@@ -8,6 +8,8 @@ tmp
 logs
 venv
 
+*/__pycache__
+
 # file
 *.pyc
 *.sqlite3
@@ -16,4 +18,4 @@ venv
 # file
 /gunicorn_config.py
 /docker-entrypoint.sh
-/conf/*.toml
+/conf/*.local.toml
