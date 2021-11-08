@@ -11,6 +11,8 @@
 - add socket.io test api
 - update config settings and deploy docs
 - add require package `pytomlpp`
+- upgrade packages
+  - fastapi==0.68.2
 
 ### 0.6.3
 

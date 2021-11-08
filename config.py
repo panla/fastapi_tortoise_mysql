@@ -27,9 +27,15 @@ class Setting(BaseModel):
 def get_settings() -> Setting:
     CODE_ENV = os.environ.get('CODE_ENV', 'prd')
     if CODE_ENV == 'test':
-        setting_path = os.path.join(BASE_DIR, 'conf/test.toml')
+        if os.path.isfile(os.path.join(BASE_DIR, 'conf/test.local.toml')):
+            setting_path = os.path.join(BASE_DIR, 'conf/test.local.toml')
+        else:
+            setting_path = os.path.join(BASE_DIR, 'conf/test.toml')
     else:
-        setting_path = os.path.join(BASE_DIR, 'conf/product.toml')
+        if os.path.join(BASE_DIR, 'conf/product.local.toml'):
+            setting_path = os.path.join(BASE_DIR, 'conf/product.local.toml')
+        else:
+            setting_path = os.path.join(BASE_DIR, 'conf/product.toml')
 
     with open(setting_path) as f:
         settings = Setting.parse_obj(pytomlpp.load(f))
