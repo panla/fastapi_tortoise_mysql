@@ -9,16 +9,16 @@ REDIS_PASSWD = "12345678"
 DB_POOL_RECYCLE = 1800
 
 DB_USER = "root"
-DB_PASSWD = "txy000***txy"
+DB_PASSWD = "12345678"
 DB_HOST = "172.22.0.2"
 DB_PORT = 3306
-DB_DATABASE = "ftm_prd"
+DB_DATABASE = "ftm_dev"
 DB_MAX_SIZE = 500
 
 [log]
 
 LOG_LEVEL = "INFO"
-LOG_PATH = "/home/logs/x.log"
+LOG_PATH = "/home/user/srv/ftm/logs/local/x.log"
 
 [service]
 # schema swagger

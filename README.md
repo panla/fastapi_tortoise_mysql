@@ -79,8 +79,9 @@ touch docker-compose.yaml
 # reference resources ./docs/deploy/my.cnf
 touch conf/mysql/my.cnf
 
-# reference resources ./docs/deploy/product.toml test.toml
-touch conf/api/conf/product.toml test.toml
+# reference resources ./conf/product.toml ./conf/test.toml
+touch conf/api/conf/product.local.toml
+touch conf/api/conf/test.local.toml
 
 # reference resources ./docs/deploy/gunicorn_settings_example.py
 touch conf/api/gunicorn_config.py
@@ -101,8 +102,8 @@ project
     conf
     │   ├── api
     │   │   ├── conf
-    │   │   │   ├── product.toml
-    │   │   │   └── test.toml
+    │   │   │   ├── product.local.toml
+    │   │   │   └── test.local.toml
     │   │   ├── docker-entrypoint.sh
     │   │   ├── gunicorn_config.py
     │   │   └── run.sh
