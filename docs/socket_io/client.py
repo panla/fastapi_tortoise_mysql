@@ -10,8 +10,8 @@ parser.add_argument('-p', '--path', required=False, default='socket.io', type=st
 params = parser.parse_args().__dict__
 
 url = params.get('url')
-namespaces = [params.get('namespace')]
 namespace = params.get('namespace')
+namespaces = [namespace]
 socket_io_path = params.get('path')
 
 sio = socketio.Client()
@@ -19,25 +19,15 @@ sio = socketio.Client()
 sio.connect(url, namespaces=namespaces, socketio_path=socket_io_path)
 
 
-@sio.on('connect', namespace=namespace)
-def connect():
-    print('I start connect')
-
-
-@sio.on('response', namespace=namespace)
-def response(data):
-    print(data)
-    data['num'] += 1
-
-    print('向 my_event 发送消息')
-    sio.emit('my_event', data=data, namespace=namespace)
-
-
 def main():
-    connect()
 
-    sio.emit('join_room', data={'num': 1, 'room': '1'}, namespace=namespace)
+    sio.emit('join_room', data={'room': 1, 'user_phone': '13911111111'}, namespace=namespace)
     print('加入房间')
+
+    sio.emit('leave_room', data={'room': 1, 'user_phone': '13911111111'}, namespace=namespace)
+    print('离开房间')
 
 
 main()
+
+sio.disconnect()

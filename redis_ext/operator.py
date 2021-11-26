@@ -7,6 +7,8 @@ class SMSCodeRedis(RedisClientBase):
 
 
 class OrderLock(ResourceLock):
+    """full key: recource_lock:orders:{key}"""
+
     DB = 2
     LOCK_PREFIX_KEY = 'orders:'
     _timeout = 3600

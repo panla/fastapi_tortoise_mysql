@@ -13,12 +13,12 @@ parser.add_argument('-m', '--mount', required=False, default='/', type=str, help
 parser.add_argument('--host', required=False, default='127.0.0.1', type=str, help='app host')
 parser.add_argument('--port', required=False, default=8000, type=int, help='app port')
 
-params = parser.parse_args()
-namespace = params.namespace
-socket_io_path = params.path
-mount_location = params.mount
-host = params.host
-port = params.port
+params = parser.parse_args().__dict__
+namespace = params.get('namespace')
+socket_io_path = params.get('path')
+mount_location = params.get('mount')
+host = params.get('host')
+port = params.get('port')
 
 app = FastAPI()
 

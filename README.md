@@ -20,7 +20,7 @@
 - Python: 3.8
 
 - [require packets for work](./mirrors/requirements.txt)
-- [require packets for dev and test](./mirrors/requirements_dev.txt)
+- [require packets for dev and test](./mirrors/requirements-dev.txt)
 
 ## command
 
@@ -120,3 +120,7 @@ project
     ├── logs
     │   └── api
 ```
+
+## other
+
+- if use `socket.io`, don`t use gunicorn, but uvicorn

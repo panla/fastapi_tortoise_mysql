@@ -85,6 +85,8 @@ class RedisClientBase(object):
 
 
 class ResourceLock(RedisClientBase):
+    """full key: resource_lock:{key}'"""
+
     DB = 2
     PREFIX_KEY = 'resource_lock:'
     _timeout = 3600

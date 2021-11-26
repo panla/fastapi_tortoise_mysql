@@ -2,6 +2,14 @@
 
 ## 0.6
 
+### 0.6.5
+
+- update `socket.io` module
+- upgrade require packages
+  - python-socketio==5.5.0
+  - python-engineio==4.3.0
+  - websockets==10.1
+
 ### 0.6.4
 
 - update create and verify token

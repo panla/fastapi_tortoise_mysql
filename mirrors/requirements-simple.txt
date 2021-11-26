@@ -40,9 +40,9 @@ uvloop==0.16.0
 httptools==0.3.0
 
 ## socket.io websockets
-python-engineio==4.2.1
-python-socketio==5.4.0
-websockets==9.1
+python-engineio==4.3.0
+python-socketio==5.5.0
+websockets==10.1
 
 ## socket.io websockets client
 "python-socketio[client]"
