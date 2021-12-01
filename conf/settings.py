@@ -1,8 +1,3 @@
-__all__ = [
-    'Config', 'ORM_LINK_CONF', 'ORM_MIGRATE_CONF', 'ORM_TEST_MIGRATE_CONF'
-]
-
-import os
 from typing import List
 from functools import lru_cache
 

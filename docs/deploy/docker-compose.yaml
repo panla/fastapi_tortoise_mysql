@@ -4,8 +4,8 @@ services:
     image: mysql:8.0.26
     container_name: fastapi_tm_db
     volumes:
-      - ./conf/mysql/my.cnf:/etc/my.cnf
       - ./data/mysql/data:/var/lib/mysql
+      - ./conf/mysql/my.cnf:/etc/my.cnf
       - ./conf/mirrors/sources.list:/etc/apt/sources.list
     networks:
       fastapi_tm_net:
@@ -45,8 +45,8 @@ services:
       - ./conf/api/conf/product.local.toml:/home/project/conf/product.local.toml
       - ./conf/api/conf/test.toml.local:/home/project/conf/test.local.toml
       - ./conf/api/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
-      - ./logs/api:/home/logs
       - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
+      - ./logs/api:/home/logs
     ports:
       - 127.0.0.1:18020:8000
     networks:

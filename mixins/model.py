@@ -1,12 +1,8 @@
-__all__ = [
-    'BaseModel', 'ModelMixin'
-]
-
 from typing import Tuple, Type
 
 from tortoise import fields
 from tortoise.models import Model
-from tortoise.queryset import QuerySet, QuerySetSingle
+from tortoise.queryset import QuerySet
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 from tortoise.contrib.pydantic.base import PydanticListModel, PydanticModel
 
@@ -61,14 +57,6 @@ class ModelMixin(object):
     @classmethod
     def paginate(cls, query, page: int = 1, pagesize: int = 10) -> QuerySet:
         return query.offset((page - 1) * pagesize).limit(pagesize)
-
-    async def set_attr(self, attrs: list = None) -> QuerySetSingle:
-        """set async property"""
-
-        if attrs:
-            for attr in attrs:
-                setattr(self, attr, await getattr(self, attr))
-        return self
 
     @staticmethod
     def to_dict(instance, selects: tuple = None, excludes: tuple = None) -> dict:

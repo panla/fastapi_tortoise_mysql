@@ -37,7 +37,7 @@ class NameSpaceSIO(socketio.AsyncNamespace):
                 msg['user_state'] = f'user {user_phone} down'
             await self.emit(event=response_event_name, data=msg, room=room, namespace=self.namespace)
 
-    def on_connect(self, sid, msg):
+    def on_connect(self, sid):
         """event connect"""
 
         logger.info(f'sid = {sid} namespace = {self.namespace} build link')
@@ -62,10 +62,8 @@ class NameSpaceSIO(socketio.AsyncNamespace):
         logger.info(f'sid = {sid} namespace = {self.namespace} start join room')
 
         room = await self.check(sid, msg=msg)
-
         # relay user state
         await self.relay(room, msg, True)
-
         self.enter_room(sid=sid, room=room, namespace=self.namespace)
 
         logger.info(f'sid = {sid} namespace = {self.namespace} over join room')
@@ -76,10 +74,8 @@ class NameSpaceSIO(socketio.AsyncNamespace):
         logger.info(f'sid = {sid} namespace = {self.namespace} start leave room')
 
         room = await self.check(sid, msg=msg)
-
         # relay user state
         await self.relay(room, msg, False)
-
         self.leave_room(sid=sid, room=room, namespace=self.namespace)
 
         logger.info(f'sid = {sid} namespace = {self.namespace} over leave room')
@@ -88,7 +84,8 @@ class NameSpaceSIO(socketio.AsyncNamespace):
         """event: my_event"""
 
         logger.info(f'sid = {sid} namespace = {self.namespace} start my_event')
-        room = await self.check(sid, msg=msg)
 
-        await self.emit(event='response', data=msg, room=room)
+        room = await self.check(sid, msg=msg)
+        await self.emit(event='my_event_response', data=msg, room=room)
+
         logger.info(f'sid = {sid} namespace = {self.namespace} over my_event')

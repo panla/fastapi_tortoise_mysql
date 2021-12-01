@@ -17,33 +17,6 @@ class TokenResolver:
     EXTEND_MODEL_MAP = {'AdminUser': AdminUser, 'User': User}
 
     @classmethod
-    async def authentic(cls, cellphone: str, code: str, extend_model: str):
-        """the entrance to get auth token"""
-
-        redis_client = SMSCodeRedis(cellphone)
-        if code == await redis_client.get():
-            user = await User.filter(cellphone=cellphone, is_delete=False).first()
-            if not user:
-                raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
-
-            Model = cls.EXTEND_MODEL_MAP.get(extend_model)
-            if not Model:
-                raise BadRequest(message=f'Model {extend_model} error')
-
-            extend_user = await Model.filter(user_id=user.id, is_delete=False).first()
-
-            if not extend_user:
-                raise NotFound(message=f'{extend_model} User.cellphone = {cellphone} is not exists or is deleted')
-
-            token, login_time, token_expired = cls.encode_auth_token(user.id, extend_user.id, 'AdminUser')
-            extend_user.login_time = login_time
-            extend_user.token_expired = token_expired
-            await extend_user.save()
-
-            return {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}
-        raise BadRequest(message='SMS Code error')
-
-    @classmethod
     def encode_auth_token(cls, user_id: int, extend_user_id: int, extend_model: str):
         """generate jwt token"""
 
@@ -69,6 +42,32 @@ class TokenResolver:
             raise BadRequest(message=str(e))
 
     @classmethod
+    async def authentic(cls, cellphone: str, code: str, extend_model: str):
+        """the entrance to get auth token"""
+        redis_client = SMSCodeRedis(cellphone)
+        if code == await redis_client.get():
+            user = await User.filter(cellphone=cellphone, is_delete=False).first()
+            if not user:
+                raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
+
+            Model = cls.EXTEND_MODEL_MAP.get(extend_model)
+            if not Model:
+                raise BadRequest(message=f'Model {extend_model} error')
+
+            extend_user = await Model.filter(user_id=user.id, is_delete=False).first()
+
+            if not extend_user:
+                raise NotFound(message=f'{extend_model} User.cellphone = {cellphone} is not exists or is deleted')
+
+            token, login_time, token_expired = cls.encode_auth_token(user.id, extend_user.id, 'AdminUser')
+            extend_user.login_time = login_time
+            extend_user.token_expired = token_expired
+            await extend_user.save()
+
+            return {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}
+        raise BadRequest(message='SMS Code error')
+
+    @classmethod
     async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str, **kwargs):
         """select query user, extend_user"""
 
@@ -85,7 +84,7 @@ class TokenResolver:
         if not extend_user:
             raise NotFound(message=f'{extend_model} {extend_model}.id = {extend_user_id} is not exists or is deleted')
 
-        return user, extend_user 
+        return user, extend_user
 
     @staticmethod
     def check_timeout(extend_user, now: float, data: dict):
@@ -97,7 +96,7 @@ class TokenResolver:
         d = data.get('token_expired') > extend_user.token_expired.timestamp()
         if any([a, b, c, d]):
             logger.error([a, b, c, d])
-            raise Unauthorized(message='login expired，please login retry。')
+            raise Unauthorized(message='login expired, please login retry.')
 
     @classmethod
     async def decode_token(cls, request: Request, token: str):

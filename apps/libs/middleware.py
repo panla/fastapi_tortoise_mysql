@@ -1,7 +1,3 @@
-__all__ = [
-    'register_cross', 'register_middleware',
-]
-
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import JSONResponse

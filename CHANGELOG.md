@@ -9,6 +9,8 @@
   - python-socketio==5.5.0
   - python-engineio==4.3.0
   - websockets==10.1
+- update/optimaizate code
+- update deploy docs
 
 ### 0.6.4
 

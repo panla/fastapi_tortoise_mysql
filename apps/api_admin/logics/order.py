@@ -4,7 +4,7 @@ from apps.models import Order
 
 
 class OrderResolver:
-    
+
     @classmethod
     def list_orders(cls, params: dict) -> QuerySet:
         """search/filter orders"""

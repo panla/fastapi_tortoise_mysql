@@ -6,7 +6,7 @@
 
 ```bash
 # for server
-pip install python-socketio fastapi uvicorn
+pip install fastapi==0.68.2 python-socketio uvicorn
 
 # for sync client
 pip install "python-socketio[client]"

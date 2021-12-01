@@ -1,7 +1,3 @@
-__all__ = [
-    'register_exception',
-]
-
 import traceback
 from typing import Any
 

@@ -1,11 +1,5 @@
-from typing import Optional
-from typing import List
-
-from fastapi import Body, Query
+from fastapi import Body
 from pydantic import BaseModel
-from pydantic.fields import Field
-
-from mixins import SchemaMixin, FilterParserMixin
 
 
 class SocketIODataParser(BaseModel):

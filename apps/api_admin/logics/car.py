@@ -1,6 +1,5 @@
 from tortoise.models import QuerySet
 
-from extensions import logger
 from apps.modules import ResourceOp
 from apps.models import Car
 
@@ -31,12 +30,14 @@ class CarResolver:
 
         car: Car = await ResourceOp(Car, car_id).instance()
         patch_params = {}
-        logger.info(params)
+
         for k, v in params.items():
             if v is not None:
                 patch_params[k] = v
         if patch_params:
             car = await car.update_from_dict(patch_params)
             await car.save()
-            logger.info(car.price)
+
+        del patch_params
+
         return car

@@ -1,1 +1,2 @@
-from .operator import SMSCodeRedis, OrderLock
+from .operator import SMSCodeRedis
+from .lock import OrderLock

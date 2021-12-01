@@ -11,7 +11,7 @@ class SocketIO():
     def __init__(self, sio_server: AsyncServer) -> None:
         self.sio_server = sio_server
 
-    def register_namesapce(self, ns: NameSpaceSIO):
+    def register_namespace(self, ns: NameSpaceSIO):
         self.ns = ns
         self.sio_server.register_namespace(ns)
 
@@ -33,7 +33,7 @@ def init_sub_app(app: FastAPI):
         # register more namespaces
         for namespace in Config.socket_io.SOCKET_IO_NAMESPACES:
             ns_sio = NameSpaceSIO(namespace=namespace)
-            socket_io.register_namesapce(ns_sio)
+            socket_io.register_namespace(ns_sio)
 
         app.mount(Config.socket_io.SOCKET_IO_MOUNT, socket_io_app)
 

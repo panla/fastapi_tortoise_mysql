@@ -8,7 +8,10 @@ class UserResolver:
 
     @classmethod
     def list_users(cls, params: dict) -> QuerySet:
-        """search/filter users"""
+        """search/filter users
+
+        need await
+        """
 
         query = User.all()
         if params.get('cellphone'):
@@ -21,7 +24,7 @@ class UserResolver:
 
         patch_params = dict()
         for k, v in params.items():
-            if v:
+            if v is not None:
                 patch_params[k] = v
         if patch_params:
             user = await user.update_from_dict(patch_params)
@@ -36,6 +39,7 @@ class UserResolver:
         for user in users:
             _user = User.to_dict(user, selects=('id', 'cellphone', 'name', 'is_delete'))
             _user['is_admin_user'] = await user.is_admin_user
+            # await user.set_attr(attrs=['is_admin_user'])
             _users.append(_user)
         return _users
 

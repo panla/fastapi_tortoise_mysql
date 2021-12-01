@@ -1,7 +1,3 @@
-__all__ = [
-    'init_db',
-]
-
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 

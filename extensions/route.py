@@ -1,7 +1,3 @@
-__all__ = [
-    'Route',
-]
-
 from json import JSONDecodeError
 
 from fastapi import Request

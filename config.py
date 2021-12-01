@@ -3,6 +3,7 @@ __all__ = [
 ]
 
 import os
+from pathlib import Path
 from functools import lru_cache
 
 import pytomlpp
@@ -26,19 +27,16 @@ class Setting(BaseModel):
 @lru_cache()
 def get_settings() -> Setting:
     CODE_ENV = os.environ.get('CODE_ENV', 'prd')
-    if CODE_ENV == 'test':
-        if os.path.isfile(os.path.join(BASE_DIR, 'conf/test.local.toml')):
-            setting_path = os.path.join(BASE_DIR, 'conf/test.local.toml')
-        else:
-            setting_path = os.path.join(BASE_DIR, 'conf/test.toml')
-    else:
-        if os.path.join(BASE_DIR, 'conf/product.local.toml'):
-            setting_path = os.path.join(BASE_DIR, 'conf/product.local.toml')
-        else:
-            setting_path = os.path.join(BASE_DIR, 'conf/product.toml')
 
-    with open(setting_path) as f:
-        settings = Setting.parse_obj(pytomlpp.load(f))
+    if CODE_ENV == 'test':
+        p = Path(BASE_DIR).joinpath('conf/test.local.toml')
+    else:
+        p = Path(BASE_DIR).joinpath('conf/product.local.toml')
+
+    if not p.is_file():
+        raise Exception('config no exists')
+
+    settings = Setting.parse_obj(pytomlpp.load(p))
     return settings
 
 
