@@ -13,7 +13,8 @@ from tortoise import run_async
 from fastapi.testclient import TestClient
 
 from tests import create_app
-from tests.pre_write_data import generate_token, create_database, delete_database
+from tests.pre_write_data import create_database, delete_database
+from tests.token import generate_token
 
 
 # @pytest.fixture(scope="function", autouse=True)
