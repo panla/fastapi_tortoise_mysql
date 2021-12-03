@@ -1,5 +1,10 @@
 __all__ = [
-    'ReadCarSchema', 'ListCarSchema', 'CarSchema', 'CreateCarParser', 'PatchCarParser', 'FilterCarParser',
+    'ReadCarSchema',
+    'ListCarSchema',
+    'CarSchema',
+    'CreateCarParser',
+    'PatchCarParser',
+    'FilterCarParser'
 ]
 
 from typing import Optional

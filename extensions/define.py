@@ -71,7 +71,7 @@ class ValidatorErrorSchema(BaseModel):
     data: NoneType = "null"
 
 
-error_response = {
+error_schema= {
     400: {
         'model': BadRequestSchema,
         'description': 'bad_request'

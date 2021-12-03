@@ -5,7 +5,7 @@
 ### 0.6.5
 
 - update/optimaizate code
-- [ ] optimaizate authentic
+- optimaizate authentic
 - update `socket.io` module
 - upgrade require packages
   - python-socketio==5.5.0

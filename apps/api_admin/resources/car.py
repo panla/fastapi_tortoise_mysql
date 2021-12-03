@@ -1,14 +1,13 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, error_response, resp_success, Pagination
-from apps.models import AdminUser
-from apps.modules import get_current_admin_user
+from extensions import error_schema, resp_success, Route, Pagination
+from apps.modules import current_admin_user
 from apps.api_admin.entities import (
     ReadCarSchema, ListCarSchema, CarSchema, CreateCarParser, PatchCarParser, FilterCarParser
 )
 from apps.api_admin.logics import CarResolver
 
-router = APIRouter(route_class=Route, responses=error_response)
+router = APIRouter(route_class=Route, responses=error_schema)
 
 
 @router.get('/{c_id}', response_model=ReadCarSchema, status_code=200)
@@ -21,20 +20,16 @@ async def read_car(
     return resp_success(data=car)
 
 
-@router.patch('/{c_id}', response_model=CarSchema, status_code=201)
-async def patch_car(
-        c_id: int,
-        parser: PatchCarParser,
-        admin_user: AdminUser = Depends(get_current_admin_user)
-):
+@router.patch('/{c_id}', response_model=CarSchema, status_code=201, dependencies=[current_admin_user])
+async def patch_car(c_id: int, parser: PatchCarParser):
     """the api of update one car"""
 
     car = await CarResolver.patch_car(c_id, parser.dict())
     return resp_success(data=car)
 
 
-@router.post('', response_model=CarSchema, status_code=201)
-async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(get_current_admin_user)):
+@router.post('', response_model=CarSchema, status_code=201, dependencies=[current_admin_user])
+async def create_car(parser: CreateCarParser):
     """the api of create one car"""
 
     c = await CarResolver.create_car(parser.dict())
@@ -42,9 +37,7 @@ async def create_car(parser: CreateCarParser, admin_user: AdminUser = Depends(ge
 
 
 @router.get('', response_model=ListCarSchema, status_code=200)
-async def list_cars(
-        parser: FilterCarParser = Depends(FilterCarParser)
-):
+async def list_cars(parser: FilterCarParser = Depends(FilterCarParser)):
     """the api of read list cars"""
 
     payload = parser.dict()

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, error_response, resp_success, Pagination
+from extensions import error_schema, resp_success, Route, Pagination
 from apps.api_admin.entities import (
     ReadQuestionSchema, ListQuestionSchema, FilterCarParser
 )
 from apps.api_admin.logics import QuestionResolver
 
-router = APIRouter(route_class=Route, responses=error_response)
+router = APIRouter(route_class=Route, responses=error_schema)
 
 
 @router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200)

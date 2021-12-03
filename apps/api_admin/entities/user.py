@@ -1,5 +1,9 @@
 __all__ = [
-    'ReadUserSchema', 'ListUserSchema', 'UserSchema', 'PatchUserParser', 'FilterUserParser',
+    'ReadUserSchema',
+    'ListUserSchema',
+    'UserSchema',
+    'PatchUserParser',
+    'FilterUserParser'
 ]
 
 from typing import Optional

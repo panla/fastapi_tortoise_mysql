@@ -1,5 +1,6 @@
 __all__ = [
-    'CreateTokenParser', 'TokenSchema',
+    'CreateTokenParser',
+    'TokenSchema'
 ]
 
 from typing import Optional

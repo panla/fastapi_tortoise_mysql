@@ -1,7 +1,6 @@
-from apps.models import User
-from extensions.tools import random_int
-from extensions import NotFound
+from extensions import NotFound, random_int
 from redis_ext import SMSCodeRedis
+from apps.models import User
 
 
 async def create_sms_code(params: dict) -> str:

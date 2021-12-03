@@ -1,5 +1,7 @@
 __all__ = [
-    'ReadQuestionSchema', 'ListQuestionSchema', 'FilterQuestionParser',
+    'ReadQuestionSchema',
+    'ListQuestionSchema',
+    'FilterQuestionParser'
 ]
 
 from typing import Optional

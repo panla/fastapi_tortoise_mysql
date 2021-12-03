@@ -19,8 +19,8 @@ class UserResolver:
         return query
 
     @classmethod
-    async def patch_user(cls, user_id: int, params: dict):
-        user = await ResourceOp(User, user_id).instance()
+    async def patch_user(cls, user_id: int, params: dict) -> User:
+        user: User = await ResourceOp(User, user_id).instance()
 
         patch_params = dict()
         for k, v in params.items():
@@ -39,12 +39,11 @@ class UserResolver:
         for user in users:
             _user = User.to_dict(user, selects=('id', 'cellphone', 'name', 'is_delete'))
             _user['is_admin_user'] = await user.is_admin_user
-            # await user.set_attr(attrs=['is_admin_user'])
             _users.append(_user)
         return _users
 
     @classmethod
-    async def read_user(cls, user_id: int):
+    async def read_user(cls, user_id: int) -> dict:
         query = await ResourceOp(User, user_id).instance(is_delete=False)
 
         user = User.to_dict(query)

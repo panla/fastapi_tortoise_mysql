@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 
-from extensions import Route, error_response, resp_success, Pagination
+from extensions import error_schema, resp_success, Route, Pagination
 from apps.api_admin.entities import (
     ListOrderSchema, FilterCarParser
 )
 from apps.api_admin.logics import OrderResolver
 
-router = APIRouter(route_class=Route, responses=error_response)
+router = APIRouter(route_class=Route, responses=error_schema)
 
 
 @router.get('', response_model=ListOrderSchema, status_code=200)
