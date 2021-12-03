@@ -21,5 +21,6 @@ from .fields import (
 from .route import Route
 from .validators import MaxMinValidator
 from .response import resp_success
-from .tools import random_int, random_str, JsonFileOperator, FileOperator, ZipFileOperator
+from .tools import FileOperator, JsonFileOperator, ZipFileOperator
+from .tools import random_int, random_str, UidGenerator
 from .paginate import Pagination
