@@ -28,45 +28,47 @@ class BaseRedisClient(object):
     def client(self) -> Redis:
         return from_url(self.uri, **self.CONNECTION_PARAMS)
 
-    async def get(self):
+    def get(self):
         """
         Return the value at key ``name``, or None if the key doesn't exist
         """
 
-        rt = await self.client.get(self.key)
-        return rt
+        return self.client.get(self.key)
 
-    async def set(self, value, ex: Union[int, timedelta] = None, px: Union[int, timedelta] = None):
+    def set(self, value, ex: Union[int, timedelta] = None, px: Union[int, timedelta] = None):
         """Set the value at key ``name`` to ``value``
 
         ``ex`` sets an expire flag on key ``name`` for ``ex`` seconds.
         ``px`` sets an expire flag on key ``name`` for ``px`` milliseconds.
         """
 
-        await self.client.set(name=self.key, value=value, ex=ex, px=px)
+        return self.client.set(name=self.key, value=value, ex=ex, px=px)
 
-    async def setnx(self, value):
+    def setnx(self, value):
         """Set the value of key ``name`` to ``value`` if key doesn't exist"""
 
-        await self.client.setnx(name=self.key, value=value)
+        return self.client.setnx(name=self.key, value=value)
 
-    async def getset(self, value):
+    def getset(self, value):
         """
         Sets the value at key ``name`` to ``value``
         and returns the old value at key ``name`` atomically.
         """
 
-        await self.client.getset(name=self.key, value=value)
+        return self.client.getset(name=self.key, value=value)
 
-    async def expire(self, seconds):
+    def expire(self, seconds):
         """
         Set an expire flag on key ``name`` for ``time`` seconds. ``time``
         can be represented by an integer or a Python timedelta object.
         """
 
-        await self.client.expire(name=self.key, time=seconds)
+        return self.client.expire(name=self.key, time=seconds)
 
-    async def delete(self):
+    def delete(self):
         """Delete one or more keys specified by ``names``"""
 
-        await self.client.delete(self.key)
+        return self.client.delete(self.key)
+
+    def exists(self):
+        return self.client.exists(self.key)
