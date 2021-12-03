@@ -2,7 +2,7 @@ from fastapi import APIRouter, BackgroundTasks
 
 from extensions import error_schema, resp_success, Route
 from apps.api_admin.entities import CreateCodeSchema, CreateCodeParser
-from apps.api_admin.logics import create_sms_code, create_sms_code_task
+from apps.api_admin.logics import create_sms_code, send_sms_task
 
 router = APIRouter(route_class=Route, responses=error_schema)
 
@@ -18,6 +18,6 @@ async def create_code(parser: CreateCodeParser, background_tasks: BackgroundTask
 
     code = await create_sms_code(params)
 
-    background_tasks.add_task(create_sms_code_task, params=params, code=code)
+    # background_tasks.add_task(send_sms_task, params=params, code=code)
 
     return resp_success(data={'success': True, 'code': code})

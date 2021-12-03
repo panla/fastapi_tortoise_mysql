@@ -14,15 +14,19 @@ class BaseRedisClient(object):
     CONNECTION_PARAMS = {'encoding': 'utf-8', 'decode_responses': True}
 
     def __init__(self, key) -> None:
-        self.key = f'{self.PREFIX_KEY}{key}'
+        self._key = f'{self.PREFIX_KEY}{key}'
 
         self.uri = 'redis://:{}@{}:{}/{}'.format(
             Config.redis.REDIS_PASSWD, Config.redis.REDIS_HOST, Config.redis.REDIS_PORT, self.DB
         )
 
     @property
-    def class_name(self):
-        return self.__class__.__name__
+    def key(self):
+        return self._key
+
+    @key.setter
+    def key(self, value):
+        self._key = f'{self.PREFIX_KEY}{value}'
 
     @property
     def client(self) -> Redis:

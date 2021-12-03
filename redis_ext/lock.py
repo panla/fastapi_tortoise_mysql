@@ -52,4 +52,4 @@ class OrderLock(BaseResourceLock):
 
     def __init__(self, key) -> None:
         super().__init__(key)
-        self.key = f'{self.PREFIX_KEY}{self.LOCK_PREFIX_KEY}{key}'
+        self._key = f'{self.PREFIX_KEY}{self.LOCK_PREFIX_KEY}{key}'

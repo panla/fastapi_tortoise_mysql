@@ -2,6 +2,12 @@
 
 ## 0.6
 
+### 0.6.6
+
+- [ ] update/optimaizate code
+- [ ] update redis op
+- [ ] file module
+
 ### 0.6.5
 
 - update/optimaizate code
