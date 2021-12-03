@@ -7,8 +7,5 @@ class Pagination(object):
         self.page = page
         self.pagesize = pagesize
 
-    def result(self) -> QuerySet:
-        return self.query.offset((self.page - 1) * self.pagesize).limit(self.pagesize)
-
     def items(self) -> QuerySet:
         return self.query.offset((self.page - 1) * self.pagesize).limit(self.pagesize)

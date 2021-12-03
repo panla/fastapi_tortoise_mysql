@@ -45,7 +45,7 @@ async def list_users(
 
     query = UserResolver.list_users(payload)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload.get('pagesize') or total).result()
+    query = Pagination(query, payload['page'], payload.get('pagesize') or total).items()
     result = await UserResolver.response_users(await query)
 
     return resp_success(data={'total': total, 'users': result})

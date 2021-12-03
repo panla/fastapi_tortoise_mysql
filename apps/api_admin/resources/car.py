@@ -51,6 +51,6 @@ async def list_cars(
 
     query = CarResolver.list_cars(payload)
     total = await query.count()
-    result = await Pagination(query, payload['page'], payload['pagesize'] or total).result()
+    result = await Pagination(query, payload['page'], payload['pagesize'] or total).items()
 
     return resp_success(data={'total': total, 'cars': result})

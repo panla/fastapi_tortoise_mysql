@@ -19,7 +19,7 @@ async def list_orders(
 
     query = OrderResolver.list_orders(payload)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload['pagesize'] or total).result()
+    query = Pagination(query, payload['page'], payload['pagesize'] or total).items()
     orders = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'orders': orders})

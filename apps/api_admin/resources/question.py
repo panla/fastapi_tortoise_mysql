@@ -29,7 +29,7 @@ async def list_question(
 
     query = QuestionResolver.list_questions(payload)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload['pagesize'] or total).result()
+    query = Pagination(query, payload['page'], payload['pagesize'] or total).items()
     result = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'questions': result})
