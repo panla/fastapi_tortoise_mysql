@@ -26,15 +26,15 @@ class StatusCode(object):
 # don`t overwrite custom extension Exception and StatusCode 
 # example, already had raise and catch 404, don`t define 404
 
-middleware_codes = {
-    405: {'status_code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
-    406: {'status_code': StatusCode.not_acceptable, 'message': 'NOT_ACCEPTABLE', 'data': None},
-    408: {'status_code': StatusCode.request_timeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
-    411: {'status_code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
-    413: {'status_code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
-    414: {'status_code': StatusCode.request_uri_too_long, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
+middleware_code_contents = {
+    405: {'code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
+    406: {'code': StatusCode.not_acceptable, 'message': 'NOT_ACCEPTABLE', 'data': None},
+    408: {'code': StatusCode.request_timeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
+    411: {'code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
+    413: {'code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
+    414: {'code': StatusCode.request_uri_too_long, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
     431: {
-        'status_code': StatusCode.header_fields_too_large,
+        'code': StatusCode.header_fields_too_large,
         'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE',
         'data': None
     },
@@ -42,31 +42,31 @@ middleware_codes = {
 
 
 class BadRequestSchema(BaseModel):
-    status_code: int = StatusCode.bad_request
+    code: int = StatusCode.bad_request
     message: str = ''
     data: NoneType = "null"
 
 
 class UnauthorizedSchema(BaseModel):
-    status_code: int = StatusCode.unauthorized
+    code: int = StatusCode.unauthorized
     message: str = ''
     data: NoneType = "null"
 
 
 class ForbiddenSchema(BaseModel):
-    status_code: int = StatusCode.forbidden
+    code: int = StatusCode.forbidden
     message: str = ''
     data: NoneType = "null"
 
 
 class NotFoundSchema(BaseModel):
-    status_code: int = StatusCode.not_found
+    code: int = StatusCode.not_found
     message: str = ''
     data: NoneType = "null"
 
 
 class ValidatorErrorSchema(BaseModel):
-    status_code: int = StatusCode.validator_error
+    code: int = StatusCode.validator_error
     message: str = ''
     data: NoneType = "null"
 

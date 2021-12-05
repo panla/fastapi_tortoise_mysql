@@ -13,4 +13,4 @@ def resp_success(message: str = '', print_msg: str = '', data: Any = None):
     if print_msg:
         logger.info(print_msg)
 
-    return {'status_code': 10000, 'message': message, 'data': data}
+    return {'message': message, 'data': data}

@@ -25,7 +25,7 @@ def register_exception(app: FastAPI):
         """catch custom exception"""
 
         log_message(request, exc.message)
-        content = {'status_code': exc.CODE, 'message': exc.message, 'data': None}
+        content = {'code': exc.code, 'message': exc.message, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(HTTPException)
@@ -33,7 +33,7 @@ def register_exception(app: FastAPI):
         """catch FastAPI HTTPException"""
 
         log_message(request, exc.detail)
-        content = {'status_code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
+        content = {'code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(AssertionError)
@@ -42,7 +42,7 @@ def register_exception(app: FastAPI):
 
         exc_str = ''.join(exc.args)
         log_message(request, exc_str)
-        content = {'status_code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(ValidationError)
@@ -51,7 +51,7 @@ def register_exception(app: FastAPI):
 
         exc_str = '|'.join(exc.args)
         log_message(request, exc_str)
-        content = {'status_code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(RequestValidationError)
@@ -61,7 +61,7 @@ def register_exception(app: FastAPI):
         exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
         log_message(request, exc_str)
         # content = exc.errors()
-        content = {'status_code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(Exception)
@@ -69,5 +69,5 @@ def register_exception(app: FastAPI):
         """catch other exception"""
 
         log_message(request, traceback.format_exc())
-        content = {'status_code': StatusCode.server_error, 'message': str(exc), 'data': None}
+        content = {'code': StatusCode.server_error, 'message': str(exc), 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

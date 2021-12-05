@@ -1,0 +1,13 @@
+# hide dir
+.idea
+.vscode
+.svn
+
+# dir
+tmp
+logs
+venv
+
+/gunicorn_config.py
+/docker-entrypoint.sh
+/conf/*.local.toml

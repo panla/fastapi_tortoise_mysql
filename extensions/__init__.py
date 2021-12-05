@@ -1,5 +1,5 @@
 from .log import logger
-from .define import StatusCode, middleware_codes, error_schema
+from .define import StatusCode, middleware_code_contents, error_schema
 from .exceptions import (
     BaseHTTPException,
     BadRequest,

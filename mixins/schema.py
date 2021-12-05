@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class SchemaMixin(BaseModel):
 
-    status_code: int = 10000
+    code: int = 10000
     message: str = ''
     data: Optional[Any]
 

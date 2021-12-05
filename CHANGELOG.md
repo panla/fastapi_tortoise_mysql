@@ -1,17 +1,20 @@
 # ChangeLog
 
+[toc]
+
 ## 0.6
 
 ### 0.6.6
 
-- [ ] update/optimaizate code
+- [ ] update/optimize code
 - [ ] update redis op
 - [ ] file module
+- [ ] update/new `status_code code`
 
 ### 0.6.5
 
-- update/optimaizate code
-- optimaizate authentic
+- update/optimize code
+- optimize authentic
 - update `socket.io` module
 - upgrade require packages
   - python-socketio==5.5.0
