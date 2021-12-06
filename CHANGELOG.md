@@ -9,7 +9,8 @@
 - [ ] update/optimize code
 - [ ] update redis op
 - [ ] file module
-- [ ] update/new `status_code code`
+- [X] update/new `status_code code`
+- [X] update `.dockerignore`
 
 ### 0.6.5
 

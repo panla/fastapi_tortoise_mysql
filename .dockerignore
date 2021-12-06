@@ -1,13 +1,13 @@
-# hide dir
-.idea
+.git
 .vscode
+.idea
 .svn
 
-# dir
+venv
+.venv
+
 tmp
 logs
-venv
+docs
 
-/gunicorn_config.py
-/docker-entrypoint.sh
-/conf/*.local.toml
+**/__pycache__
