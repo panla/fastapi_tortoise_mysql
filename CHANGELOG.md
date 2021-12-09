@@ -6,11 +6,14 @@
 
 ### 0.6.6
 
-- [ ] update/optimize code
-- [ ] update redis op
-- [ ] file module
-- [X] update/new `status_code code`
-- [X] update `.dockerignore`
+- update/optimize code
+- update redis op
+- file module
+- update/new `status_code code`
+- update `.dockerignore`
+- upgrade/add require packages
+  - aerich==0.6.0
+  - aiofiles==0.8.0
 
 ### 0.6.5
 

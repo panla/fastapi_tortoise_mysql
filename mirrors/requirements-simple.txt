@@ -11,7 +11,7 @@ tortoise-orm==0.17.8
 tortoise-cli
 
 ## migrate
-aerich==0.5.8
+aerich==0.6.0
 
 ## redis
 aioredis==2.0.0
@@ -31,8 +31,9 @@ PyJWT==2.2.0
 cryptography==35.0.0
 passlib==1.7.4
 
-## form file
+## file
 python-multipart==0.0.5
+aiofiles==0.8.0
 
 ## speed
 Cython==0.29.24
