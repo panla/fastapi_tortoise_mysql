@@ -1,4 +1,5 @@
 from json import JSONDecodeError
+from logging import log
 
 from fastapi import Request
 from fastapi.routing import APIRoute
@@ -19,7 +20,8 @@ class Route(APIRoute):
 
             methods = ['POST', 'PUT', 'PATCH']
             content_type = request.headers.get('content-type')
-            if request.method in methods and content_type == 'application/json':
+
+            if request.method in methods and 'application/json' in content_type:
                 try:
                     params = await request.json()
                     if params:

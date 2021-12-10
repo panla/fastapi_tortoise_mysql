@@ -1,6 +1,6 @@
-import time
-from datetime import datetime, timedelta
+import os
 import traceback
+from datetime import datetime, timedelta
 
 import jwt
 from fastapi import Request, Header, Depends
@@ -76,6 +76,16 @@ class TokenResolver:
             raise Unauthorized(message='login expired, please login retry.')
 
     @classmethod
+    async def _check_redis(cls, token: str, user: User, extend_model: str, extend_user_id: int):
+        code_env = os.environ.get('CODE_ENV', 'prd')
+        if code_env == 'test':
+            token_redis_op = TokenRedis(user.cellphone, extend_model, extend_user_id)
+        else:
+            token_redis_op = TokenRedis(user.id, extend_model, extend_user_id)
+        if not await token_redis_op.get() == token:
+            raise Unauthorized(message='login expired, please login retry.')
+
+    @classmethod
     async def decode_token(cls, request: Request, token: str):
         """check token"""
 
@@ -88,9 +98,7 @@ class TokenResolver:
 
                 user, extend_user = await cls.query_user(**data)
 
-                token_redis_op = TokenRedis(user.id, extend_model, extend_user.id)
-                if not await token_redis_op.get() == token:
-                    raise Unauthorized(message='login expired, please login retry.')
+                await cls._check_redis(token, user, extend_model, extend_user.id)
 
                 request.state.user = user
                 request.state.extend_user = extend_user
