@@ -1,5 +1,6 @@
+from config import Config
 from extensions import NotFound, BadRequest
-from redis_ext import SMSCodeRedis
+from redis_ext import SMSCodeRedis, TokenRedis
 from apps.models import User, AdminUser
 from apps.modules import TokenResolver
 
@@ -21,13 +22,12 @@ class LoginResolver:
             extend_user.token_expired = token_expired
             await extend_user.save()
 
-            del sms_redis_op
+            token_redis_op = TokenRedis(user.id, extend_model, extend_user.id)
+            await token_redis_op.set(token, ex=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
 
             rt = {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}
             return rt
-        else:
-            del sms_redis_op
-            raise BadRequest(message='SMS Code error')
+        raise BadRequest(message='SMS Code error')
 
     @classmethod
     async def check_user(cls, cellphone: str, extend_model: str):

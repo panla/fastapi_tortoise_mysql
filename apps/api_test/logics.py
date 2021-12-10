@@ -12,8 +12,9 @@ class RedisTestResolver:
     async def _test_token_redis():
         extend_model = 'AdminUser'
         user_id = 1
+        extend_user_id = 1
 
-        obj = TokenRedis(f'{extend_model}:{user_id}')
+        obj = TokenRedis(user_id, extend_model, extend_user_id)
         rt_0 = await obj.set_login_info({'name': '123', 'age': 14})
 
         rt_1 = await obj.get_login_info(['name'])

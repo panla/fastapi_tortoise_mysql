@@ -5,11 +5,22 @@ from .base import BaseRedisClient
 
 
 class BaseResourceLock(BaseRedisClient):
-    """full key: resource_lock:{key}"""
+    """full key: resource_lock:{key}
+
+    setnx
+    get
+    getset
+    expire
+    """
 
     DB = 2
-    PREFIX_KEY = 'resource_lock:'
+    PREFIX_KEY = 'resource_lock'
+    LOCK_PREFIX_KEY = 'resources'
     _timeout = 3600
+
+    def __init__(self, key) -> None:
+        super().__init__()
+        self.key = f'{self.PREFIX_KEY}:{self.LOCK_PREFIX_KEY}:{key}'
 
     async def get_lock(self) -> Tuple[bool, Union[str, None]]:
         """get the lock"""
@@ -31,25 +42,10 @@ class BaseResourceLock(BaseRedisClient):
             return False, None
         return False, None
 
-    async def del_lock(self):
-        """del the lock"""
-
-        await self.delete()
-
-    async def verify_lock(self, value):
-        """verify lock"""
-
-        rt = await self.get()
-        return bool(rt == value)
-
 
 class OrderLock(BaseResourceLock):
     """full key: recource_lock:orders:{key}"""
 
     DB = 2
-    LOCK_PREFIX_KEY = 'orders:'
+    LOCK_PREFIX_KEY = 'orders'
     _timeout = 3600
-
-    def __init__(self, key) -> None:
-        super().__init__(key)
-        self._key = f'{self.PREFIX_KEY}{self.LOCK_PREFIX_KEY}{key}'

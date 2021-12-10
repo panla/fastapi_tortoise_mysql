@@ -1,7 +1,7 @@
 from typing import Union
 from datetime import timedelta
 
-from aioredis import Redis, from_url
+from aioredis import Redis
 
 from config import Config
 
@@ -13,24 +13,17 @@ class BaseRedisClient(object):
     PREFIX_KEY = ''
     CONNECTION_PARAMS = {'encoding': 'utf-8', 'decode_responses': True}
 
-    def __init__(self, key) -> None:
-        self._key = f'{self.PREFIX_KEY}{key}'
-
+    def __init__(self) -> None:
         self.uri = 'redis://:{}@{}:{}/{}'.format(
             Config.redis.REDIS_PASSWD, Config.redis.REDIS_HOST, Config.redis.REDIS_PORT, self.DB
         )
 
     @property
-    def key(self):
-        return self._key
-
-    @key.setter
-    def key(self, value):
-        self._key = f'{self.PREFIX_KEY}{value}'
-
-    @property
     def client(self) -> Redis:
-        return from_url(self.uri, **self.CONNECTION_PARAMS)
+        # source code
+        # connection_pool = ConnectionPool.from_url(url, **kwargs)
+
+        return Redis.from_url(self.uri, **self.CONNECTION_PARAMS)
 
     def get(self):
         """
@@ -73,6 +66,3 @@ class BaseRedisClient(object):
         """Delete one or more keys specified by ``names``"""
 
         return self.client.delete(self.key)
-
-    def exists(self):
-        return self.client.exists(self.key)

@@ -8,6 +8,7 @@ from tortoise.exceptions import OperationalError
 
 from config import Config
 from extensions import BadRequest, Unauthorized, NotFound, logger
+from redis_ext import TokenRedis
 from apps.models import User, AdminUser
 
 
@@ -78,16 +79,18 @@ class TokenResolver:
     async def decode_token(cls, request: Request, token: str):
         """check token"""
 
-        now = time.time()
         try:
             secret = Config.authentic.ADMIN_SECRETS
             payload = jwt.decode(token, secret, algorithms='HS256', options={'verify_exp': True})
             if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
                 data: dict = payload.get('data')
+                extend_model = data.get('extend_model')
 
                 user, extend_user = await cls.query_user(**data)
 
-                cls.check_timeout(extend_user, now, data)
+                token_redis_op = TokenRedis(user.id, extend_model, extend_user.id)
+                if not await token_redis_op.get() == token:
+                    raise Unauthorized(message='login expired, please login retry.')
 
                 request.state.user = user
                 request.state.extend_user = extend_user

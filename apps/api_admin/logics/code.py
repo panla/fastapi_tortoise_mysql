@@ -1,7 +1,6 @@
 import asyncio
 
-from extensions import NotFound, random_int
-from extensions.exceptions import BadRequest
+from extensions import NotFound, BadRequest, random_int
 from redis_ext import SMSCodeRedis
 from apps.models import User
 
@@ -16,10 +15,12 @@ async def create_sms_code(params: dict) -> str:
             raise BadRequest(message='Request too fast!')
 
         code = random_int(length=6)
+
+        # long key
         await sms_redis_op.set(value=code, ex=20)
 
         # short key
-        sms_redis_op.key = cellphone
+        sms_redis_op = SMSCodeRedis(cellphone)
         await sms_redis_op.set(value=code, ex=60)
 
         return code
