@@ -1,9 +1,12 @@
-import os
 import random
 import string
 import json
 import zipfile
 import string
+import uuid
+from pathlib import Path
+
+import aiofiles
 
 
 class FileOperatorBase:
@@ -14,18 +17,21 @@ class FileOperatorBase:
 
 class FileOperator(FileOperatorBase):
 
-    def save(self, data, filename: str):
+    async def save(self, data, mode: str = 'w'):
+        async with aiofiles.open(self.path, mode, encoding='utf-8') as f:
+            await f.write(data)
 
-        return data.save(os.path.join(self.path, filename))
+    async def save_binary(self, data):
+        async with open(self.path, 'wb') as f:
+            await f.write(data)
 
-    def read_binary(self):
-        with open(self.path, 'rb') as f:
-            return f.read()
-
-    def read(self):
-
+    async def read(self):
         with open(self.path, 'r', encoding='utf-8') as f:
-            return f.read()
+            return await f.read()
+
+    async def read_binary(self):
+        async with open(self.path, 'rb') as f:
+            return await f.read()
 
 
 class ZipFileOperator(FileOperatorBase):
@@ -35,12 +41,11 @@ class ZipFileOperator(FileOperatorBase):
         :return: None
         """
 
-        zip_path = os.path.join(self.path, zip_name)
+        zip_path = Path(self.path).joinpath(zip)
         if zipfile.is_zipfile(zip_path):
             try:
-                fz = zipfile.ZipFile(zip_path, 'r')
-                for file in fz.namelist():
-                    fz.extract(file, self.path)
+                with zipfile.ZipFile(zip_path, 'r') as fz:
+                    fz.extractall(zip_path)
             except Exception:
                 raise Exception("Unpack the failure")
         else:
@@ -49,7 +54,7 @@ class ZipFileOperator(FileOperatorBase):
     def zip(self, zip_path: str, dst_path: str, file_list: list):
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip:
             for filename in file_list:
-                zip.write(os.path.join(dst_path, filename), filename)
+                zip.write(Path(dst_path).joinpath(filename), filename)
         return zip_path
 
 
@@ -91,3 +96,16 @@ def random_int(length: int = 4) -> str:
     all_char = string.digits
     return ''.join(random.sample(all_char, length))
 
+
+class UidGenerator:
+
+    def u_id(self) -> str:
+        """len = 72"""
+
+        return f'{random_str(20)}{uuid.uuid4().hex}{random_str(20)}'
+
+    def __str__(self) -> str:
+        return self.u_id()
+
+    def __repr__(self) -> str:
+        return self.u_id()

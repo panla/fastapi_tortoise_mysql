@@ -22,7 +22,8 @@ class LoginResolver:
             extend_user.token_expired = token_expired
             await extend_user.save()
 
-            token_redis_op = TokenRedis(user.id, extend_model, extend_user.id)
+            # save redis
+            token_redis_op = TokenRedis(cellphone, extend_model, extend_user.id)
             await token_redis_op.set(token, ex=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
 
             rt = {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}

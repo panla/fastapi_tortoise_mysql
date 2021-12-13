@@ -5,6 +5,7 @@ create a blank migration sql file
 import argparse
 import os
 import sys
+from pathlib import Path
 from datetime import datetime
 
 parser = argparse.ArgumentParser()
@@ -15,13 +16,14 @@ params = parser.parse_args().__dict__
 migration_dir = params.get('dir')
 migration_name = params.get('name')
 
-if not os.path.isdir(migration_dir):
-    os.makedirs(migration_dir, exist_ok=True)
+migration_dir_p = Path(migration_dir)
+if not migration_dir_p.is_dir():
+    migration_dir_p.mkdir(exist_ok=True)
 
 now = datetime.now().strftime('%Y%m%d%H%M%S')
 
 # get the new latest sql file index
-exists_sql_file_names = os.listdir(migration_dir)
+exists_sql_file_names = os.listdir(migration_dir_p)
 if exists_sql_file_names:
     latest_sql_file_index = max([int(f.split('_')[0]) for f in exists_sql_file_names])
     new_latest_sql_file_index = latest_sql_file_index + 1
@@ -37,7 +39,8 @@ data = """-- upgrade --
 
 """
 
-with open(os.path.join(migration_dir, new_latest_sql_file_name), 'w', encoding='utf-8') as f:
+
+with open(migration_dir_p.joinpath(new_latest_sql_file_name), 'w', encoding='utf-8') as f:
     f.write(data)
 
 sys.stdout.write(f'create {migration_name} done\n')

@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from conf.settings import LogConfig, ServiceConfig, AuthenticConfig, SocketIOConfig, RedisConfig, DBConfig, DBSetting
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = Path(__file__).absolute().parent
 
 
 class Setting(BaseModel):

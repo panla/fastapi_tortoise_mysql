@@ -1,4 +1,3 @@
-import os
 import traceback
 from datetime import datetime, timedelta
 
@@ -77,11 +76,7 @@ class TokenResolver:
 
     @classmethod
     async def _check_redis(cls, token: str, user: User, extend_model: str, extend_user_id: int):
-        code_env = os.environ.get('CODE_ENV', 'prd')
-        if code_env == 'test':
-            token_redis_op = TokenRedis(user.cellphone, extend_model, extend_user_id)
-        else:
-            token_redis_op = TokenRedis(user.id, extend_model, extend_user_id)
+        token_redis_op = TokenRedis(user.cellphone, extend_model, extend_user_id)
         if not await token_redis_op.get() == token:
             raise Unauthorized(message='login expired, please login retry.')
 

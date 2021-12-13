@@ -7,6 +7,7 @@ If found, record the target and file path in the log
 import argparse
 import os
 import sys
+from pathlib import Path
 
 param_parser = argparse.ArgumentParser()
 param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=True, help='dirs')
@@ -19,8 +20,9 @@ directions = []
 
 if dirs:
     for d in dirs:
-        if os.path.isdir(os.path.abspath(d)):
-            directions.append(os.path.abspath(d))
+        _d = Path(d).absolute()
+        if _d.is_dir():
+            directions.append(_d)
 else:
     sys.stderr.write(f'your input -d/--dirs {dirs} error')
     sys.exit(1)
@@ -55,7 +57,7 @@ found_data = []
 for direction in directions:
     for root, _, files in os.walk(direction):
         for file in files:
-            file_path = os.path.join(root, file)
+            file_path = Path(root, file)
             txt = read_file(file_path)
             for target in targets:
                 if target in txt:
@@ -63,7 +65,7 @@ for direction in directions:
                     found_data.append(f'{target} {file_path}\n')
 
 if log_file:
-    os.makedirs(os.path.dirname(os.path.abspath(log_file)), exist_ok=True)
+    Path(log_file).absolute().parent.mkdir(exist_ok=True)
     for found_d in found_data:
         write_file(log_file, found_d)
 

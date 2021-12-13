@@ -2,14 +2,14 @@ from .base import BaseRedisClient
 
 
 class TokenRedis(BaseRedisClient):
-    """full key: token:{user_id}:{extend_model}:{extend_user_id}"""
+    """full key: token:{phone}:{extend_model}:{extend_user_id}"""
 
     DB = 1
     PREFIX_KEY = 'token'
 
-    def __init__(self, user_id, extend_model, extend_user_id) -> None:
+    def __init__(self, phone: str, extend_model: str, extend_user_id: int) -> None:
         super().__init__()
-        self.key = f'{self.PREFIX_KEY}:{user_id}:{extend_model}:{extend_user_id}'
+        self.key = f'{self.PREFIX_KEY}:{phone}:{extend_model}:{extend_user_id}'
 
     def set_login_info(self, mapping: dict):
         """set token

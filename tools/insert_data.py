@@ -54,16 +54,14 @@ if batch_size <= 0:
     sys.exit(1)
 
 
-def build_instances(model_class, dic_list: List[dict]):
+def _build_instances(model_class, dic_list: List[dict]):
     """create some Model instance"""
 
-    rt = []
     for per_dic in dic_list:
-        rt.append(model_class(**per_dic))
-    return rt
+        yield model_class(**per_dic)
 
 
-def read_json_file(path: str) -> List[dict]:
+def _read_json_file(path: str) -> List[dict]:
     """read json file and return dict"""
 
     with open(path, 'r', encoding='utf-8') as f:
@@ -74,9 +72,9 @@ def read_json_file(path: str) -> List[dict]:
 async def create_data():
     try:
         model_class = getattr(models_file, ModelClassStr)
-        origin_data = read_json_file(file_path)
+        origin_data = _read_json_file(file_path)
         await getattr(model_class, 'bulk_create')(
-            objects=build_instances(model_class, origin_data), batch_size=batch_size
+            objects=_build_instances(model_class, origin_data), batch_size=batch_size
         )
         sys.stdout.write('create data over\n')
     except Exception as exc:

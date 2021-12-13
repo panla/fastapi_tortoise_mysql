@@ -1,9 +1,12 @@
-import os
 import random
 import string
 import json
 import zipfile
+import string
 import uuid
+from pathlib import Path
+
+import aiofiles
 
 
 class FileOperatorBase:
@@ -14,21 +17,21 @@ class FileOperatorBase:
 
 class FileOperator(FileOperatorBase):
 
-    def save(self, data, mode: str = 'w'):
-        with open(self.path, mode, encoding='utf-8') as f:
-            f.write(data)
+    async def save(self, data, mode: str = 'w'):
+        async with aiofiles.open(self.path, mode, encoding='utf-8') as f:
+            await f.write(data)
 
-    def save_binary(self, data):
-        with open(self.path, 'wb') as f:
-            f.write(data)
+    async def save_binary(self, data):
+        async with open(self.path, 'wb') as f:
+            await f.write(data)
 
-    def read(self):
+    async def read(self):
         with open(self.path, 'r', encoding='utf-8') as f:
-            return f.read()
+            return await f.read()
 
-    def read_binary(self):
-        with open(self.path, 'rb') as f:
-            return f.read()
+    async def read_binary(self):
+        async with open(self.path, 'rb') as f:
+            return await f.read()
 
 
 class JsonFileOperator(FileOperatorBase):
@@ -43,29 +46,27 @@ class JsonFileOperator(FileOperatorBase):
             json.dump(data, f, ensure_ascii=False, indent=indent)
 
 
-class ZipFileOperator:
+class ZipFileOperator(FileOperatorBase):
 
-    @classmethod
-    def unzip(cls, zip_dir: str, zip_name: str):
+    def unzip(self, zip_name: str):
         """unzip -> path/zip_name
         :return: None
         """
 
-        zip_path = os.path.join(zip_dir, zip_name)
+        zip_path = Path(self.path).joinpath(zip)
         if zipfile.is_zipfile(zip_path):
             try:
                 with zipfile.ZipFile(zip_path, 'r') as fz:
-                    fz.extractall(zip_dir)
+                    fz.extractall(zip_path)
             except Exception:
                 raise Exception("Unpack the failure")
         else:
             raise Exception("Not a compressed file")
 
-    @classmethod
-    def zip(cls, zip_path: str, dst_path: str, file_list: list):
+    def zip(self, zip_path: str, dst_path: str, file_list: list):
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip:
             for filename in file_list:
-                zip.write(os.path.join(dst_path, filename), filename)
+                zip.write(Path(dst_path).joinpath(filename), filename)
         return zip_path
 
 

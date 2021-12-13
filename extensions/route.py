@@ -1,5 +1,4 @@
 from json import JSONDecodeError
-from logging import log
 
 from fastapi import Request
 from fastapi.routing import APIRoute

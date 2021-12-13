@@ -2,7 +2,7 @@ __all__ = [
     'create_database', 'delete_database'
 ]
 
-import os
+from pathlib import Path
 
 from tortoise import Tortoise
 
@@ -12,7 +12,7 @@ from tests.utils import JsonFileOperator
 
 
 def _build_instances(Model, file: str):
-    file = os.path.join(BASE_DIR, f'tests/fixture_data/{file}')
+    file = Path(BASE_DIR).joinpath(f'tests/fixture_data/{file}')
     for per_dic in JsonFileOperator(file).read():
         yield Model(**per_dic)
 
