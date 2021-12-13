@@ -19,7 +19,7 @@ hiredis==2.0.0
 
 ## web server
 gunicorn==20.1.0
-uvicorn==0.15.0
+uvicorn==0.16.0
 
 ## log
 loguru==0.5.3

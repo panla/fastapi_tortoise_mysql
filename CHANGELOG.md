@@ -14,6 +14,7 @@
 - upgrade/add require packages
   - aerich==0.6.0
   - aiofiles==0.8.0
+  - uvicorn==0.16.0
 
 ### 0.6.5
 

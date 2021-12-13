@@ -36,6 +36,6 @@ starlette==0.14.2
 tomlkit==0.7.2
 tortoise-orm==0.17.8
 typing-extensions==3.10.0.2
-uvicorn==0.15.0
+uvicorn==0.16.0
 uvloop==0.16.0
 websockets==10.1
