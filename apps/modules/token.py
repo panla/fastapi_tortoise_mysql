@@ -5,7 +5,7 @@ import jwt
 from fastapi import Request, Header, Depends
 from tortoise.exceptions import OperationalError
 
-from config import Config
+from config import AuthenticConfig
 from extensions import BadRequest, Unauthorized, NotFound, logger
 from redis_ext import TokenRedis
 from apps.models import User, AdminUser
@@ -20,7 +20,7 @@ class TokenResolver:
         """generate jwt token"""
 
         login_time = datetime.now()
-        token_expired = login_time + timedelta(seconds=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
+        token_expired = login_time + timedelta(seconds=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
         try:
             payload = {
@@ -35,7 +35,7 @@ class TokenResolver:
                     'token_expired': token_expired.timestamp()
                     }
             }
-            token = jwt.encode(payload, Config.authentic.ADMIN_SECRETS, algorithm="HS256")
+            token = jwt.encode(payload, AuthenticConfig.ADMIN_SECRETS, algorithm="HS256")
             return token, login_time, token_expired
         except Exception as e:
             raise BadRequest(message=str(e))
@@ -85,7 +85,7 @@ class TokenResolver:
         """check token"""
 
         try:
-            secret = Config.authentic.ADMIN_SECRETS
+            secret = AuthenticConfig.ADMIN_SECRETS
             payload = jwt.decode(token, secret, algorithms='HS256', options={'verify_exp': True})
             if isinstance(payload, dict) and isinstance(payload.get('data'), dict):
                 data: dict = payload.get('data')

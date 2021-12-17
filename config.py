@@ -9,19 +9,20 @@ from functools import lru_cache
 import pytomlpp
 from pydantic import BaseModel
 
-from conf.settings import LogConfig, ServiceConfig, AuthenticConfig, SocketIOConfig, RedisConfig, DBConfig, DBSetting
-
+from conf.settings import (
+    LogSetting, ServiceSetting, AuthenticSetting, SocketIOSetting, RedisSetting, DBSetting, ORMSetting
+)
 
 BASE_DIR = Path(__file__).absolute().parent
 
 
 class Setting(BaseModel):
-    log: LogConfig
-    service: ServiceConfig
-    authentic: AuthenticConfig
-    socket_io: SocketIOConfig
-    redis: RedisConfig
-    db: DBConfig
+    log: LogSetting
+    service: ServiceSetting
+    authentic: AuthenticSetting
+    socket_io: SocketIOSetting
+    redis: RedisSetting
+    db: DBSetting
 
 
 @lru_cache()
@@ -42,6 +43,12 @@ def get_settings() -> Setting:
 
 Config = get_settings()
 
-ORM_LINK_CONF = DBSetting(Config.db).orm_link_conf
-ORM_MIGRATE_CONF = DBSetting(Config.db).orm_migrate_conf
-ORM_TEST_MIGRATE_CONF = DBSetting(Config.db).orm_test_migrate_conf
+ORM_LINK_CONF = ORMSetting(Config.db).orm_link_conf
+ORM_MIGRATE_CONF = ORMSetting(Config.db).orm_migrate_conf
+ORM_TEST_MIGRATE_CONF = ORMSetting(Config.db).orm_test_migrate_conf
+
+LogConfig = Config.log
+ServiceConfig = Config.service
+AuthenticConfig = Config.authentic
+SocketIOConfig = Config.socket_io
+RedisConfig = Config.redis

@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 
-from config import Config
+from config import ServiceConfig
 from apps.libs import init_app
 
 
 def create_app():
-    app = FastAPI(include_in_schema=Config.service.INCLUDE_IN_SCHEMA)
+    app = FastAPI(include_in_schema=ServiceConfig.INCLUDE_IN_SCHEMA)
 
     app = init_app(app)
 

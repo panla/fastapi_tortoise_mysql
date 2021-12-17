@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from aioredis import Redis
 
-from config import Config
+from config import RedisConfig
 
 REDIS_CLIENT_CACHE = {}
 
@@ -15,7 +15,7 @@ class BaseRedisClient(object):
 
     def __init__(self) -> None:
         self.uri = 'redis://:{}@{}:{}/{}'.format(
-            Config.redis.REDIS_PASSWD, Config.redis.REDIS_HOST, Config.redis.REDIS_PORT, self.DB
+            RedisConfig.REDIS_PASSWD, RedisConfig.REDIS_HOST, RedisConfig.REDIS_PORT, self.DB
         )
 
     @property

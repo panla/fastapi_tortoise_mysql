@@ -1,6 +1,6 @@
 from fastapi import APIRouter, BackgroundTasks
 
-from extensions import error_schema, resp_success, Route
+from extensions import Route, error_schema, resp_success
 from apps.api_admin.entities import CreateCodeSchema, CreateCodeParser
 from apps.api_admin.logics import create_sms_code, send_sms_task
 

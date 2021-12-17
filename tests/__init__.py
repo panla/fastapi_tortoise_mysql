@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).parent.parent
 
 sys.path.append(BASE_DIR)
 
-from config import Config, ORM_TEST_MIGRATE_CONF
+from config import AuthenticConfig, ORM_TEST_MIGRATE_CONF
 from apps.application import create_app
 from extensions import NotFound, BadRequest
 from redis_ext import TokenRedis

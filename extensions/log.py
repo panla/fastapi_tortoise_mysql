@@ -5,10 +5,10 @@ from pathlib import Path
 
 from loguru import logger
 
-from config import Config
+from config import LogConfig
 
-LOG_LEVEL = Config.log.LOG_LEVEL
-LOG_PATH = Config.log.LOG_PATH
+LOG_LEVEL = LogConfig.LOG_LEVEL
+LOG_PATH = LogConfig.LOG_PATH
 
 Path(LOG_PATH).parent.mkdir(exist_ok=True)
 

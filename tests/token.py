@@ -6,7 +6,7 @@ import os
 
 from tortoise import Tortoise
 
-from tests import Config, ORM_TEST_MIGRATE_CONF
+from tests import AuthenticConfig, ORM_TEST_MIGRATE_CONF
 from tests import NotFound, BadRequest, TokenResolver
 from tests import User, AdminUser
 from tests import TokenRedis
@@ -35,7 +35,7 @@ async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
     await extend_user.save()
 
     token_redis_op = TokenRedis(user.cellphone, extend_model, extend_user.id)
-    await token_redis_op.set(token, ex=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
+    await token_redis_op.set(token, ex=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
     return token
 

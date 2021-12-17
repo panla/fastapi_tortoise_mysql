@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from extensions import error_schema, resp_success, Route, Pagination
+from extensions import Route, Pagination, error_schema, resp_success
 from apps.api_admin.entities import (
     ListOrderSchema, FilterCarParser
 )

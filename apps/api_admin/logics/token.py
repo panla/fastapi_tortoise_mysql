@@ -1,4 +1,4 @@
-from config import Config
+from config import AuthenticConfig
 from extensions import NotFound, BadRequest
 from redis_ext import SMSCodeRedis, TokenRedis
 from apps.models import User, AdminUser
@@ -24,7 +24,7 @@ class LoginResolver:
 
             # save redis
             token_redis_op = TokenRedis(cellphone, extend_model, extend_user.id)
-            await token_redis_op.set(token, ex=Config.authentic.ADMIN_TOKEN_EXP_DELTA)
+            await token_redis_op.set(token, ex=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
             rt = {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}
             return rt

@@ -2,7 +2,7 @@ import socketio
 from socketio import AsyncServer
 from fastapi import FastAPI
 
-from config import Config
+from config import SocketIOConfig, ServiceConfig
 from extensions import logger
 from .namespace import NameSpaceSIO
 
@@ -26,16 +26,16 @@ socket_io = SocketIO(sio_server)
 def init_sub_app(app: FastAPI):
     """mount sub app"""
 
-    if Config.service.SOCKET_IO_ON:
+    if ServiceConfig.SOCKET_IO_ON:
 
-        socket_io_app = socketio.ASGIApp(sio_server, socketio_path=Config.socket_io.SOCKET_IO_PATH)
+        socket_io_app = socketio.ASGIApp(sio_server, socketio_path=SocketIOConfig.SOCKET_IO_PATH)
 
         # register more namespaces
-        for namespace in Config.socket_io.SOCKET_IO_NAMESPACES:
+        for namespace in SocketIOConfig.SOCKET_IO_NAMESPACES:
             ns_sio = NameSpaceSIO(namespace=namespace)
             socket_io.register_namespace(ns_sio)
 
-        app.mount(Config.socket_io.SOCKET_IO_MOUNT, socket_io_app)
+        app.mount(SocketIOConfig.SOCKET_IO_MOUNT, socket_io_app)
 
         logger.info('start socket.io service 5')
 

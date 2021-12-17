@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import error_schema, resp_success, Route, Pagination
+from extensions import Route, Pagination, error_schema, resp_success
 from apps.modules import current_admin_user
 from apps.api_admin.entities import (
     ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser

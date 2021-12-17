@@ -4,12 +4,12 @@ from functools import lru_cache
 from pydantic import BaseModel
 
 
-class LogConfig(BaseModel):
+class LogSetting(BaseModel):
     LOG_LEVEL: str = 'DEBUG'
     LOG_PATH: str
 
 
-class ServiceConfig(BaseModel):
+class ServiceSetting(BaseModel):
     # openapi swagger
     INCLUDE_IN_SCHEMA: bool = True
 
@@ -17,24 +17,24 @@ class ServiceConfig(BaseModel):
     SOCKET_IO_ON: bool = False
 
 
-class AuthenticConfig(BaseModel):
+class AuthenticSetting(BaseModel):
     ADMIN_SECRETS: str
     ADMIN_TOKEN_EXP_DELTA: int = 864000
 
 
-class SocketIOConfig(BaseModel):
+class SocketIOSetting(BaseModel):
     SOCKET_IO_NAMESPACES: List[str] = ['/']
     SOCKET_IO_PATH: str = 'socket.io'
     SOCKET_IO_MOUNT: str = '/'
 
 
-class RedisConfig(BaseModel):
+class RedisSetting(BaseModel):
     REDIS_HOST: str = '127.0.0.1'
     REDIS_PORT: int = 6379
     REDIS_PASSWD: str = ''
 
 
-class DBConfig(BaseModel):
+class DBSetting(BaseModel):
     DB_POOL_RECYCLE: str = 1000
 
     DB_USER: str = 'root'
@@ -45,7 +45,7 @@ class DBConfig(BaseModel):
     DB_MAX_SIZE: int = 5
 
 
-class DBSetting():
+class ORMSetting():
     def __init__(self, db):
         self.db = db
 
