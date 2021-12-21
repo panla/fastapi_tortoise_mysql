@@ -25,10 +25,10 @@ uvicorn==0.16.0
 loguru==0.5.3
 
 ## jwt
-PyJWT==2.2.0
+PyJWT==2.3.0
 
 ## password
-cryptography==35.0.0
+cryptography==36.0.1
 passlib==1.7.4
 
 ## file
@@ -36,19 +36,9 @@ python-multipart==0.0.5
 aiofiles==0.8.0
 
 ## speed
-Cython==0.29.24
+Cython==0.29.26
 uvloop==0.16.0
 httptools==0.3.0
-
-## socket.io websockets
-python-engineio==4.3.0
-python-socketio==5.5.0
-websockets==10.1
-
-## socket.io websockets client
-"python-socketio[client]"
-"python-socketio[asyncio_client]"
-websocket-client==1.2.1
 
 ## test
 pytest==6.2.5
@@ -58,4 +48,4 @@ pytest-html==3.1.1
 pytest-metadata==1.11.0
 
 ## file read
-pytomlpp==1.0.3
+pytomlpp==1.0.9
