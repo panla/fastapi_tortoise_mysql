@@ -10,7 +10,7 @@ import pytomlpp
 from pydantic import BaseModel
 
 from conf.settings import (
-    LogSetting, ServiceSetting, AuthenticSetting, SocketIOSetting, RedisSetting, DBSetting, ORMSetting
+    LogSetting, ServiceSetting, AuthenticSetting, RedisSetting, DBSetting, ORMSetting
 )
 
 BASE_DIR = Path(__file__).absolute().parent
@@ -20,7 +20,6 @@ class Setting(BaseModel):
     log: LogSetting
     service: ServiceSetting
     authentic: AuthenticSetting
-    socket_io: SocketIOSetting
     redis: RedisSetting
     db: DBSetting
 
@@ -50,5 +49,9 @@ ORM_TEST_MIGRATE_CONF = ORMSetting(Config.db).orm_test_migrate_conf
 LogConfig = Config.log
 ServiceConfig = Config.service
 AuthenticConfig = Config.authentic
-SocketIOConfig = Config.socket_io
 RedisConfig = Config.redis
+
+DefaultPageNum = 1
+DefaultPageSize = 10
+MaxPageSize = 40
+MinPageNum = 1

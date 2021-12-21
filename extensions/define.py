@@ -23,7 +23,7 @@ class StatusCode(object):
     unknown_error = 45001
 
 
-# don`t overwrite custom extension Exception and StatusCode 
+# don`t overwrite custom extension Exception and StatusCode
 # example, already had raise and catch 404, don`t define 404
 
 middleware_code_contents = {

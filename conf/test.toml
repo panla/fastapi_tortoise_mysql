@@ -23,14 +23,8 @@ LOG_PATH = "/home/user/srv/ftm/logs/local/x.log"
 [service]
 # schema swagger
 INCLUDE_IN_SCHEMA = true
-SOCKET_IO_ON = true
 
 [authentic]
 
 ADMIN_SECRETS = "SZjj5S8NgOcuq8LH+bAtDw=="
 TOKEN_EXP_DELTA_ADMIN = 864000
-
-[socket_io]
-SOCKET_IO_PATH = "socket.io"
-SOCKET_IO_NAMESPACES = ["/message", "/chat"]
-SOCKET_IO_MOUNT = "/"

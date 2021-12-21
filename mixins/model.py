@@ -2,7 +2,6 @@ from typing import Tuple, Type
 
 from tortoise import fields
 from tortoise.models import Model
-from tortoise.queryset import QuerySet
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 from tortoise.contrib.pydantic.base import PydanticListModel, PydanticModel
 
@@ -53,10 +52,6 @@ class ModelMixin(object):
             computed: Tuple[str, ...] = ()
     ) -> Type[PydanticListModel]:
         return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)
-
-    @classmethod
-    def paginate(cls, query, page: int = 1, pagesize: int = 10) -> QuerySet:
-        return query.offset((page - 1) * pagesize).limit(pagesize)
 
     @staticmethod
     def to_dict(instance, selects: tuple = None, excludes: tuple = None) -> dict:

@@ -1,5 +1,6 @@
 from typing import Optional, Any, Dict
 
+from fastapi import status
 from starlette.exceptions import HTTPException
 
 from extensions import StatusCode
@@ -7,7 +8,7 @@ from extensions import StatusCode
 
 class BaseHTTPException(HTTPException):
     MESSAGE = None
-    STATUS_CODE = 400
+    STATUS_CODE = status.HTTP_400_BAD_REQUEST
     CODE = 40000
 
     def __init__(
@@ -28,30 +29,30 @@ class BaseHTTPException(HTTPException):
 
 
 class BadRequest(BaseHTTPException):
-    STATUS_CODE = 400
+    STATUS_CODE = status.HTTP_400_BAD_REQUEST
     CODE = StatusCode.bad_request
 
 
 class Unauthorized(BaseHTTPException):
-    STATUS_CODE = 401
+    STATUS_CODE = status.HTTP_401_UNAUTHORIZED
     CODE = StatusCode.unauthorized
 
 
 class Forbidden(BaseHTTPException):
-    STATUS_CODE = 403
+    STATUS_CODE = status.HTTP_403_FORBIDDEN
     CODE = StatusCode.forbidden
 
 
 class NotFound(BaseHTTPException):
-    STATUS_CODE = 404
+    STATUS_CODE = status.HTTP_404_NOT_FOUND
     CODE = StatusCode.not_found
 
 
 class MethodNotAllowed(BaseHTTPException):
-    STATUS_CODE = 405
+    STATUS_CODE = status.HTTP_405_METHOD_NOT_ALLOWED
     CODE = StatusCode.method_not_allowed
 
 
 class Locked(BaseHTTPException):
-    STATUS_CODE = 423
+    STATUS_CODE = status.HTTP_423_LOCKED
     CODE = StatusCode.locked
