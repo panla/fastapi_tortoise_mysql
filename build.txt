@@ -10,7 +10,6 @@ conf
 extensions
 mixins
 redis_ext
-sockets
 tests/v1_admin
 tests
 tools
