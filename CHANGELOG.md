@@ -4,6 +4,16 @@
 
 ## 0.6
 
+### 0.6.7
+
+update/optimize
+
+add
+
+fix
+
+require packages
+
 ### 0.6.6
 
 update/optimize

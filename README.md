@@ -10,8 +10,6 @@
 - *asyncio*
 - *fastapi* <https://github.com/tiangolo/fastapi>
 - *tortoise-orm* <https://github.com/tortoise/tortoise-orm>
-- *socket.io* <https://github.com/miguelgrinberg/python-socketio>
-- *websockets*
 - *MySQL*
 - *Redis*
 
@@ -120,7 +118,3 @@ project
     ├── logs
     │   └── api
 ```
-
-## other
-
-- if use `socket.io`, don`t use gunicorn, but uvicorn
