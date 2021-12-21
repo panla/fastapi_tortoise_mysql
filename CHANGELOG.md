@@ -6,15 +6,32 @@
 
 ### 0.6.6
 
+update/optimize
+
 - update/optimize code
 - update redis op
 - file module
 - update/new `status_code code`
 - update `.dockerignore`
-- upgrade/add require packages
-  - aerich==0.6.0
-  - aiofiles==0.8.0
-  - uvicorn==0.16.0
+- remove some magic num
+
+require packages
+
+- aerich==0.6.0
+- aiofiles==0.8.0
+- uvicorn==0.16.0
+- async-timeout==3.0.1
+- cryptography==36.0.1
+- Cython==0.29.26
+- PyJWT==2.3.0
+- pyparsing==3.0.6
+- pytomlpp==1.0.9
+- `typing_extensions`==4.0.1
+
+remove
+
+- remove `socket.io` module, require package, config
+- Detach `socket.io` module to <https://github.com/panla/fastapi_sockets>
 
 ### 0.6.5
 
