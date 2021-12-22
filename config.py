@@ -1,5 +1,13 @@
 __all__ = [
-    'Config', 'ORM_LINK_CONF', 'ORM_MIGRATE_CONF', 'ORM_TEST_MIGRATE_CONF'
+    'BASE_DIR',
+    'Config',
+    'ORM_LINK_CONF',
+    'ORM_MIGRATE_CONF',
+    'ORM_TEST_MIGRATE_CONF',
+    'LogConfig',
+    'ServiceConfig',
+    'AuthenticConfig',
+    'RedisConfig'
 ]
 
 import os
@@ -50,8 +58,3 @@ LogConfig = Config.log
 ServiceConfig = Config.service
 AuthenticConfig = Config.authentic
 RedisConfig = Config.redis
-
-DefaultPageNum = 1
-DefaultPageSize = 10
-MaxPageSize = 40
-MinPageNum = 1

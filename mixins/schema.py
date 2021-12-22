@@ -3,7 +3,7 @@ from typing import Optional, Any
 from fastapi import Query
 from pydantic import BaseModel
 
-from config import DefaultPageSize, DefaultPageNum, MaxPageSize, MinPageNum
+from extensions.define import DefaultPageSize, DefaultPageNum, MaxPageSize, MinPageNum
 
 
 class SchemaMixin(BaseModel):

@@ -1,4 +1,4 @@
-from config import DefaultPageNum, DefaultPageSize
+from .define import DefaultPageNum, DefaultPageSize
 
 from tortoise.queryset import QuerySet
 

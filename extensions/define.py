@@ -2,6 +2,12 @@ from pydantic import BaseModel
 from pydantic.typing import NoneType
 
 
+DefaultPageNum = 1
+DefaultPageSize = 10
+MaxPageSize = 40
+MinPageNum = 1
+
+
 class StatusCode(object):
     success = 10000
 

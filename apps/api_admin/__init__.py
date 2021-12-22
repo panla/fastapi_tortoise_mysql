@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from config import Config
+from config import ServiceConfig
 from apps.libs import register_exception
 
 from .resources import car
@@ -27,10 +27,10 @@ def register_routers(app: FastAPI):
 def init_sub_app(app: FastAPI):
     """mount sub app"""
 
-    api_admin_app: FastAPI = FastAPI(include_in_schema=Config.service.INCLUDE_IN_SCHEMA)
+    api_app: FastAPI = FastAPI(include_in_schema=ServiceConfig.INCLUDE_IN_SCHEMA)
 
-    register_exception(api_admin_app)
-    register_routers(api_admin_app)
-    app.mount(path='/api/admin', app=api_admin_app, name='api_admin_app')
+    register_exception(api_app)
+    register_routers(api_app)
+    app.mount(path='/api/admin', app=api_app, name='api_admin_app')
 
     return app
