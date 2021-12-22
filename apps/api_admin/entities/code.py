@@ -4,8 +4,7 @@ __all__ = [
 ]
 
 from fastapi import Body
-from pydantic import BaseModel
-from pydantic.fields import Field
+from pydantic import BaseModel, Field
 
 from mixins import SchemaMixin
 

@@ -7,12 +7,10 @@ __all__ = [
     'FilterCarParser'
 ]
 
-from typing import Optional
-from typing import List
+from typing import Optional, List
 
 from fastapi import Body, Query
-from pydantic import BaseModel
-from pydantic.fields import Field
+from pydantic import BaseModel, Field
 
 from mixins import SchemaMixin, FilterParserMixin
 

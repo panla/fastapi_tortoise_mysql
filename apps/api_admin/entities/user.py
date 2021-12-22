@@ -6,13 +6,10 @@ __all__ = [
     'FilterUserParser'
 ]
 
-from typing import Optional
-from typing import List
+from typing import Optional, List
 
-from fastapi import Body
-from fastapi import Query
-from pydantic import BaseModel
-from pydantic.fields import Field
+from fastapi import Body, Query
+from pydantic import BaseModel, Field
 
 from mixins import SchemaMixin, FilterParserMixin
 

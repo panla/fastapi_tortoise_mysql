@@ -1,8 +1,6 @@
-from typing import Optional
-from typing import List
+from typing import Optional, List
 
-from pydantic import BaseModel
-from pydantic.fields import Field
+from pydantic import BaseModel, Field
 
 from mixins import SchemaMixin
 
