@@ -8,9 +8,15 @@
 
 update/optimize
 
+- config
+- define
+- import
+
 add
 
 fix
+
+- fix Makefile
 
 require packages
 
