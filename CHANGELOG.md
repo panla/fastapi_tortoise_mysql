@@ -11,12 +11,14 @@ update/optimize
 - config
 - define
 - import
+- update variable, class, function name
 
 add
 
 fix
 
 - fix Makefile
+- fix tools.py
 
 require packages
 

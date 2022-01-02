@@ -3,7 +3,7 @@ Num
     8-bit : TinyInt     UnsignedTinyInt
     16-bit: SmallInt    UnsignedSmallInt
     24-bit: MediumInt   UnsignedMediumInt
-    32-bit: Int         UnsigendInt
+    32-bit: Int         UnsignedInt
     64-bit: BitInt      UnsignedBitInt
 
     FloatField: DOUBLE

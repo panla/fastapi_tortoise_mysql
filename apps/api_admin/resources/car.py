@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, resp_success
+from conf.define import error_schema
 from apps.modules import current_admin_user
 from apps.api_admin.entities import (
-    ReadCarSchema, ListCarSchema, CarSchema, CreateCarParser, PatchCarParser, FilterCarParser
+    ReadCarSchema, ListCarSchema, CarIDSchema,
+    CreateCarParser, PatchCarParser, FilterCarParser
 )
 from apps.api_admin.logics import CarResolver
 
@@ -20,19 +22,19 @@ async def read_car(
     return resp_success(data=car)
 
 
-@router.patch('/{c_id}', response_model=CarSchema, status_code=201, dependencies=[current_admin_user])
+@router.patch('/{c_id}', response_model=CarIDSchema, status_code=201, dependencies=[current_admin_user])
 async def patch_car(c_id: int, parser: PatchCarParser):
     """the api of update one car"""
 
-    car = await CarResolver.patch_car(c_id, parser.dict())
+    car = await CarResolver.patch_car(c_id, parser)
     return resp_success(data=car)
 
 
-@router.post('', response_model=CarSchema, status_code=201, dependencies=[current_admin_user])
+@router.post('', response_model=CarIDSchema, status_code=201, dependencies=[current_admin_user])
 async def create_car(parser: CreateCarParser):
     """the api of create one car"""
 
-    c = await CarResolver.create_car(parser.dict())
+    c = await CarResolver.create_car(parser)
     return resp_success(data=c)
 
 

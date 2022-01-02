@@ -2,12 +2,13 @@ from tortoise.models import QuerySet
 
 from extensions import NotFound
 from apps.models import Question
+from apps.api_admin.entities import FilterQuestionParser
 
 
 class QuestionResolver:
 
     @classmethod
-    def list_questions(cls, params: dict) -> QuerySet:
+    def list_questions(cls, parser: FilterQuestionParser) -> QuerySet:
         """search/filter questions"""
 
         query = Question.filter(is_delete=False)

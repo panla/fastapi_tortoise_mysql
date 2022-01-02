@@ -1,7 +1,7 @@
 __all__ = [
     'ReadCarSchema',
     'ListCarSchema',
-    'CarSchema',
+    'CarIDSchema',
     'CreateCarParser',
     'PatchCarParser',
     'FilterCarParser'
@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 from mixins import SchemaMixin, FilterParserMixin
 
 
-class ReadCarField(BaseModel):
+class CarEntity(BaseModel):
     id: int = Field(..., title='id of car')
     brand: str = Field(..., title='brand of car')
     price: int = Field(..., title='price of car', description='the unit is cent')
@@ -25,46 +25,38 @@ class ReadCarField(BaseModel):
         orm_mode = True
 
 
+# read car
 class ReadCarSchema(SchemaMixin):
     """the response schema of one car`detail info"""
 
-    data: Optional[ReadCarField]
+    data: CarEntity
 
 
-class ListCarBaseField(BaseModel):
-    id: int = Field(..., title='id of car')
-    brand: str = Field(..., title='brand of car')
-    price: int = Field(..., title='price of car', description='the unit is cent')
-    is_delete: bool = Field(..., title='is_delete flag of car')
-
-    class Config:
-        orm_mode = True
-
-
-class ListCarField(BaseModel):
-    total: int = 0
-    cars: Optional[List[ListCarBaseField]]
-
-
+# list car
 class ListCarSchema(SchemaMixin):
     """the response schema of cars`info"""
 
-    data: Optional[ListCarField]
+    class ListCarEntity(BaseModel):
+        total: int = 0
+        cars: Optional[List[CarEntity]]
+
+    data: ListCarEntity
 
 
-class CarField(BaseModel):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-class CarSchema(SchemaMixin):
+# create update car schema
+class CarIDSchema(SchemaMixin):
     """the response schema of create/delete/update one car"""
 
-    data: Optional[CarField]
+    class CarIDEntity(BaseModel):
+        id: int
+
+        class Config:
+            orm_mode = True
+
+    data: CarIDEntity
 
 
+# create update
 class CreateCarParser(BaseModel):
     """the params of create one car"""
 
@@ -79,6 +71,7 @@ class PatchCarParser(BaseModel):
     price: Optional[int] = Body(None, title='price of car', ge=1)
 
 
+# list filter car
 class FilterCarParser(FilterParserMixin):
     """the params of filter cars"""
 

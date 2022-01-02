@@ -4,7 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from extensions import middleware_code_contents
+from conf.define import middleware_code_contents
 
 
 def register_cross(app: FastAPI):

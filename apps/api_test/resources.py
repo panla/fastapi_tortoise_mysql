@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from extensions import Route, error_schema, resp_success
+from extensions import Route, resp_success
+from conf.define import error_schema
 from apps.api_test.logics import RedisTestResolver
 
 router = APIRouter(route_class=Route, responses=error_schema)

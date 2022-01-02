@@ -1,10 +1,15 @@
-from .define import DefaultPageNum, DefaultPageSize
+from conf.const import PaginateConst
 
 from tortoise.queryset import QuerySet
 
 
 class Pagination(object):
-    def __init__(self, query: QuerySet, page: int = DefaultPageNum, pagesize: int = DefaultPageSize) -> None:
+    def __init__(
+            self,
+            query: QuerySet,
+            page: int = PaginateConst.DefaultNum,
+            pagesize: int = PaginateConst.DefaultSize
+    ) -> None:
         self.query = query
         self.page = page
         self.pagesize = pagesize

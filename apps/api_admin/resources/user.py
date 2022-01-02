@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, resp_success
+from conf.define import error_schema
 from apps.modules import current_admin_user
 from apps.api_admin.entities import (
     ReadUserSchema, ListUserSchema, UserSchema, PatchUserParser, FilterUserParser
@@ -27,7 +28,7 @@ async def patch_user(
 ):
     """the api of update one user"""
 
-    user = await UserResolver.patch_user(u_id, parser.dict())
+    user = await UserResolver.patch_user(u_id, parser)
     return resp_success(data=user)
 
 
@@ -37,11 +38,9 @@ async def list_users(
 ):
     """the api of read list users"""
 
-    payload = parser.dict()
-
-    query = UserResolver.list_users(payload)
+    query = UserResolver.list_users(parser)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload['pagesize']).items()
+    query = Pagination(query, parser.page, parser.pagesize).items()
     result = await UserResolver.response_users(await query)
 
     return resp_success(data={'total': total, 'users': result})

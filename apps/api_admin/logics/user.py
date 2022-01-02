@@ -2,28 +2,29 @@ from tortoise.models import QuerySet
 
 from apps.modules import ResourceOp
 from apps.models import User
+from apps.api_admin.entities import FilterUserParser, PatchUserParser
 
 
 class UserResolver:
 
     @classmethod
-    def list_users(cls, params: dict) -> QuerySet:
+    def list_users(cls, parser: FilterUserParser) -> QuerySet:
         """search/filter users
 
         need await
         """
 
         query = User.all()
-        if params.get('cellphone'):
-            query = query.filter(cellphone__icontains=params['cellphone'])
+        if parser.cellphone:
+            query = query.filter(cellphone__icontains=parser.cellphone)
         return query
 
     @classmethod
-    async def patch_user(cls, user_id: int, params: dict) -> User:
+    async def patch_user(cls, user_id: int, parser: PatchUserParser) -> User:
         user: User = await ResourceOp(User, user_id).instance()
 
         patch_params = dict()
-        for k, v in params.items():
+        for k, v in parser.dict().items():
             if v is not None:
                 patch_params[k] = v
         if patch_params:

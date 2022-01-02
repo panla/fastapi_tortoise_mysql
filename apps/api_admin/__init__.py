@@ -3,13 +3,10 @@ from fastapi import FastAPI
 from config import ServiceConfig
 from apps.libs import register_exception
 
-from .resources import car
-from .resources import file
-from .resources import order
-from .resources import question
-from .resources import token
-from .resources import user
-from .resources import code
+from .resources import (
+    car, file, order, question,
+    token, user, code
+    )
 
 
 def register_routers(app: FastAPI):

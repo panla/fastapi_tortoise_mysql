@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 from mixins import SchemaMixin, FilterParserMixin
 
 
-class UserField(BaseModel):
+class UserIDEntity(BaseModel):
     id: int = Field(..., title='id of user')
 
     class Config:
@@ -24,10 +24,10 @@ class UserField(BaseModel):
 class UserSchema(SchemaMixin):
     """the response schema of create/update/delete one user"""
 
-    data: Optional[UserField]
+    data: Optional[UserIDEntity]
 
 
-class ReadUserField(BaseModel):
+class UserBaseEntity(BaseModel):
     id: int = Field(..., title='id of user')
     cellphone: str = Field(..., title='cellphone of user')
     name: str = Field(..., title='name of user')
@@ -41,29 +41,21 @@ class ReadUserField(BaseModel):
 class ReadUserSchema(SchemaMixin):
     """the response schema of one user`detail info"""
 
-    data: ReadUserField
+    class UserEntity(UserBaseEntity):
+        class Config:
+            orm_model = True
 
-
-class ListUserBaseField(BaseModel):
-    id: int = Field(..., title='id of user')
-    cellphone: str = Field(..., title='cellphone of user')
-    name: str = Field(..., title='name of user')
-    is_delete: bool = Field(..., title='is_delete flag of user')
-    is_admin_user: bool = Field(..., title='is admin user')
-
-    class Config:
-        orm_model = True
-
-
-class ListUserField(BaseModel):
-    total: int
-    users: Optional[List[ListUserBaseField]]
+    data: UserEntity
 
 
 class ListUserSchema(SchemaMixin):
     """the response schema of user`info"""
 
-    data: Optional[ListUserField]
+    class ListUserEntity(BaseModel):
+        total: int
+        users: Optional[List[UserBaseEntity]]
+
+    data: ListUserEntity
 
 
 class CreateUserParser(BaseModel):

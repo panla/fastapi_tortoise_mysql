@@ -1,36 +1,10 @@
 from pydantic import BaseModel
 from pydantic.typing import NoneType
 
-
-DefaultPageNum = 1
-DefaultPageSize = 10
-MaxPageSize = 40
-MinPageNum = 1
-
-
-class StatusCode(object):
-    success = 10000
-
-    bad_request = 40000
-    unauthorized = 40100
-    forbidden = 40300
-    not_found = 40400
-    method_not_allowed = 40500
-    not_acceptable = 40600
-    request_timeout = 40800
-    length_required = 41100
-    entity_too_large = 41300
-    request_uri_too_long = 41400
-    validator_error = 42200
-    locked = 42300
-    header_fields_too_large = 43100
-
-    server_error = 45000
-    unknown_error = 45001
-
+from .const import StatusCode
 
 # don`t overwrite custom extension Exception and StatusCode
-# example, already had raise and catch 404, don`t define 404
+# example, already had raised and catch 404, don`t define 404
 
 middleware_code_contents = {
     405: {'code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
@@ -77,7 +51,7 @@ class ValidatorErrorSchema(BaseModel):
     data: NoneType = "null"
 
 
-error_schema= {
+error_schema = {
     400: {
         'model': BadRequestSchema,
         'description': 'bad_request'

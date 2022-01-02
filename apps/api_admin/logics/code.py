@@ -1,12 +1,14 @@
 import asyncio
 
-from extensions import NotFound, BadRequest, random_int
+from extensions import NotFound, BadRequest
+from common.tools import random_int
 from redis_ext import SMSCodeRedis
 from apps.models import User
+from apps.api_admin.entities import CreateCodeParser
 
 
-async def create_sms_code(params: dict) -> str:
-    cellphone = params.get('cellphone')
+async def create_sms_code(parser: CreateCodeParser) -> str:
+    cellphone = parser.cellphone
     user = await User.get_or_none(cellphone=cellphone)
     if user:
         # long key
@@ -29,7 +31,7 @@ async def create_sms_code(params: dict) -> str:
         raise NotFound(message=f'there is no this user {cellphone}')
 
 
-async def send_sms_task(params: dict, code: str):
+async def send_sms_task(parser: CreateCodeParser, code: str):
 
     await asyncio.sleep(10)
 

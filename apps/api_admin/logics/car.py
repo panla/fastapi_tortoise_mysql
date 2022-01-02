@@ -2,6 +2,7 @@ from tortoise.models import QuerySet
 
 from apps.modules import ResourceOp
 from apps.models import Car
+from apps.api_admin.entities import CreateCarParser, PatchCarParser
 
 
 class CarResolver:
@@ -20,15 +21,18 @@ class CarResolver:
         return query
 
     @classmethod
-    def create_car(cls, params: dict):
+    def create_car(cls, parser: CreateCarParser):
         """ create one car"""
+        params = parser.dict()
         return Car.create(**params)
 
     @classmethod
-    async def patch_car(cls, car_id: int, params: dict) -> Car:
+    async def patch_car(cls, car_id: int, parser: PatchCarParser) -> Car:
         """update one car"""
 
         car: Car = await ResourceOp(Car, car_id).instance()
+
+        params = parser.dict()
         patch_params = {}
 
         for k, v in params.items():

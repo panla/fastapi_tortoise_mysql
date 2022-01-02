@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, resp_success
+from conf.define import error_schema
 from apps.api_admin.entities import (
-    ReadQuestionSchema, ListQuestionSchema, FilterCarParser
+    ReadQuestionSchema, ListQuestionSchema, FilterQuestionParser
 )
 from apps.api_admin.logics import QuestionResolver
 
@@ -21,15 +22,13 @@ async def read_question(
 
 @router.get('', response_model=ListQuestionSchema, status_code=200)
 async def list_question(
-        parser: FilterCarParser = Depends(FilterCarParser)
+        parser: FilterQuestionParser = Depends(FilterQuestionParser)
 ):
     """the api of read list questions"""
 
-    payload = parser.dict()
-
-    query = QuestionResolver.list_questions(payload)
+    query = QuestionResolver.list_questions(parser)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload['pagesize'] or total).items()
+    query = Pagination(query, parser.page, parser.pagesize or total).items()
     result = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'questions': result})

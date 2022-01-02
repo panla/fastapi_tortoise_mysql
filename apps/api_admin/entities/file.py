@@ -5,16 +5,16 @@ from pydantic import BaseModel, Field
 from mixins import SchemaMixin
 
 
-class FileBaseField(BaseModel):
+class FileField(BaseModel):
     filename: Optional[str] = Field(default=None, title='file name')
 
 
-class FileField(BaseModel):
-    file: Optional[FileBaseField]
-    files: Optional[List[FileBaseField]]
+class FileEntity(BaseModel):
+    file: Optional[FileField]
+    files: Optional[List[FileField]]
 
 
 class FileSchema(SchemaMixin):
     """the response schema of upload file"""
 
-    data: Optional[FileField]
+    data: Optional[FileEntity]

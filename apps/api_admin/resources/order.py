@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, resp_success
+from conf.define import error_schema
 from apps.api_admin.entities import (
-    ListOrderSchema, FilterCarParser
+    ListOrderSchema, FilterOrderParser
 )
 from apps.api_admin.logics import OrderResolver
 
@@ -11,15 +12,13 @@ router = APIRouter(route_class=Route, responses=error_schema)
 
 @router.get('', response_model=ListOrderSchema, status_code=200)
 async def list_orders(
-        parser: FilterCarParser = Depends(FilterCarParser)
+        parser: FilterOrderParser = Depends(FilterOrderParser)
 ):
     """the api of read list orders"""
 
-    payload = parser.dict()
-
-    query = OrderResolver.list_orders(payload)
+    query = OrderResolver.list_orders(parser)
     total = await query.count()
-    query = Pagination(query, payload['page'], payload['pagesize'] or total).items()
+    query = Pagination(query, parser.page, parser.pagesize or total).items()
     orders = await query.prefetch_related('owner')
 
     return resp_success(data={'total': total, 'orders': orders})

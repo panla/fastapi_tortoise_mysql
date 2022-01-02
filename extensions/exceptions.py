@@ -3,7 +3,7 @@ from typing import Optional, Any, Dict
 from fastapi import status
 from starlette.exceptions import HTTPException
 
-from extensions import StatusCode
+from conf.const import StatusCode
 
 
 class BaseHTTPException(HTTPException):

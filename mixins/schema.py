@@ -3,7 +3,7 @@ from typing import Optional, Any
 from fastapi import Query
 from pydantic import BaseModel
 
-from extensions.define import DefaultPageSize, DefaultPageNum, MaxPageSize, MinPageNum
+from conf.const import PaginateConst
 
 
 class SchemaMixin(BaseModel):
@@ -15,5 +15,5 @@ class SchemaMixin(BaseModel):
 
 class FilterParserMixin(BaseModel):
 
-    page: Optional[int] = Query(default=DefaultPageNum, description='page', gte=MinPageNum)
-    pagesize: Optional[int] = Query(default=DefaultPageSize, description='pagesize', gte=1, lte=MaxPageSize)
+    page: Optional[int] = Query(PaginateConst.DefaultNum, title='page', gte=PaginateConst.MinNum)
+    pagesize: Optional[int] = Query(PaginateConst.DefaultSize, title='pagesize', gte=1, lte=PaginateConst.MaxSize)
