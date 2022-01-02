@@ -19,7 +19,7 @@ services:
       - MYSQL_ROOT_PASSWORD=12345678
 
   redis:
-    image: redis:6.2.4-alpine
+    image: redis:6.2-alpine
     container_name: fastapi_tm_redis
     networks:
       fastapi_tm_net:
