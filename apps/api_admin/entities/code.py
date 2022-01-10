@@ -6,7 +6,7 @@ __all__ = [
 from fastapi import Body
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin
+from extensions import SchemaMixin
 
 
 class CreateCodeSchema(SchemaMixin):

@@ -8,7 +8,7 @@ class TokenRedis(BaseRedisClient):
     PREFIX_KEY = 'token'
 
     def __init__(self, phone: str, extend_model: str, extend_user_id: int) -> None:
-        super().__init__()
+        super().__init__(f'{phone}:{extend_model}:{extend_user_id}')
         self.key = f'{self.PREFIX_KEY}:{phone}:{extend_model}:{extend_user_id}'
 
     def set_login_info(self, mapping: dict):

@@ -11,7 +11,7 @@ from typing import Optional, List
 from fastapi import Body, Query
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin, FilterParserMixin
+from extensions import SchemaMixin, FilterParserMixin
 
 
 class UserIDEntity(BaseModel):
@@ -27,7 +27,7 @@ class UserSchema(SchemaMixin):
     data: Optional[UserIDEntity]
 
 
-class UserBaseEntity(BaseModel):
+class UserEntity(BaseModel):
     id: int = Field(..., title='id of user')
     cellphone: str = Field(..., title='cellphone of user')
     name: str = Field(..., title='name of user')
@@ -41,7 +41,7 @@ class UserBaseEntity(BaseModel):
 class ReadUserSchema(SchemaMixin):
     """the response schema of one user`detail info"""
 
-    class UserEntity(UserBaseEntity):
+    class UserEntity(UserEntity):
         class Config:
             orm_model = True
 
@@ -53,13 +53,14 @@ class ListUserSchema(SchemaMixin):
 
     class ListUserEntity(BaseModel):
         total: int
-        users: Optional[List[UserBaseEntity]]
+        users: Optional[List[UserEntity]]
 
     data: ListUserEntity
 
 
 class CreateUserParser(BaseModel):
     """the params of create one user"""
+
     cellphone: str = Body(..., title='cellphone of user', min_length=11, max_length=11)
     name: Optional[str] = Body(None, title='name of user', min_length=2, max_length=30)
 

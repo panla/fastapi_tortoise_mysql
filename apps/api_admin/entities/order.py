@@ -8,7 +8,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin, FilterParserMixin
+from extensions import SchemaMixin, FilterParserMixin
 
 
 class OwnerEntity(BaseModel):
@@ -20,7 +20,7 @@ class OwnerEntity(BaseModel):
         orm_mode = True
 
 
-class OrderBaseEntity(BaseModel):
+class OrderEntity(BaseModel):
     id: int = Field(..., title='id of order')
     amount: int = Field(..., title='the amount of order')
     remarks: str = Field(..., title='the remarks of order')
@@ -34,7 +34,7 @@ class OrderBaseEntity(BaseModel):
 class ReadOrderSchema(SchemaMixin):
     """the response schema of one order`detail info"""
 
-    class OrderEntity(OrderBaseEntity):
+    class OrderEntity(OrderEntity):
         updated_time: str = Field(..., title='the update datetime of order')
 
         class Config:
@@ -48,7 +48,7 @@ class ListOrderSchema(SchemaMixin):
 
     class ListOrderEntity(BaseModel):
         total: int = 0
-        orders: Optional[List[OrderBaseEntity]]
+        orders: Optional[List[OrderEntity]]
 
     data: ListOrderEntity
 

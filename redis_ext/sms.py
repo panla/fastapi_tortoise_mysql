@@ -8,5 +8,5 @@ class SMSCodeRedis(BaseRedisClient):
     PREFIX_KEY = 'sms_code'
 
     def __init__(self, key) -> None:
-        super().__init__()
+        super().__init__(key)
         self.key = f'{self.PREFIX_KEY}:{key}'

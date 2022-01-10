@@ -5,15 +5,14 @@ from aioredis import Redis
 
 from config import RedisConfig
 
-REDIS_CLIENT_CACHE = {}
-
 
 class BaseRedisClient(object):
     DB = 0
     PREFIX_KEY = ''
     CONNECTION_PARAMS = {'encoding': 'utf-8', 'decode_responses': True}
 
-    def __init__(self) -> None:
+    def __init__(self, key) -> None:
+        self.key = f'{self.PREFIX_KEY}:{key}'
         self.uri = 'redis://:{}@{}:{}/{}'.format(
             RedisConfig.REDIS_PASSWD, RedisConfig.REDIS_HOST, RedisConfig.REDIS_PORT, self.DB
         )
@@ -56,7 +55,7 @@ class BaseRedisClient(object):
 
     def expire(self, seconds):
         """
-        Set an expire flag on key ``name`` for ``time`` seconds. ``time``
+        Set an expired flag on key ``name`` for ``time`` seconds. ``time``
         can be represented by an integer or a Python timedelta object.
         """
 

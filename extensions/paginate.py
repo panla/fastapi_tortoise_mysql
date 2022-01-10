@@ -1,6 +1,6 @@
-from conf.const import PaginateConst
-
 from tortoise.queryset import QuerySet
+
+from conf.const import PaginateConst
 
 
 class Pagination(object):

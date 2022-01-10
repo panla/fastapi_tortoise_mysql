@@ -19,7 +19,7 @@ class BaseResourceLock(BaseRedisClient):
     _timeout = 3600
 
     def __init__(self, key) -> None:
-        super().__init__()
+        super().__init__(key)
         self.key = f'{self.PREFIX_KEY}:{self.LOCK_PREFIX_KEY}:{key}'
 
     async def get_lock(self) -> Tuple[bool, Union[str, None]]:
@@ -44,7 +44,7 @@ class BaseResourceLock(BaseRedisClient):
 
 
 class OrderLock(BaseResourceLock):
-    """full key: recource_lock:orders:{key}"""
+    """full key: resource_lock:orders:{key}"""
 
     DB = 2
     LOCK_PREFIX_KEY = 'orders'

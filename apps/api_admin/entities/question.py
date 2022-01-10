@@ -8,7 +8,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin, FilterParserMixin
+from extensions import SchemaMixin, FilterParserMixin
 
 
 class OwnerEntity(BaseModel):
@@ -20,7 +20,7 @@ class OwnerEntity(BaseModel):
         orm_mode = True
 
 
-class QuestionBaseEntity(BaseModel):
+class QuestionEntity(BaseModel):
     id: int = Field(..., title='the id of question')
     title: str = Field(..., title='title of question')
     content: str = Field(..., title='content of question')
@@ -34,7 +34,7 @@ class QuestionBaseEntity(BaseModel):
 class ReadQuestionSchema(SchemaMixin):
     """the response schema of one question`detail info"""
 
-    class QuestionEntity(QuestionBaseEntity):
+    class QuestionEntity(QuestionEntity):
         updated_time: str = Field(..., title='update datetime of question')
 
         class Config:
@@ -48,7 +48,7 @@ class ListQuestionSchema(SchemaMixin):
 
     class ListQuestionEntity(BaseModel):
         total: int = 0
-        questions: Optional[List[QuestionBaseEntity]]
+        questions: Optional[List[QuestionEntity]]
 
     data: ListQuestionEntity
 

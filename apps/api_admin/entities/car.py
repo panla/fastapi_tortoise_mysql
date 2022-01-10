@@ -12,7 +12,7 @@ from typing import Optional, List
 from fastapi import Body, Query
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin, FilterParserMixin
+from extensions import SchemaMixin, FilterParserMixin
 
 
 class CarEntity(BaseModel):

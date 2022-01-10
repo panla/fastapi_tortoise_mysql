@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin
+from extensions import SchemaMixin
 
 
 class FileField(BaseModel):

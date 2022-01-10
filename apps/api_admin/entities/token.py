@@ -4,7 +4,7 @@ __all__ = [
 ]
 from pydantic import BaseModel, Field
 
-from mixins import SchemaMixin
+from extensions import SchemaMixin
 
 
 class CreateTokenParser(BaseModel):

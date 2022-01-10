@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
-from extensions import Route, resp_success
-from conf.define import error_schema
+from extensions import Route, error_schema, resp_success
 from apps.api_admin.entities import CreateTokenParser, TokenSchema
 from apps.api_admin.logics import LoginResolver
 

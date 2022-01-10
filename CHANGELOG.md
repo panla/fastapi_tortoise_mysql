@@ -12,6 +12,7 @@ update/optimize
 - define
 - import
 - update variable, class, function name
+- update project struct
 
 add
 
@@ -19,6 +20,7 @@ fix
 
 - fix Makefile
 - fix tools.py
+- fix common/tools.py
 
 require packages
 
