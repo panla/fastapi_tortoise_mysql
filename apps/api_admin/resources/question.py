@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, Path
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, ErrorSchema
 from apps.api_admin.entities import (
     ReadQuestionSchema, ListQuestionSchema, FilterQuestionParser
 )
 from apps.api_admin.logics import QuestionResolver
 
-router = APIRouter(route_class=Route, responses=error_schema)
+router = APIRouter(route_class=Route, responses=ErrorSchema)
 
 
 @router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200)
@@ -16,7 +16,7 @@ async def read_question(
     """the api of read one question"""
 
     query = await QuestionResolver.read_question(q_id)
-    return resp_success(data=query)
+    return ReadQuestionSchema(data=query)
 
 
 @router.get('', response_model=ListQuestionSchema, status_code=200)
@@ -30,4 +30,4 @@ async def list_question(
     query = Pagination(query, parser.page, parser.pagesize or total).items()
     result = await query.prefetch_related('owner')
 
-    return resp_success(data={'total': total, 'questions': result})
+    return ListQuestionSchema(data={'total': total, 'questions': result})

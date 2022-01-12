@@ -1,4 +1,4 @@
-from tortoise.queryset import QuerySet
+from tortoise.queryset import QuerySet, MODEL
 
 from conf.const import PaginateConst
 
@@ -14,5 +14,5 @@ class Pagination(object):
         self.page = page
         self.pagesize = pagesize
 
-    def items(self) -> QuerySet:
+    def items(self) -> QuerySet[MODEL]:
         return self.query.offset((self.page - 1) * self.pagesize).limit(self.pagesize)

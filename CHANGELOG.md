@@ -8,11 +8,12 @@
 
 update/optimize
 
-- config
-- define
-- import
+- update config
+- update define
+- update import
 - update variable, class, function name
 - update project struct
+- update response schema, error schema, exception, middleware
 
 add
 

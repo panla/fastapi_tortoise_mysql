@@ -4,6 +4,7 @@ from fastapi import status
 from starlette.exceptions import HTTPException
 
 from conf.const import StatusCode
+from .schema import SchemaMixin
 
 
 class BaseHTTPException(HTTPException):
@@ -26,6 +27,9 @@ class BaseHTTPException(HTTPException):
     def __repr__(self) -> str:
         class_name = self.__class__.__name__
         return f"{class_name}(status_code={self.status_code!r}, code={self.code}, msg={self.message!r})"
+
+    def response(self):
+        return SchemaMixin(code=self.code, message=self.message, data=None).dict()
 
 
 class BadRequest(BaseHTTPException):

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 
-from extensions import Route, Pagination, error_schema, resp_success
+from extensions import Route, Pagination, ErrorSchema
 from apps.api_admin.entities import (
     ListOrderSchema, FilterOrderParser
 )
 from apps.api_admin.logics import OrderResolver
 
-router = APIRouter(route_class=Route, responses=error_schema)
+router = APIRouter(route_class=Route, responses=ErrorSchema)
 
 
 @router.get('', response_model=ListOrderSchema, status_code=200)
@@ -20,4 +20,4 @@ async def list_orders(
     query = Pagination(query, parser.page, parser.pagesize or total).items()
     orders = await query.prefetch_related('owner')
 
-    return resp_success(data={'total': total, 'orders': orders})
+    return ListOrderSchema(data={'total': total, 'orders': orders})
