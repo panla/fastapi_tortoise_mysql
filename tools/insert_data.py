@@ -65,10 +65,10 @@ async def cli(ctx: click.Context):
     await Tortoise.init(config=ORM_LINK_CONF)
 
 
-@click.command(help='create init users data')
+@click.command(help='create init data')
 @click.pass_context
-@click.option('-f', '--file', help='json file')
-@click.option('-m', '--model', help='Database Model')
+@click.argument('-f', '--file', help='json file')
+@click.argument('-m', '--model', help='Database Model')
 @coro
 @atomic()
 async def init_data(ctx: click.Context, file: str, model: str):
