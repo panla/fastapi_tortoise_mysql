@@ -1,36 +1,42 @@
 from tortoise.models import QuerySet
 
+from extensions import NotFound
 from apps.modules import ResourceOp
 from apps.models import Car
-from apps.api_admin.entities import CreateCarParser, PatchCarParser
+from apps.api_admin.entities import CreateCarParser, PatchCarParser, FilterCarParser
 
 
 class CarResolver:
 
     @classmethod
     def read_car(cls, car_id: int):
+
         return ResourceOp(Car, car_id).instance(is_delete=False)
 
     @classmethod
-    def list_cars(cls, params: dict) -> QuerySet:
+    def list_cars(cls, parser: FilterCarParser) -> QuerySet[Car]:
         """search/filter cars"""
 
         query = Car.filter(is_delete=False)
-        if params.get('brand'):
-            query = query.filter(brand__icontains=params['brand'])
+        if parser.brand:
+            query = query.filter(brand__icontains=parser.brand)
         return query
 
     @classmethod
     def create_car(cls, parser: CreateCarParser):
         """ create one car"""
+
         params = parser.dict()
         return Car.create(**params)
 
     @classmethod
-    async def patch_car(cls, car_id: int, parser: PatchCarParser) -> Car:
+    async def patch_car(cls, car_id: int, parser: PatchCarParser):
         """update one car"""
 
-        car: Car = await ResourceOp(Car, car_id).instance()
+        cars = Car.filter(id=car_id)
+        car = await cars.first()
+        if not car:
+            raise NotFound(f'Model = Car, pk = {car_id} is not exists')
 
         params = parser.dict()
         patch_params = {}
@@ -39,9 +45,6 @@ class CarResolver:
             if v is not None:
                 patch_params[k] = v
         if patch_params:
-            car = await car.update_from_dict(patch_params)
-            await car.save()
-
-        del patch_params
+            await cars.update(**patch_params)
 
         return car

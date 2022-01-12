@@ -41,9 +41,8 @@ async def create_car(parser: CreateCarParser):
 async def list_cars(parser: FilterCarParser = Depends(FilterCarParser)):
     """the api of read list cars"""
 
-    payload = parser.dict()
-    query = CarResolver.list_cars(payload)
+    query = CarResolver.list_cars(parser)
     total = await query.count()
-    result = await Pagination(query, payload['page'], payload['pagesize'] or total).items()
+    result = await Pagination(query, parser.page, parser.pagesize or total).items()
 
     return ListCarSchema(data={'total': total, 'cars': result})
