@@ -1,6 +1,6 @@
 from config import AuthenticConfig
-from extensions import NotFound, BadRequest
-from redis_ext import SMSCodeRedis, TokenRedis
+from extensions import NotFound, BadRequest, logger
+from redis_ext import SMSCodeRedis, TokenRedis, sms
 from apps.models import User, AdminUser
 from apps.modules import TokenResolver
 
@@ -12,7 +12,9 @@ class LoginResolver:
     async def authentic(cls, cellphone: str, code: str, extend_model: str) -> dict:
         """the entrance to get auth token"""
 
-        sms_redis_op = SMSCodeRedis(cellphone)
+        sms_redis_op = SMSCodeRedis()
+        sms_redis_op.set_key(cellphone)
+
         if code == await sms_redis_op.get():
             user, extend_user = await cls.check_user(cellphone, extend_model)
 
@@ -23,7 +25,8 @@ class LoginResolver:
             await extend_user.save()
 
             # save redis
-            token_redis_op = TokenRedis(cellphone, extend_model, extend_user.id)
+            token_redis_op = TokenRedis()
+            token_redis_op.set_key(f'{cellphone}:{extend_model}:{extend_user.id}')
             await token_redis_op.set(token, ex=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
             rt = {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}

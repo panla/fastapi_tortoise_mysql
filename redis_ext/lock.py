@@ -18,9 +18,13 @@ class BaseResourceLock(BaseRedisClient):
     LOCK_PREFIX_KEY = 'resources'
     _timeout = 3600
 
-    def __init__(self, key) -> None:
-        super().__init__(key)
-        self.key = f'{self.PREFIX_KEY}:{self.LOCK_PREFIX_KEY}:{key}'
+    @property
+    def key(self):
+        return self._key
+
+    @key.setter
+    def key(self, value):
+        self._key = f'{self.PREFIX_KEY}:{self.LOCK_PREFIX_KEY}:{value}'
 
     async def get_lock(self) -> Tuple[bool, Union[str, None]]:
         """get the lock"""

@@ -11,18 +11,19 @@ class BaseRedisClient(object):
     PREFIX_KEY = ''
     CONNECTION_PARAMS = {'encoding': 'utf-8', 'decode_responses': True}
 
-    def __init__(self, key) -> None:
-        self.key = f'{self.PREFIX_KEY}:{key}'
+    def __init__(self) -> None:
+        self._key = None
         self.uri = 'redis://:{}@{}:{}/{}'.format(
             RedisConfig.REDIS_PASSWD, RedisConfig.REDIS_HOST, RedisConfig.REDIS_PORT, self.DB
         )
+        self.client: Redis = Redis.from_url(self.uri, **self.CONNECTION_PARAMS)
 
     @property
-    def client(self) -> Redis:
-        # source code
-        # connection_pool = ConnectionPool.from_url(url, **kwargs)
+    def key(self):
+        return self._key
 
-        return Redis.from_url(self.uri, **self.CONNECTION_PARAMS)
+    def set_key(self, value):
+        self._key = f'{self.PREFIX_KEY}:{value}'
 
     def get(self):
         """
@@ -34,8 +35,8 @@ class BaseRedisClient(object):
     def set(self, value, ex: Union[int, timedelta] = None, px: Union[int, timedelta] = None):
         """Set the value at key ``name`` to ``value``
 
-        ``ex`` sets an expire flag on key ``name`` for ``ex`` seconds.
-        ``px`` sets an expire flag on key ``name`` for ``px`` milliseconds.
+        ``ex`` sets an expired flag on key ``name`` for ``ex`` seconds.
+        ``px`` sets an expired flag on key ``name`` for ``px`` milliseconds.
         """
 
         return self.client.set(name=self.key, value=value, ex=ex, px=px)

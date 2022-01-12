@@ -12,7 +12,8 @@ async def create_sms_code(parser: CreateCodeParser) -> str:
     user = await User.get_or_none(cellphone=cellphone)
     if user:
         # long key
-        sms_redis_op = SMSCodeRedis(f'{cellphone}-{cellphone}')
+        sms_redis_op = SMSCodeRedis()
+        sms_redis_op.set_key(f'{cellphone}-{cellphone}')
         if await sms_redis_op.get():
             raise BadRequest(message='Request too fast!')
 
@@ -22,7 +23,7 @@ async def create_sms_code(parser: CreateCodeParser) -> str:
         await sms_redis_op.set(value=code, ex=20)
 
         # short key
-        sms_redis_op = SMSCodeRedis(cellphone)
+        sms_redis_op.set_key(cellphone)
         await sms_redis_op.set(value=code, ex=60)
 
         return code

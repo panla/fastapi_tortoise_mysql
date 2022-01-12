@@ -14,6 +14,7 @@ update/optimize
 - update variable, class, function name
 - update project struct
 - update response schema, error schema, exception, middleware
+- update redis key`s method
 
 add
 

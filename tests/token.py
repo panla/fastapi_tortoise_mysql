@@ -34,7 +34,8 @@ async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
     extend_user.token_expired = token_expired
     await extend_user.save()
 
-    token_redis_op = TokenRedis(user.cellphone, extend_model, extend_user.id)
+    token_redis_op = TokenRedis()
+    token_redis_op.set_key(f'{user.cellphone}:{extend_model}:{extend_user.id}')
     await token_redis_op.set(token, ex=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
     return token
