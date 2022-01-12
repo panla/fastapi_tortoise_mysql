@@ -83,7 +83,10 @@ def random_str(length: int = 20, has_num: bool = False) -> str:
     if has_num:
         all_char += string.digits
 
-    return ''.join(random.sample(all_char, length))
+    lis = list()
+    for _ in range(length):
+        lis.extend(random.choices(all_char, k=1))
+    return ''.join(lis)
 
 
 def random_int(length: int = 4) -> str:
@@ -94,7 +97,10 @@ def random_int(length: int = 4) -> str:
     """
 
     all_char = string.digits
-    return ''.join(random.sample(all_char, length))
+    lis = list()
+    for _ in range(length):
+        lis.extend(random.choices(all_char, k=1))
+    return ''.join(lis)
 
 
 class UidGenerator:
