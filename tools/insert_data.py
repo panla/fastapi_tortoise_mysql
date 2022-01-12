@@ -1,64 +1,31 @@
-"""
-write data into database
-
-python tools/insert_into.py --help
-
-JSON file
-    example
-    [
-        {
-            "id": 1,
-            "name": "1"
-            ...
-        }
-    ]
-"""
-
-import argparse
-import json
+import asyncio
 import sys
-import traceback
-from typing import List
+import json
 from pathlib import Path
+from typing import List
+from functools import wraps
 
-from tortoise import Tortoise, run_async
+import click
+from tortoise import Tortoise
 from tortoise.transactions import atomic
+from loguru import logger
 
 BASEDIR = Path(__file__).parent.parent
 
 sys.path.append(BASEDIR.name)
 
 from config import ORM_LINK_CONF
-from apps.models import models as models_file
+from apps.models import User, Book, AdminUser, Car, Order, Phone, Question
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--file', type=str, required=True, help='JSON File Path')
-parser.add_argument('-m', '--model', type=str, required=True, help='Model Class Str')
-parser.add_argument('-b', '--batch_size', type=int, required=False, default=5, help='Batch Size')
-
-params = parser.parse_args().__dict__
-file_path = params.get('file')
-ModelClassStr = params.get('model')
-batch_size = params.get('batch_size')
-
-if not Path(file_path).is_file():
-    sys.stderr.write(f'parameter -f/--file error: {file_path} not exists')
-    sys.exit(1)
-
-if not getattr(models_file, ModelClassStr):
-    sys.stderr.write(f'parameter -m/--model error: {ModelClassStr} not exists')
-    sys.exit(1)
-
-if batch_size <= 0:
-    sys.stderr.write(f'parameter -b/--batch_size error: {batch_size} <= 0')
-    sys.exit(1)
-
-
-def _build_instances(model_class, dic_list: List[dict]):
-    """create some Model instance"""
-
-    for per_dic in dic_list:
-        yield model_class(**per_dic)
+model_map = {
+    'User': User,
+    'Book': Book,
+    'AdminUser': AdminUser,
+    'Car': Car,
+    'Order': Order,
+    'Phone': Phone,
+    'Question': Question
+}
 
 
 def _read_json_file(path: str) -> List[dict]:
@@ -68,25 +35,56 @@ def _read_json_file(path: str) -> List[dict]:
         return json.loads(f.read())
 
 
-@atomic()
-async def create_data():
-    try:
-        model_class = getattr(models_file, ModelClassStr)
-        origin_data = _read_json_file(file_path)
-        await getattr(model_class, 'bulk_create')(
-            objects=_build_instances(model_class, origin_data), batch_size=batch_size
-        )
-        sys.stdout.write('create data over\n')
-    except Exception as exc:
-        sys.stdout.write(f'{exc}\n')
-        sys.stdout.write(f'{traceback.format_exc()}\n')
+def coro(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        loop = asyncio.get_event_loop()
+        try:
+            loop.run_until_complete(f(*args, **kwargs))
+        finally:
+            if f.__name__ != "cli":
+                loop.run_until_complete(Tortoise.close_connections())
+
+    return wrapper
 
 
-async def main():
+async def create(model, params: List[dict]):
+    for param in params:
+        instance = await model.get_or_none(id=param.get('id'))
+        if instance:
+            await instance.update_from_dict(param)
+            await instance.save()
+        else:
+            instance = await model.create(**param)
+
+
+@click.group()
+@click.pass_context
+@coro
+async def cli(ctx: click.Context):
     await Tortoise.init(config=ORM_LINK_CONF)
 
-    await create_data()
 
+@click.command(help='create init users data')
+@click.pass_context
+@click.option('-f', '--file', help='json file')
+@click.option('-m', '--model', help='Database Model')
+@coro
+@atomic()
+async def init_data(ctx: click.Context, file: str, model: str):
+    """create users"""
+
+    model_class = model_map.get(model)
+    if not model_class:
+        raise Exception(f'no this Model {model}')
+
+    params = _read_json_file(file)
+
+    await create(model_class, params)
+    logger.info('create users over')
+
+
+cli.add_command(init_data)
 
 if __name__ == '__main__':
-    run_async(main())
+    cli()
