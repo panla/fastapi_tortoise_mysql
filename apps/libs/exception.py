@@ -1,9 +1,10 @@
 import traceback
-from typing import Any
+from typing import Union, Any
 
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
+from starlette.datastructures import URL
 from tortoise.validators import ValidationError
 
 from conf.const import StatusCode
@@ -11,7 +12,7 @@ from extensions.log import logger
 from extensions.exceptions import BaseHTTPException
 
 
-def log_message(method: str, url: str, message: Any):
+def log_message(method: str, url: Union[str, URL], message: Any):
     """log message when catch exception"""
 
     logger.error('start error, this is'.center(60, '*'))

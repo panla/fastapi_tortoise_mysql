@@ -1,9 +1,5 @@
-from typing import Tuple, Type
-
 from tortoise import fields
 from tortoise.models import Model
-from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
-from tortoise.contrib.pydantic.base import PydanticListModel, PydanticModel
 
 
 class BaseModel(Model):
@@ -25,33 +21,12 @@ class BaseModel(Model):
     class Meta:
         abstract = True
 
-    class PydanticMeta:
-        exclude = ('created_at', 'updated_at')
-
 
 class ModelMixin(object):
     __slots__ = ()
 
     def __init__(self, **kwargs):
         pass
-
-    @classmethod
-    def ModelCreator(
-            cls,
-            exclude: Tuple[str, ...] = (),
-            include: Tuple[str, ...] = (),
-            computed: Tuple[str, ...] = ()
-    ) -> Type[PydanticModel]:
-        return pydantic_model_creator(cls, exclude=exclude, include=include, computed=computed)
-
-    @classmethod
-    def QuerySetCreator(
-            cls,
-            exclude: Tuple[str, ...] = (),
-            include: Tuple[str, ...] = (),
-            computed: Tuple[str, ...] = ()
-    ) -> Type[PydanticListModel]:
-        return pydantic_queryset_creator(cls, exclude=exclude, include=include, computed=computed)
 
     @staticmethod
     def to_dict(instance, selects: tuple = None, excludes: tuple = None) -> dict:
@@ -76,8 +51,8 @@ class ModelMixin(object):
 
         results = self.to_dict(self, selects=selects, excludes=excludes)
         if second_attrs:
-            for attr, fields in second_attrs.items():
-                results.update({attr: self.to_dict(await getattr(self, attr), selects=fields)})
+            for attr, columns in second_attrs.items():
+                results.update({attr: self.to_dict(await getattr(self, attr), selects=columns)})
 
         return results
 
@@ -91,7 +66,7 @@ class ModelMixin(object):
 
         results = self.to_dict(self, selects=selects, excludes=excludes)
         if second_attrs:
-            for attr, fields in second_attrs.items():
-                results.update({attr: self.to_dict(getattr(self, attr), selects=fields)})
+            for attr, columns in second_attrs.items():
+                results.update({attr: self.to_dict(getattr(self, attr), selects=columns)})
 
         return results

@@ -16,6 +16,7 @@ update/optimize
 - update response schema, error schema, exception, middleware
 - update redis key`s method
 - optimize code style
+- update ModelMixin, BaseModel, cut useless code
 
 add
 
@@ -24,6 +25,7 @@ fix
 - fix Makefile
 - fix tools.py
 - fix common/tools.py
+- fix ModelMixin variable name conflict
 
 require packages
 
