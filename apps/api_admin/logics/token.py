@@ -18,8 +18,10 @@ class LoginResolver:
         if code == await sms_redis_op.get():
             user, extend_user = await cls.check_user(cellphone, extend_model)
 
+            # generate JWT
             token, login_time, token_expired = TokenResolver.encode_auth_token(user.id, extend_user.id, 'AdminUser')
 
+            # update/save login time
             extend_user.login_time = login_time
             extend_user.token_expired = token_expired
             await extend_user.save()

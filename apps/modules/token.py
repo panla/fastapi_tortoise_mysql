@@ -12,7 +12,6 @@ from apps.models import User, AdminUser
 
 
 class TokenResolver:
-
     EXTEND_MODEL_MAP = {'AdminUser': AdminUser}
 
     @classmethod
@@ -33,7 +32,7 @@ class TokenResolver:
                     'extend_model': extend_model,
                     'login_time': login_time.timestamp(),
                     'token_expired': token_expired.timestamp()
-                    }
+                }
             }
             token = jwt.encode(payload, AuthenticConfig.ADMIN_SECRETS, algorithm="HS256")
             return token, login_time, token_expired
@@ -41,38 +40,22 @@ class TokenResolver:
             raise BadRequest(message=str(e))
 
     @classmethod
-    async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str, **kwargs):
+    async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str):
         """select query user, extend_user"""
 
-        Model = cls.EXTEND_MODEL_MAP.get(extend_model)
-        if not Model:
+        model_class = cls.EXTEND_MODEL_MAP.get(extend_model)
+        if not model_class:
             raise BadRequest(message=f'Model {extend_model} error')
 
         user = await User.filter(id=user_id, is_delete=False).first()
         if not user:
             raise NotFound(f'User User.id = {user_id} is not exists or is deleted')
 
-        extend_user = await Model.filter(id=extend_user_id, user_id=user_id, is_delete=False).first()
+        extend_user = await model_class.filter(id=extend_user_id, user_id=user_id, is_delete=False).first()
         if not extend_user:
             raise NotFound(message=f'{extend_model} {extend_model}.id = {extend_user_id} is not exists or is deleted')
 
         return user, extend_user
-
-    @staticmethod
-    def check_timeout(extend_user, now: float, data: dict):
-        """check the token is expired or not"""
-
-        a = not (extend_user.login_time and extend_user.token_expired)
-        b = (now - data.get('token_expired')) > 1
-        # now > the expired_time in JWT (had expired)
-        c = extend_user.login_time.timestamp() - data.get('login_time') > 1
-        # the login time in db > the login time in JWT (there is a new login, this token is expired)
-        d = data.get('token_expired') - extend_user.token_expired.timestamp() > 1
-        # the expired time in db < the expired time in JWT (had expired)
-        _lis = [a, b, c, d]
-        if any(_lis):
-            logger.error([a, b, c, d])
-            raise Unauthorized(message='login expired, please login retry.')
 
     @classmethod
     async def _check_redis(cls, token: str, user: User, extend_model: str, extend_user_id: int):
@@ -97,6 +80,7 @@ class TokenResolver:
 
                 await cls._check_redis(token, user, extend_model, extend_user.id)
 
+                # set/save user, extend_user on request.state
                 request.state.user = user
                 request.state.extend_user = extend_user
                 return payload

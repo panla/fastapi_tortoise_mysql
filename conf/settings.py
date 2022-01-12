@@ -35,7 +35,7 @@ class DBSetting(BaseModel):
     DB_MAX_SIZE: int = 5
 
 
-class ORMSetting():
+class ORMSetting:
     def __init__(self, db):
         self.db = db
 

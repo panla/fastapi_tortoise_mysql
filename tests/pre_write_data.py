@@ -11,10 +11,10 @@ from tests import User, AdminUser, Book, Car, Order, Phone, Question
 from tests.utils import JsonFileOperator
 
 
-def _build_instances(Model, file: str):
+def _build_instances(model_class, file: str):
     file = Path(BASE_DIR).joinpath(f'tests/fixture_data/{file}')
     for per_dic in JsonFileOperator(file).read():
-        yield Model(**per_dic)
+        yield model_class(**per_dic)
 
 
 async def _write_data():

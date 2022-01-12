@@ -34,9 +34,9 @@ class Setting(BaseModel):
 
 @lru_cache()
 def get_settings() -> Setting:
-    CODE_ENV = os.environ.get('CODE_ENV', 'prd')
+    code_env = os.environ.get('CODE_ENV', 'prd')
 
-    if CODE_ENV == 'test':
+    if code_env == 'test':
         p = Path(BASE_DIR).joinpath('conf/test.local.toml')
     else:
         p = Path(BASE_DIR).joinpath('conf/product.local.toml')

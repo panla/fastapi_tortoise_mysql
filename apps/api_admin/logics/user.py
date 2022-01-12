@@ -36,7 +36,7 @@ class UserResolver:
     async def response_users(cls, users) -> list:
         """merge response users"""
 
-        _users = []
+        _users = list()
         for user in users:
             _user = User.to_dict(user, selects=('id', 'cellphone', 'name', 'is_delete'))
             _user['is_admin_user'] = await user.is_admin_user

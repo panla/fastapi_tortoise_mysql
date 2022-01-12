@@ -17,15 +17,15 @@ EXTEND_MODEL_MAP = {'AdminUser': AdminUser, 'User': User}
 
 async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
 
-    Model = EXTEND_MODEL_MAP.get(extend_model)
-    if not Model:
+    model_class = EXTEND_MODEL_MAP.get(extend_model)
+    if not model_class:
         raise BadRequest(message=f'Model {extend_model} error')
 
     user = await User.get_or_none(cellphone=cellphone, is_delete=False)
     if not user:
         raise NotFound(f'User User.cellphone = {cellphone} is not exists or is deleted')
 
-    extend_user = await Model.filter(user_id=user.id, is_delete=False).first()
+    extend_user = await model_class.filter(user_id=user.id, is_delete=False).first()
     if not extend_user:
         raise NotFound(message=f'{extend_model} User.cellphone = {cellphone} is not exists or is deleted')
 

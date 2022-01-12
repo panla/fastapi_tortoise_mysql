@@ -17,20 +17,20 @@ class FileOperatorBase:
 
 class FileOperator(FileOperatorBase):
 
-    async def save(self, data, mode: str = 'w'):
-        async with aiofiles.open(file=self.path, mode=mode, encoding='utf-8') as f:
+    async def save(self, data):
+        async with aiofiles.open(file=self.path, mode='a+', encoding='utf-8') as f:
             await f.write(data)
 
     async def save_binary(self, data):
-        async with open(self.path, 'wb') as f:
+        async with aiofiles.open(file=self.path, mode='wb') as f:
             await f.write(data)
 
     async def read(self):
-        async with open(self.path, 'r', encoding='utf-8') as f:
+        async with aiofiles.open(self.path, 'r', encoding='utf-8') as f:
             return await f.read()
 
     async def read_binary(self):
-        async with open(self.path, 'rb') as f:
+        async with aiofiles.open(self.path, 'rb') as f:
             return await f.read()
 
 
@@ -88,9 +88,9 @@ def random_str(length: int = 20, has_num: bool = False) -> str:
 
 def random_int(length: int = 4) -> str:
     """
-    generate a random str/int and len == length
+    generate a random str(int) and len == length
     :param length: Specified length，default = 4
-    :return: Union[str, int]
+    :return: str
     """
 
     all_char = string.digits

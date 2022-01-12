@@ -8,6 +8,7 @@ import argparse
 import os
 import sys
 from pathlib import Path
+from typing import Union
 
 param_parser = argparse.ArgumentParser()
 param_parser.add_argument('-d', '--dirs', nargs='*', type=str, required=True, help='dirs')
@@ -16,7 +17,7 @@ param_parser.add_argument('-l', '--log', type=str, required=False, help='log fil
 
 params = param_parser.parse_args().__dict__
 dirs = params.get('dirs')
-directions = []
+directions = list()
 
 if dirs:
     for d in dirs:
@@ -39,7 +40,7 @@ if not targets:
 log_file = params.get('log')
 
 
-def read_file(path: str) -> str:
+def read_file(path: Union[str, Path]) -> str:
     try:
         with open(path, 'r', encoding='utf-8') as f:
             return f.read()
@@ -50,7 +51,6 @@ def read_file(path: str) -> str:
 def write_file(path: str, content: str):
     with open(path, 'a+', encoding='utf-8') as f:
         f.write(content)
-
 
 
 found_data = []

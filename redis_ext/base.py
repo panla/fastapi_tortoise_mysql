@@ -39,12 +39,12 @@ class BaseRedisClient(object):
         ``px`` sets an expired flag on key ``name`` for ``px`` milliseconds.
         """
 
-        return self.client.set(name=self.key, value=value, ex=ex, px=px)
+        return self.client.set(name=self._key, value=value, ex=ex, px=px)
 
     def setnx(self, value):
         """Set the value of key ``name`` to ``value`` if key doesn't exist"""
 
-        return self.client.setnx(name=self.key, value=value)
+        return self.client.setnx(name=self._key, value=value)
 
     def getset(self, value):
         """
@@ -52,7 +52,7 @@ class BaseRedisClient(object):
         and returns the old value at key ``name`` atomically.
         """
 
-        return self.client.getset(name=self.key, value=value)
+        return self.client.getset(name=self._key, value=value)
 
     def expire(self, seconds):
         """
@@ -60,9 +60,9 @@ class BaseRedisClient(object):
         can be represented by an integer or a Python timedelta object.
         """
 
-        return self.client.expire(name=self.key, time=seconds)
+        return self.client.expire(name=self._key, time=seconds)
 
     def delete(self):
         """Delete one or more keys specified by ``names``"""
 
-        return self.client.delete(self.key)
+        return self.client.delete(self._key)

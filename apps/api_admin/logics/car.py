@@ -39,7 +39,7 @@ class CarResolver:
             raise NotFound(f'Model = Car, pk = {car_id} is not exists')
 
         params = parser.dict()
-        patch_params = {}
+        patch_params = dict()
 
         for k, v in params.items():
             if v is not None:
