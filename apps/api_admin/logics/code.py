@@ -7,7 +7,7 @@ from apps.models import User
 from apps.api_admin.entities import CreateCodeParser
 
 
-async def create_sms_code(parser: CreateCodeParser) -> str:
+async def create_sms_code(parser: CreateCodeParser):
     cellphone = parser.cellphone
     user = await User.get_or_none(cellphone=cellphone)
     if user:

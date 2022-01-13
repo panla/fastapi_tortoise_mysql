@@ -1,6 +1,5 @@
 from tortoise.models import QuerySet
 
-from extensions import NotFound
 from apps.modules import ResourceOp
 from apps.models import Car
 from apps.api_admin.entities import CreateCarParser, PatchCarParser, FilterCarParser
@@ -9,9 +8,10 @@ from apps.api_admin.entities import CreateCarParser, PatchCarParser, FilterCarPa
 class CarResolver:
 
     @classmethod
-    def read_car(cls, car_id: int):
+    async def read_car(cls, car_id: int):
 
-        return ResourceOp(Car, car_id).instance(is_delete=False)
+        _, instance = await ResourceOp(Car, car_id).instance(is_delete=False)
+        return instance
 
     @classmethod
     def list_cars(cls, parser: FilterCarParser) -> QuerySet[Car]:
@@ -33,10 +33,7 @@ class CarResolver:
     async def patch_car(cls, car_id: int, parser: PatchCarParser):
         """update one car"""
 
-        cars = Car.filter(id=car_id)
-        car = await cars.first()
-        if not car:
-            raise NotFound(f'Model = Car, pk = {car_id} is not exists')
+        instances, instance = await ResourceOp(Car, car_id).instance()
 
         params = parser.dict()
         patch_params = dict()
@@ -45,6 +42,6 @@ class CarResolver:
             if v is not None:
                 patch_params[k] = v
         if patch_params:
-            await cars.update(**patch_params)
+            await instances.update(**patch_params)
 
-        return car
+        return instance

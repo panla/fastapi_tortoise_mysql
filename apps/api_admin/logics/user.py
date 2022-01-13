@@ -8,7 +8,7 @@ from apps.api_admin.entities import FilterUserParser, PatchUserParser
 class UserResolver:
 
     @classmethod
-    def list_users(cls, parser: FilterUserParser) -> QuerySet:
+    def list_users(cls, parser: FilterUserParser) -> QuerySet[User]:
         """search/filter users
 
         need await
@@ -20,20 +20,22 @@ class UserResolver:
         return query
 
     @classmethod
-    async def patch_user(cls, user_id: int, parser: PatchUserParser) -> User:
-        user: User = await ResourceOp(User, user_id).instance()
+    async def patch_user(cls, user_id: int, parser: PatchUserParser):
+        """update user"""
+
+        instances, instance = await ResourceOp(User, user_id).instance()
 
         patch_params = dict()
         for k, v in parser.dict().items():
             if v is not None:
                 patch_params[k] = v
         if patch_params:
-            user = await user.update_from_dict(patch_params)
-            await user.save()
-        return user
+            await instances.update(**patch_params)
+
+        return instance
 
     @classmethod
-    async def response_users(cls, users) -> list:
+    async def response_users(cls, users):
         """merge response users"""
 
         _users = list()
@@ -44,9 +46,10 @@ class UserResolver:
         return _users
 
     @classmethod
-    async def read_user(cls, user_id: int) -> dict:
-        query = await ResourceOp(User, user_id).instance(is_delete=False)
+    async def read_user(cls, user_id: int):
 
-        user = User.to_dict(query)
-        user['is_admin_user'] = await query.is_admin_user
+        _, instance = await ResourceOp(User, user_id).instance(is_delete=False)
+
+        user = User.to_dict(instance)
+        user['is_admin_user'] = await instance.is_admin_user
         return user

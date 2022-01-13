@@ -9,7 +9,7 @@ class LoginResolver:
     EXTEND_MODEL_MAP = {'AdminUser': AdminUser}
 
     @classmethod
-    async def authentic(cls, cellphone: str, code: str, extend_model: str) -> dict:
+    async def authentic(cls, cellphone: str, code: str, extend_model: str):
         """the entrance to get auth token"""
 
         sms_redis_op = SMSCodeRedis()
@@ -24,7 +24,7 @@ class LoginResolver:
             # update/save login time
             extend_user.login_time = login_time
             extend_user.token_expired = token_expired
-            await extend_user.save()
+            await extend_user.save(update_fields=['login_time', 'token_expired'])
 
             # save redis
             token_redis_op = TokenRedis()

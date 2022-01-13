@@ -6,7 +6,7 @@ from apps.api_admin.entities import FilterOrderParser
 class OrderResolver:
 
     @classmethod
-    def list_orders(cls, parser: FilterOrderParser) -> QuerySet:
+    def list_orders(cls, parser: FilterOrderParser) -> QuerySet[Order]:
         """search/filter orders"""
 
         query = Order.filter(is_delete=False)

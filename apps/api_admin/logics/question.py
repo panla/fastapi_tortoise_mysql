@@ -8,7 +8,7 @@ from apps.api_admin.entities import FilterQuestionParser
 class QuestionResolver:
 
     @classmethod
-    def list_questions(cls, parser: FilterQuestionParser) -> QuerySet:
+    def list_questions(cls, parser: FilterQuestionParser) -> QuerySet[Question]:
         """search/filter questions"""
 
         query = Question.filter(is_delete=False)
