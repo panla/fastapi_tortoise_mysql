@@ -40,7 +40,7 @@ class TokenResolver:
             raise BadRequest(message=str(e))
 
     @classmethod
-    async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str):
+    async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str, **kwargs):
         """select query user, extend_user"""
 
         model_class = cls.EXTEND_MODEL_MAP.get(extend_model)

@@ -4,6 +4,18 @@
 
 ## 0.6
 
+### 0.6.8
+
+update/optimize
+
+add
+
+fix
+
+- fix apps/modules/token.py query_user parameters error
+
+require packages
+
 ### 0.6.7
 
 update/optimize
