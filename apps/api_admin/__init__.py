@@ -21,7 +21,7 @@ def register_routers(app: FastAPI):
     app.include_router(code.router, prefix='/code', tags=['code'])
 
 
-def init_sub_app(app: FastAPI):
+def init_sub_app(app: FastAPI) -> FastAPI:
     """mount sub app"""
 
     api_app: FastAPI = FastAPI(include_in_schema=ServiceConfig.INCLUDE_IN_SCHEMA)

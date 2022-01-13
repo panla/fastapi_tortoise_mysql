@@ -104,6 +104,7 @@ def random_int(length: int = 4) -> str:
 
 
 class UidGenerator:
+    """<class 'common.tools.UidGenerator'>"""
 
     @staticmethod
     def u_id() -> str:

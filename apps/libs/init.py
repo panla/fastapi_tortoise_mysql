@@ -7,7 +7,7 @@ from apps.api_admin import init_sub_app as init_api_admin_app
 from apps.api_test import init_sub_app as init_api_test_app
 
 
-def init_app(app: FastAPI):
+def init_app(app: FastAPI) -> FastAPI:
     """the entrance to init app"""
 
     init_db(app)

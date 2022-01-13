@@ -12,6 +12,8 @@ update/optimize
 
 add
 
+- supplement Python Type Hint
+
 fix
 
 - fix apps/modules/token.py query_user parameters error

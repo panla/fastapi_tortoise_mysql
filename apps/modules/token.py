@@ -1,4 +1,5 @@
 import traceback
+from typing import Tuple
 from datetime import datetime, timedelta
 
 import jwt
@@ -15,7 +16,7 @@ class TokenResolver:
     EXTEND_MODEL_MAP = {'AdminUser': AdminUser}
 
     @classmethod
-    def encode_auth_token(cls, user_id: int, extend_user_id: int, extend_model: str):
+    def encode_auth_token(cls, user_id: int, extend_user_id: int, extend_model: str) -> Tuple[str, datetime, datetime]:
         """generate jwt token"""
 
         login_time = datetime.now()
