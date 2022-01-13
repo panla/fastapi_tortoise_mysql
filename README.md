@@ -1,21 +1,16 @@
 # README
 
-> a demo that use the async web frame work: FastAPI, async orm: tortoise-orm, the database: MySQL
+> A demo that use the async web frame work: FastAPI, async orm: Tortoise-ORM, the database: MySQL
 
-- <https://github.com/panla/fastapi_tortoise_mysql>
-- <https://gitee.com/pankla/fastapi_tortoise_mysql>
+- [![MIT licensed](https://img.shields.io/github/license/panla/fastapi_tortoise_mysql)](https://raw.githubusercontent.com/panla/fastapi_tortoise_mysql/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/panla/fastapi_tortoise_mysql.svg)](https://github.com/panla/fastapi_tortoise_mysql/stargazers) [![GitHub forks](https://img.shields.io/github/forks/panla/fastapi_tortoise_mysql.svg)](https://github.com/panla/fastapi_tortoise_mysql/network)
+- [![github](https://img.shields.io/badge/fastapi__tortoise__mysql-github-red)](https://github.com/panla/fastapi_tortoise_mysql)
+- [![gitee](https://img.shields.io/badge/fastapi__tortoise__mysql-gitee-red)](https://gitee.com/pankla/fastapi_tortoise_mysql)
 
-## tags
+## keywords
 
-- *asyncio*
-- *fastapi* <https://github.com/tiangolo/fastapi>
-- *tortoise-orm* <https://github.com/tortoise/tortoise-orm>
-- *MySQL*
-- *Redis*
+![python-3.8](https://img.shields.io/badge/python-3.8-yellowgreen) ![python-asyncio](https://img.shields.io/badge/python-asyncio-green) [![FastAPI](https://img.shields.io/badge/tiangolo-FastAPI-green)](https://github.com/tiangolo/fastapi) [![pydantic](https://img.shields.io/badge/samuelcolvin-pydantic-green)](https://github.com/samuelcolvin/pydantic) [![tortoise-orm](https://img.shields.io/badge/tortoise-Tortoise--ORM-yellowgreen)](https://github.com/tortoise/tortoise-orm) ![MySQL](https://img.shields.io/badge/MySQL-8-yellowgreen) [![Redis](https://img.shields.io/badge/Redis-6.2-red)](https://redis.io/)
 
 ## environment
-
-- Python: 3.8
 
 - [require packets for work](./mirrors/requirements.txt)
 - [require packets for dev and test](./mirrors/requirements-dev.txt)
@@ -36,23 +31,22 @@ make run
 
 ### project file
 
-- [license](./LICENSE)
-- [a global config file](./config.py)
-- [dir or file for using Cython cythonize](./build.txt)
-- [the program entry file](./main.py)
+- [MIT LICENSE](./LICENSE)
+- [A Global Config File](./config.py)
+- [Dir or File for Using Cython cythonize](./build.txt)
+- [The Program Entry File](./main.py)
 - [Dokerfile](./Dockerfile)
 - [Makefile](./Makefile)
-- [the conf file of aerich](./aerich.ini)
-- [the conf file oh aerich, new](./pyproject.toml)
-- [the different version`s change log record for this project](./CHANGELOG.md)
-- [the config of pytest](./pytest.ini)
+- [The Conf File of Aerich](./pyproject.toml)
+- [The Change Log of Different Version for This Project](./CHANGELOG.md)
+- [The Config of pytest](./pytest.ini)
 
 ### some tools
 
-- [the script of create blank migration sql file](./tools/create_migration_template_file.py)
-- [the script of find target in some dirs](./tools/find.py)
-- [the script of insert some data into database](./tools/insert_data.py)
-- [the extend worker](./tools/worker.py)
+- [The Script of Create Blank migration SQL File](./tools/create_migration_template_file.py)
+- [The Script of Find Target in some Dirs](./tools/find.py)
+- [The Script of Insert Some Data Into Database](./tools/insert_data.py)
+- [The Extend uvicorn Worker](./tools/worker.py)
 
 ## deploy and dir
 

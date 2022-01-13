@@ -20,6 +20,8 @@ update/optimize
 
 add
 
+- update README.md add data brand
+
 fix
 
 - fix Makefile
