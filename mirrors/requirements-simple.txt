@@ -7,11 +7,12 @@ asyncmy==0.2.3
 
 ## orm
 tortoise-orm==0.17.8
-# orm cli
-tortoise-cli
 
 ## migrate
 aerich==0.6.0
+
+## file read
+pytomlpp==1.0.9
 
 ## redis
 aioredis==2.0.0
@@ -40,6 +41,8 @@ Cython==0.29.26
 uvloop==0.16.0
 httptools==0.3.0
 
+
+
 ## test
 pytest==6.2.5
 requests==2.26.0
@@ -47,5 +50,12 @@ requests==2.26.0
 pytest-html==3.1.1
 pytest-metadata==1.11.0
 
-## file read
-pytomlpp==1.0.9
+# orm cli
+tortoise-cli
+
+## mqtt
+paho-mqtt==1.6.1
+
+## celery
+celery==5.2.3
+redis==4.1.0

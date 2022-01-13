@@ -13,12 +13,18 @@ update/optimize
 add
 
 - supplement Python Type Hint
+- add services, celery, mqtt
 
 fix
 
 - fix apps/modules/token.py query_user parameters error
 
 require packages
+
+- update dev require packages
+  - paho-mqtt==1.6.1
+  - celery==5.2.3
+  - redis==4.1.0
 
 ### 0.6.7
 
