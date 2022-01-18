@@ -37,7 +37,7 @@ make run
 - [A Global Config File](./config.py)
 - [Dir or File for Using Cython cythonize](./build.txt)
 - [The Program Entry File](./main.py)
-- [Dokerfile](./Dockerfile)
+- [Dockerfile](./Dockerfile)
 - [Makefile](./Makefile)
 - [The Conf File of Aerich](./pyproject.toml)
 - [The Change Log of Different Version for This Project](./CHANGELOG.md)

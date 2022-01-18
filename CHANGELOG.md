@@ -21,10 +21,20 @@ fix
 
 require packages
 
-- update dev require packages
+- add dev require packages
   - paho-mqtt==1.6.1
   - celery==5.2.3
   - redis==4.1.0
+- upgrade dev require packages
+  - requests==2.27.1
+  - redis==4.1.1
+- upgrade require packages
+  - fastapi=0.72.0 and dependencies
+  - aerich==0.6.2
+  - tortoise-orm=0.18.1 and dependencies
+  - uvicorn==0.17.0
+  - aioredis==2.0.1
+  - pytomlpp==1.0.10
 
 ### 0.6.7
 

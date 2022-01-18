@@ -1,36 +1,36 @@
 ## webframework
-fastapi==0.68.2
-pydantic==1.8.2
-
-## db driver
-asyncmy==0.2.3
-
-## orm
-tortoise-orm==0.17.8
-
-## migrate
-aerich==0.6.0
-
-## file read
-pytomlpp==1.0.9
-
-## redis
-aioredis==2.0.0
-hiredis==2.0.0
+fastapi==0.72.0
+pydantic==1.9.0
+starlette==0.17.1
+anyio==3.5.0
 
 ## web server
 gunicorn==20.1.0
-uvicorn==0.16.0
+uvicorn==0.17.0
+
+## db driver
+asyncmy==0.2.3
+## orm
+tortoise-orm==0.18.1
+## migrate
+aerich==0.6.2
+
+## toml file read
+pytomlpp==1.0.10
 
 ## log
 loguru==0.5.3
 
-## jwt
-PyJWT==2.3.0
-
 ## password
 cryptography==36.0.1
 passlib==1.7.4
+
+## jwt
+PyJWT==2.3.0
+
+## redis
+aioredis==2.0.1
+hiredis==2.0.0
 
 ## file
 python-multipart==0.0.5
@@ -45,7 +45,7 @@ httptools==0.3.0
 
 ## test
 pytest==6.2.5
-requests==2.26.0
+requests==2.27.1
 # test report
 pytest-html==3.1.1
 pytest-metadata==1.11.0
@@ -58,4 +58,4 @@ paho-mqtt==1.6.1
 
 ## celery
 celery==5.2.3
-redis==4.1.0
+redis==4.1.1
