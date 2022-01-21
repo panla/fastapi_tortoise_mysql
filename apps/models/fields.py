@@ -15,14 +15,14 @@ EnumField
 """
 from typing import Any
 
-from tortoise.fields.base import Field
+from tortoise.fields.data import SmallIntField, IntField, BigIntField
 
 
-class TinyIntField(Field, int):
+class TinyIntField(IntField):
     """
     Tiny integer field. (8-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -38,18 +38,18 @@ class TinyIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else -128,
-            "le": 127,
+            "le": 127
         }
 
     class _db_mysql:
         GENERATED_SQL = "TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class MediumIntField(Field, int):
+class MediumIntField(IntField):
     """
     Medium integer field. (24-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -65,18 +65,18 @@ class MediumIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else -8388608,
-            "le": 8388607,
+            "le": 8388607
         }
 
     class _db_mysql:
         GENERATED_SQL = "MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedTinyIntField(Field, int):
+class UnsignedTinyIntField(IntField):
     """
     Unsigned Tiny integer field. (8-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -92,18 +92,18 @@ class UnsignedTinyIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else 0,
-            "le": 255,
+            "le": 255
         }
 
     class _db_mysql:
         GENERATED_SQL = "TINYINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedSmallIntField(Field, int):
+class UnsignedSmallIntField(SmallIntField):
     """
     Unsigned Small integer field. (16-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -119,18 +119,18 @@ class UnsignedSmallIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else 0,
-            "le": 65535,
+            "le": 65535
         }
 
     class _db_mysql:
         GENERATED_SQL = "SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedMediumIntField(Field, int):
+class UnsignedMediumIntField(IntField):
     """
     Unsigned Medium integer field. (24-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -146,18 +146,18 @@ class UnsignedMediumIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else 0,
-            "le": 16777215,
+            "le": 16777215
         }
 
     class _db_mysql:
         GENERATED_SQL = "MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedIntField(Field, int):
+class UnsignedIntField(IntField):
     """
     Unsigned Int integer field. (32-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -173,18 +173,18 @@ class UnsignedIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else 0,
-            "le": 4294967295,
+            "le": 4294967295
         }
 
     class _db_mysql:
         GENERATED_SQL = "INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedBigIntField(Field, int):
+class UnsignedBigIntField(BigIntField):
     """
     Unsigned Big integer field. (64-bit unsigned)
 
-    ``pk`` (bool):
+    pk (bool):
         True if field is Primary Key.
     """
 
@@ -200,7 +200,7 @@ class UnsignedBigIntField(Field, int):
     def constraints(self) -> dict:
         return {
             "ge": 1 if self.generated or self.reference else 0,
-            "le": 18446744073709551615,
+            "le": 18446744073709551615
         }
 
     class _db_mysql:

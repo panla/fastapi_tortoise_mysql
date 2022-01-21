@@ -3,6 +3,7 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 
 from conf.const import StatusCode
 
@@ -34,6 +35,12 @@ def register_cross(app: FastAPI):
         allow_credentials=True,
         allow_origin_regex='https?://.*',
         expose_headers=['X-TOKEN', 'X-Process-Time']
+    )
+
+    app.add_middleware(
+        GZipMiddleware,
+        minimum_size=500,
+        compresslevel=9
     )
 
 
