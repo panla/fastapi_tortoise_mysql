@@ -90,27 +90,32 @@ docker-compose up -d --build
 ### the project dir example
 
 ```text
-project
-    ├── api
-    │   ├── ...
-    conf
-    │   ├── api
-    │   │   ├── conf
-    │   │   │   ├── product.local.toml
-    │   │   │   └── test.local.toml
-    │   │   ├── docker-entrypoint.sh
-    │   │   ├── gunicorn_config.py
-    │   │   └── run.sh
-    │   └── mysql
-    │       ├── my.cnf
-    │       └── sources.list
-    ├── data
-    │   ├── mysql
-    │   │   └── data
-    │   └── redis
-    │       └── data
-    │           └── dump.rdb
-    ├── docker-compose.yml
-    ├── logs
-    │   └── api
+.
+├── api
+├── conf
+│   ├── api
+│   │   ├── product.local.toml
+│   │   ├── test.local.toml
+│   │   ├── docker-entrypoint.sh
+│   │   └── gunicorn_config.py
+│   ├── mirrors
+│   │   └── sources.list
+│   └── mysql
+│       ├── my.cnf
+│       └── sources.list
+├── data
+│   ├── mysql
+│   │   └── data
+│   └── redis
+│       └── data
+│           └── dump.rdb
+├── docker-compose.yml
+├── fastapi_sockets
+├── logs
+│   ├── api
+│   │   └── x.log
+│   ├── local
+│   │   ├── x.log
+│   │   └── x-test.log
+│   └── x.log
 ```

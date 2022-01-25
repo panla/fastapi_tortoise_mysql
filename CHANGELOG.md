@@ -9,6 +9,8 @@
 update/optimize
 
 - update ResourceOp, update TypeHint
+- update docker-compose api volumes
+- update README
 
 add
 

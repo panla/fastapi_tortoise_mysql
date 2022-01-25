@@ -42,8 +42,8 @@ services:
     command: /bin/bash ./docker-entrypoint.sh
     volumes:
       - ./api:/home/project
-      - ./conf/api/conf/product.local.toml:/home/project/conf/product.local.toml
-      - ./conf/api/conf/test.toml.local:/home/project/conf/test.local.toml
+      - ./conf/api/product.local.toml:/home/project/conf/product.local.toml
+      - ./conf/api/test.toml.local:/home/project/conf/test.local.toml
       - ./conf/api/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
       - ./logs/api:/home/logs
