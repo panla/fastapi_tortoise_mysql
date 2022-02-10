@@ -11,6 +11,7 @@ update/optimize
 - update ResourceOp, update TypeHint
 - update docker-compose api volumes
 - update README
+- entities->schemas resources->endpoints
 
 add
 
