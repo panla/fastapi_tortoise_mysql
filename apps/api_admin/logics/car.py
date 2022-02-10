@@ -2,7 +2,7 @@ from tortoise.models import QuerySet
 
 from apps.modules import ResourceOp
 from apps.models import Car
-from apps.api_admin.entities import CreateCarParser, PatchCarParser, FilterCarParser
+from apps.api_admin.schemas import CreateCarParser, PatchCarParser, FilterCarParser
 
 
 class CarResolver:

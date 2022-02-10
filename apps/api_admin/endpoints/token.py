@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from extensions import Route, ErrorSchema
-from apps.api_admin.entities import CreateTokenParser, TokenSchema
+from apps.api_admin.schemas import CreateTokenParser, TokenSchema
 from apps.api_admin.logics import LoginResolver
 
 router = APIRouter(route_class=Route, responses=ErrorSchema)

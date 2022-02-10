@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Path
 
 from extensions import Route, Pagination, ErrorSchema
-from apps.api_admin.entities import (
+from apps.api_admin.schemas import (
     ReadQuestionSchema, ListQuestionSchema, FilterQuestionParser
 )
 from apps.api_admin.logics import QuestionResolver

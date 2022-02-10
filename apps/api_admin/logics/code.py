@@ -4,7 +4,7 @@ from extensions import NotFound, BadRequest
 from common import random_int
 from redis_ext import SMSCodeRedis
 from apps.models import User
-from apps.api_admin.entities import CreateCodeParser
+from apps.api_admin.schemas import CreateCodeParser
 
 
 async def create_sms_code(parser: CreateCodeParser):

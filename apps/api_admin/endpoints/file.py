@@ -3,7 +3,7 @@ from typing import Optional, List
 from fastapi import APIRouter, UploadFile, File
 
 from extensions import Route, ErrorSchema
-from apps.api_admin.entities import FileSchema
+from apps.api_admin.schemas import FileSchema
 
 router = APIRouter(route_class=Route, responses=ErrorSchema)
 

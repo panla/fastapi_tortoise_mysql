@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Path
 
 from extensions import Route, Pagination, ErrorSchema
 from apps.modules import current_admin_user
-from apps.api_admin.entities import (
+from apps.api_admin.schemas import (
     ReadCarSchema, ListCarSchema, CarIDSchema,
     CreateCarParser, PatchCarParser, FilterCarParser
 )

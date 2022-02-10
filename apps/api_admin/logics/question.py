@@ -2,7 +2,7 @@ from tortoise.models import QuerySet
 
 from extensions import NotFound
 from apps.models import Question
-from apps.api_admin.entities import FilterQuestionParser
+from apps.api_admin.schemas import FilterQuestionParser
 
 
 class QuestionResolver:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from extensions import Route, Pagination, ErrorSchema
-from apps.api_admin.entities import (
+from apps.api_admin.schemas import (
     ListOrderSchema, FilterOrderParser
 )
 from apps.api_admin.logics import OrderResolver

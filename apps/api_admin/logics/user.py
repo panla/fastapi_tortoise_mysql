@@ -2,7 +2,7 @@ from tortoise.models import QuerySet
 
 from apps.modules import ResourceOp
 from apps.models import User
-from apps.api_admin.entities import FilterUserParser, PatchUserParser
+from apps.api_admin.schemas import FilterUserParser, PatchUserParser
 
 
 class UserResolver:

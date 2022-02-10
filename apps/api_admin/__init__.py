@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from config import ServiceConfig
 from apps.libs import register_exception
 
-from .resources import (
+from .endpoints import (
     car, file, order, question,
     token, user, code
     )

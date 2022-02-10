@@ -6,9 +6,9 @@ mixins
 redis_ext
 apps/modules
 apps/models
-apps/api_admin/entities
+apps/api_admin/schemas
 apps/api_admin/logics
-apps/api_admin/resources
+apps/api_admin/endpoints
 apps/api_test
 apps/libs
 apps
