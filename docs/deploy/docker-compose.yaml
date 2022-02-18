@@ -3,45 +3,45 @@ services:
   db:
     image: mysql:8.0.26
     container_name: fastapi_tm_db
-    volumes:
-      - ./data/mysql/data:/var/lib/mysql
-      - ./conf/mysql/my.cnf:/etc/my.cnf
     networks:
       dev_net:
         ipv4_address: "172.20.5.3"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./conf/mysql/my.cnf:/etc/my.cnf
+      - ./data/mysql/data:/var/lib/mysql
     environment:
-      - TZ=Asia/Shanghai
       - LC_ALL=C.UTF-8
       - LANG=C.UTF-8
-      - MYSQL_DATABASE=ftm_dev
+      - MYSQL_DATABASE=ftm_prd
       - MYSQL_ROOT_PASSWORD=12345678
 
   # emqx:
-  #   image: emqx/emqx:latest
+  #   image: emqx/emqx:4.3.12
   #   container_name: fastapi_tm_emqx
+  #   networks:
+  #     dev_net:
+  #       ipv4_address: "172.20.5.4"
   #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
   #     - ./conf/emqx/emqx.conf:/opt/emqx/etc/emqx.conf
   #     - ./conf/emqx/vm.args:/opt/emqx/etc/vm.args
   #     - ./conf/emqx/emqx_auth_mnesia.conf:/opt/emqx/etc/plugins/emqx_auth_mnesia.conf
   #     - ./conf/emqx/loaded_plugins:/opt/emqx/data/loaded_plugins
-  #   networks:
-  #     dev_net:
-  #       ipv4_address: "172.20.5.4"
-  #   environment:
-  #     - TZ=Asia/Shanghai
 
   rabbitmq:
     image: rabbitmq:3.8-management
     container_name: fastapi_tm_rabbitmq
     hostname: fastapi_tm_rabbitmq
+    networks:
+      dev_net:
+        ipv4_address: "172.20.5.5"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./data/rabbitmq:/var/lib/rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=root
-    networks:
-      dev_net:
-        ipv4_address: "172.20.5.5"
 
   redis:
     image: redis:6.2-alpine
@@ -49,70 +49,70 @@ services:
     networks:
       dev_net:
         ipv4_address: "172.20.5.6"
-    volumes:
-      - ./data/redis/data:/data
     command: redis-server --requirepass 12345678
-    environment:
-      - TZ=Asia/Shanghai
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/redis/data:/data
 
   celery_services:
-    container_name: celery_services
     image: "celery_services:latest"
+    container_name: celery_services
     build:
       context: "./celery_services"
       dockerfile: ./Dockerfile
     command: /bin/bash ./docker-entrypoint.sh
+    networks:
+      dev_net:
+        ipv4_address: 172.20.5.11
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./celery_services:/home/project
       - ./conf/celery_services/product.local.toml:/home/project/conf/product.local.toml
       - ./conf/celery_services/test.local.toml:/home/project/conf/test.local.toml
       - ./conf/celery_services/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./logs/celery_services:/home/logs
-    networks:
-      dev_net:
-        ipv4_address: 172.20.5.11
     depends_on:
       - redis
       - rabbitmq
 
   api:
-    container_name: fastapi_tm_api
     image: "fastapi_tm_api:latest"
+    container_name: fastapi_tm_api
     build:
       context: "./api"
       dockerfile: ./Dockerfile
     command: /bin/bash ./docker-entrypoint.sh
+    networks:
+      dev_net:
+        ipv4_address: 172.20.5.12
+    ports:
+      - 127.0.0.1:18020:8000
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ./api:/home/project
       - ./conf/api/product.local.toml:/home/project/conf/product.local.toml
       - ./conf/api/test.local.toml:/home/project/conf/test.local.toml
       - ./conf/api/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
       - ./logs/api:/home/logs
-    ports:
-      - 127.0.0.1:18020:8000
-    networks:
-      dev_net:
-        ipv4_address: 172.20.5.12
     depends_on:
       - redis
       - db
       - rabbitmq
 
   sockets:
-    container_name: fastapi_sockets
     image: fastapi_sockets:latest
+    container_name: fastapi_sockets
     build: ./fastapi_sockets
-    environment:
-      TZ: Asia/Shanghai
     command: /bin/bash ./docker-entrypoint.sh
-    volumes:
-      - ./fastapi_sockets:/home/project
-      - ./conf/sockets/product.local.toml:/home/project/conf/product.local.toml
-      - ./logs/sockets:/home/logs
     networks:
       dev_net:
         ipv4_address: "172.20.5.13"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./fastapi_sockets:/home/project
+      - ./conf/sockets/product.local.toml:/home/project/conf/product.local.toml
+      - ./logs/sockets:/home/logs
 
 networks:
   dev_net:
