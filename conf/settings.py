@@ -1,38 +1,39 @@
 from functools import lru_cache
+from typing import Optional
 
 from pydantic import BaseModel
 
 
 class LogSetting(BaseModel):
-    LOG_LEVEL: str = 'DEBUG'
+    LOG_LEVEL: Optional[str] = 'DEBUG'
     LOG_PATH: str
 
 
 class ServiceSetting(BaseModel):
     # openapi swagger
-    INCLUDE_IN_SCHEMA: bool = True
+    INCLUDE_IN_SCHEMA: Optional[bool] = True
 
 
 class AuthenticSetting(BaseModel):
     ADMIN_SECRETS: str
-    ADMIN_TOKEN_EXP_DELTA: int = 864000
+    ADMIN_TOKEN_EXP_DELTA: Optional[int] = 864000
 
 
 class RedisSetting(BaseModel):
-    REDIS_HOST: str = '127.0.0.1'
-    REDIS_PORT: int = 6379
-    REDIS_PASSWD: str = ''
+    REDIS_HOST: Optional[str] = '127.0.0.1'
+    REDIS_PORT: Optional[int] = 6379
+    REDIS_PASSWD: Optional[str] = ''
 
 
 class DBSetting(BaseModel):
-    DB_POOL_RECYCLE: str = 1000
+    DB_POOL_RECYCLE: Optional[str] = 1000
 
-    DB_USER: str = 'root'
+    DB_USER: Optional[str] = 'root'
     DB_PASSWD: str
-    DB_HOST: str = '127.0.0.1'
-    DB_PORT: int = 3306
+    DB_HOST: Optional[str] = '127.0.0.1'
+    DB_PORT: Optional[int] = 3306
     DB_DATABASE: str
-    DB_MAX_SIZE: int = 5
+    DB_MAX_SIZE: Optional[int] = 5
 
 
 class ORMSetting:
