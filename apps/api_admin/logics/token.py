@@ -13,7 +13,7 @@ class LoginResolver:
         """the entrance to get auth token"""
 
         sms_redis_op = SMSCodeRedis()
-        sms_redis_op.set_key(cellphone)
+        sms_redis_op.name = cellphone
 
         if code == await sms_redis_op.get():
             user, extend_user = await cls.check_user(cellphone, extend_model)
@@ -28,7 +28,7 @@ class LoginResolver:
 
             # save redis
             token_redis_op = TokenRedis()
-            token_redis_op.set_key(f'{cellphone}:{extend_model}:{extend_user.id}')
+            token_redis_op.name = f'{cellphone}:{extend_model}:{extend_user.id}'
             await token_redis_op.set(token, ex=AuthenticConfig.ADMIN_TOKEN_EXP_DELTA)
 
             rt = {'token': token, 'user_id': user.id, 'extend_user_id': extend_user.id, 'extend_model': 'AdminUser'}

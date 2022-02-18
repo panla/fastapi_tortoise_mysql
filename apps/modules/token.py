@@ -61,7 +61,7 @@ class TokenResolver:
     @classmethod
     async def _check_redis(cls, token: str, user: User, extend_model: str, extend_user_id: int):
         token_redis_op = TokenRedis()
-        token_redis_op.set_key(f'{user.cellphone}:{extend_model}:{extend_user_id}')
+        token_redis_op.name = f'{user.cellphone}:{extend_model}:{extend_user_id}'
 
         if not await token_redis_op.get() == token:
             raise Unauthorized(message='login expired, please login retry.')
