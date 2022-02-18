@@ -21,6 +21,7 @@ add
 fix
 
 - fix apps/modules/token.py query_user parameters error
+- fix bug ResourceOp
 
 require packages
 

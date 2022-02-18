@@ -23,7 +23,7 @@ class UserResolver:
     async def patch_user(cls, user_id: int, parser: PatchUserParser):
         """update user"""
 
-        instances, instance = await ResourceOp(User, user_id).instance()
+        instances, _ = await ResourceOp(User, user_id).instance()
 
         patch_params = dict()
         for k, v in parser.dict().items():
@@ -32,7 +32,7 @@ class UserResolver:
         if patch_params:
             await instances.update(**patch_params)
 
-        return instance
+        return await instances.first()
 
     @classmethod
     async def response_users(cls, users):

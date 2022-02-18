@@ -8,7 +8,7 @@ from apps.api_admin.schemas import FileSchema
 router = APIRouter(route_class=Route, responses=ErrorSchema)
 
 
-@router.post('', response_model=FileSchema)
+@router.post('', response_model=FileSchema, status_code=201)
 async def upload_file(
         file: Optional[UploadFile] = File(default=None),
         files: Optional[List[UploadFile]] = File(default=None),

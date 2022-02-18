@@ -33,7 +33,7 @@ class CarResolver:
     async def patch_car(cls, car_id: int, parser: PatchCarParser):
         """update one car"""
 
-        instances, instance = await ResourceOp(Car, car_id).instance()
+        instances, _ = await ResourceOp(Car, car_id).instance()
 
         params = parser.dict()
         patch_params = dict()
@@ -44,4 +44,4 @@ class CarResolver:
         if patch_params:
             await instances.update(**patch_params)
 
-        return instance
+        return await instances.first()

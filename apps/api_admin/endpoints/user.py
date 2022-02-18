@@ -20,7 +20,7 @@ async def read_user(
     return ReadUserSchema(data=rt)
 
 
-@router.patch('/{u_id}', response_model=UserSchema, status_code=201)
+@router.patch('/{u_id}', response_model=UserSchema, status_code=200)
 async def patch_user(
         u_id: int,
         parser: PatchUserParser,
