@@ -7,9 +7,8 @@ services:
       - ./data/mysql/data:/var/lib/mysql
       - ./conf/mysql/my.cnf:/etc/my.cnf
     networks:
-      fastapi_tm_net:
-        ipv4_address: 172.22.0.2
-    restart: always
+      dev_net:
+        ipv4_address: "172.20.5.3"
     environment:
       - TZ=Asia/Shanghai
       - LC_ALL=C.UTF-8
@@ -17,20 +16,64 @@ services:
       - MYSQL_DATABASE=ftm_dev
       - MYSQL_ROOT_PASSWORD=12345678
 
+  # emqx:
+  #   image: emqx/emqx:latest
+  #   container_name: fastapi_tm_emqx
+  #   volumes:
+  #     - ./conf/emqx/emqx.conf:/opt/emqx/etc/emqx.conf
+  #     - ./conf/emqx/vm.args:/opt/emqx/etc/vm.args
+  #     - ./conf/emqx/emqx_auth_mnesia.conf:/opt/emqx/etc/plugins/emqx_auth_mnesia.conf
+  #     - ./conf/emqx/loaded_plugins:/opt/emqx/data/loaded_plugins
+  #   networks:
+  #     dev_net:
+  #       ipv4_address: "172.20.5.4"
+  #   environment:
+  #     - TZ=Asia/Shanghai
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: fastapi_tm_rabbitmq
+    hostname: fastapi_tm_rabbitmq
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    networks:
+      dev_net:
+        ipv4_address: "172.20.5.5"
+
   redis:
     image: redis:6.2-alpine
     container_name: fastapi_tm_redis
     networks:
-      fastapi_tm_net:
-        ipv4_address: 172.22.0.3
-    restart: always
+      dev_net:
+        ipv4_address: "172.20.5.6"
     volumes:
       - ./data/redis/data:/data
     command: redis-server --requirepass 12345678
     environment:
       - TZ=Asia/Shanghai
+
+  celery_services:
+    container_name: celery_services
+    image: "celery_services:latest"
+    build:
+      context: "./celery_services"
+      dockerfile: ./Dockerfile
+    command: /bin/bash ./docker-entrypoint.sh
+    volumes:
+      - ./celery_services:/home/project
+      - ./conf/celery_services/product.local.toml:/home/project/conf/product.local.toml
+      - ./conf/celery_services/test.local.toml:/home/project/test.local.toml
+      - ./conf/celery_services/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
+      - ./logs/celery_services:/home/logs
+    networks:
+      dev_net:
+        ipv4_address: 172.20.5.11
     depends_on:
-      - db
+      - redis
+      - rabbitmq
 
   api:
     container_name: fastapi_tm_api
@@ -42,20 +85,35 @@ services:
     volumes:
       - ./api:/home/project
       - ./conf/api/product.local.toml:/home/project/conf/product.local.toml
-      - ./conf/api/test.toml.local:/home/project/conf/test.local.toml
+      - ./conf/api/test.local.toml:/home/project/conf/test.local.toml
       - ./conf/api/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./conf/api/gunicorn_config.py:/home/project/gunicorn_config.py
       - ./logs/api:/home/logs
     ports:
       - 127.0.0.1:18020:8000
     networks:
-      fastapi_tm_net:
-        ipv4_address: 172.22.0.4
-    restart: always
+      dev_net:
+        ipv4_address: 172.20.5.12
     depends_on:
       - redis
       - db
+      - rabbitmq
+
+  sockets:
+    container_name: fastapi_sockets
+    image: fastapi_sockets:latest
+    build: ./fastapi_sockets
+    environment:
+      TZ: Asia/Shanghai
+    command: /bin/bash ./docker-entrypoint.sh
+    volumes:
+      - ./fastapi_sockets:/home/project
+      - ./conf/sockets/product.local.toml:/home/project/conf/product.local.toml
+      - ./logs/sockets:/home/logs
+    networks:
+      dev_net:
+        ipv4_address: "172.20.5.13"
 
 networks:
-  fastapi_tm_net:
+  dev_net:
     external: true

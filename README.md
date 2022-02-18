@@ -58,7 +58,7 @@ make run
 # download docker and docker-compose
 
 # create docker network: example
-docker network create --driver bridge --subnet 172.22.0.0/16 --gateway 172.22.0.1 fastapi_tm_net
+docker network create --driver bridge --subnet xxxxxx --gateway xxxxx xxxxxxxx
 
 # mkdir project dir
 mkdir /srv/project && cd /srv/project && mkdir conf/api conf/mysql -p

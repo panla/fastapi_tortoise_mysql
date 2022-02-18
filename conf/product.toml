@@ -1,6 +1,6 @@
 [redis]
 
-HOST = "172.22.0.3"
+HOST = "172.20.5.3"
 PORT = 6379
 PASSWD = "12345678"
 
@@ -10,7 +10,7 @@ POOL_RECYCLE = 1800
 
 USER = "root"
 PASSWD = "12345678"
-HOST = "172.22.0.2"
+HOST = "172.20.5.2"
 PORT = 3306
 DATABASE = "ftm_dev"
 MAX_SIZE = 500
