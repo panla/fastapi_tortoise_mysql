@@ -65,7 +65,7 @@ services:
     volumes:
       - ./celery_services:/home/project
       - ./conf/celery_services/product.local.toml:/home/project/conf/product.local.toml
-      - ./conf/celery_services/test.local.toml:/home/project/test.local.toml
+      - ./conf/celery_services/test.local.toml:/home/project/conf/test.local.toml
       - ./conf/celery_services/docker-entrypoint.sh:/home/project/docker-entrypoint.sh
       - ./logs/celery_services:/home/logs
     networks:

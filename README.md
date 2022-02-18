@@ -99,7 +99,7 @@ docker-compose up -d --build
 │   │   ├── docker-entrypoint.sh
 │   │   └── gunicorn_config.py
 │   └── mysql
-│       ├── my.cnf
+│       └── my.cnf
 ├── data
 │   ├── mysql
 │   │   └── data
@@ -107,11 +107,11 @@ docker-compose up -d --build
 │       └── data
 │           └── dump.rdb
 ├── docker-compose.yml
-├── logs
-│   ├── api
-│   │   └── x.log
-│   ├── local
-│   │   ├── x.log
-│   │   └── x-test.log
-│   └── x.log
+└── logs
+    ├── api
+    │   └── x.log
+    ├── local
+    │   ├── x.log
+    │   └── x-test.log
+    └── x.log
 ```
