@@ -6,7 +6,6 @@ services:
     volumes:
       - ./data/mysql/data:/var/lib/mysql
       - ./conf/mysql/my.cnf:/etc/my.cnf
-      - ./conf/mirrors/sources.list:/etc/apt/sources.list
     networks:
       fastapi_tm_net:
         ipv4_address: 172.22.0.2

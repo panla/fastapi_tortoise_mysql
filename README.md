@@ -74,8 +74,8 @@ touch docker-compose.yaml
 touch conf/mysql/my.cnf
 
 # reference resources ./conf/product.toml ./conf/test.toml
-touch conf/api/conf/product.local.toml
-touch conf/api/conf/test.local.toml
+touch conf/api/product.local.toml
+touch conf/api/test.local.toml
 
 # reference resources ./docs/deploy/gunicorn_settings_example.py
 touch conf/api/gunicorn_config.py
@@ -98,11 +98,8 @@ docker-compose up -d --build
 │   │   ├── test.local.toml
 │   │   ├── docker-entrypoint.sh
 │   │   └── gunicorn_config.py
-│   ├── mirrors
-│   │   └── sources.list
 │   └── mysql
 │       ├── my.cnf
-│       └── sources.list
 ├── data
 │   ├── mysql
 │   │   └── data
@@ -110,7 +107,6 @@ docker-compose up -d --build
 │       └── data
 │           └── dump.rdb
 ├── docker-compose.yml
-├── fastapi_sockets
 ├── logs
 │   ├── api
 │   │   └── x.log
