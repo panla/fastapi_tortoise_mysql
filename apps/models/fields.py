@@ -18,7 +18,7 @@ from typing import Any
 from tortoise.fields.data import SmallIntField, IntField, BigIntField
 
 
-class TinyIntField(IntField):
+class TinyIntField(SmallIntField):
     """
     Tiny integer field. (8-bit unsigned)
 
@@ -72,7 +72,7 @@ class MediumIntField(IntField):
         GENERATED_SQL = "MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT"
 
 
-class UnsignedTinyIntField(IntField):
+class UnsignedTinyIntField(SmallIntField):
     """
     Unsigned Tiny integer field. (8-bit unsigned)
 

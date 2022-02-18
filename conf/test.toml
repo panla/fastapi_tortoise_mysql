@@ -1,24 +1,24 @@
 [redis]
 
-REDIS_HOST = "172.22.0.3"
-REDIS_PORT = 6379
-REDIS_PASSWD = "12345678"
+HOST = "172.22.0.3"
+PORT = 6379
+PASSWD = "12345678"
 
 [db]
 
-DB_POOL_RECYCLE = 1800
+POOL_RECYCLE = 1800
 
-DB_USER = "root"
-DB_PASSWD = "12345678"
-DB_HOST = "172.22.0.2"
-DB_PORT = 3306
-DB_DATABASE = "ftm_test"
-DB_MAX_SIZE = 2
+USER = "root"
+PASSWD = "12345678"
+HOST = "172.22.0.2"
+PORT = 3306
+DATABASE = "ftm_test"
+MAX_SIZE = 2
 
 [log]
 
-LOG_LEVEL = "INFO"
-LOG_PATH = "/home/user/srv/ftm/logs/local/x.log"
+LEVEL = "INFO"
+PATH = "/home/user/srv/ftm/logs/local/x.log"
 
 [service]
 # schema swagger

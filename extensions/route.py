@@ -18,13 +18,13 @@ class Route(APIRoute):
             logger.info(f'{request.method} {request.url}')
 
             methods = ['POST', 'PUT', 'PATCH']
-            content_type = request.headers.get('content-type')
+            content_type = request.headers.get('content-type', '')
 
             if request.method in methods and 'application/json' in content_type:
                 try:
-                    params = await request.json()
-                    if params:
-                        logger.info(params)
+                    payload = await request.json()
+                    if payload:
+                        logger.info(payload)
                 except JSONDecodeError:
                     logger.error('encounter JSONDecodeError')
                 except UnicodeDecodeError:

@@ -3,7 +3,7 @@ from typing import Any
 from extensions import logger
 
 
-def resp_success(message: str = '', print_msg: str = '', data: Any = None) -> dict:
+def resp_success(code: int = 10000, message: str = '', print_msg: str = '', data: Any = None) -> dict:
     if print_msg:
         pass
     else:
@@ -13,4 +13,4 @@ def resp_success(message: str = '', print_msg: str = '', data: Any = None) -> di
     if print_msg:
         logger.info(print_msg)
 
-    return {'message': message, 'data': data}
+    return {'code': code, 'message': message, 'data': data}

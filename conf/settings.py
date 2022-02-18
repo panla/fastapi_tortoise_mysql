@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class LogSetting(BaseModel):
-    LOG_LEVEL: Optional[str] = 'DEBUG'
-    LOG_PATH: str
+    LEVEL: Optional[str] = 'DEBUG'
+    PATH: str
 
 
 class ServiceSetting(BaseModel):
@@ -20,24 +20,25 @@ class AuthenticSetting(BaseModel):
 
 
 class RedisSetting(BaseModel):
-    REDIS_HOST: Optional[str] = '127.0.0.1'
-    REDIS_PORT: Optional[int] = 6379
-    REDIS_PASSWD: Optional[str] = ''
+    HOST: Optional[str] = '127.0.0.1'
+    PORT: Optional[int] = 6379
+    PASSWD: Optional[str] = ''
+    USER: Optional[str] = ''
 
 
 class DBSetting(BaseModel):
-    DB_POOL_RECYCLE: Optional[str] = 1000
+    POOL_RECYCLE: Optional[str] = 1000
 
-    DB_USER: Optional[str] = 'root'
-    DB_PASSWD: str
-    DB_HOST: Optional[str] = '127.0.0.1'
-    DB_PORT: Optional[int] = 3306
-    DB_DATABASE: str
-    DB_MAX_SIZE: Optional[int] = 5
+    USER: Optional[str] = 'root'
+    PASSWD: str
+    HOST: Optional[str] = '127.0.0.1'
+    PORT: Optional[int] = 3306
+    DATABASE: str
+    MAX_SIZE: Optional[int] = 5
 
 
 class ORMSetting:
-    def __init__(self, db):
+    def __init__(self, db: DBSetting):
         self.db = db
 
     def _base_orm_conf(self, apps: dict) -> dict:
@@ -46,15 +47,15 @@ class ORMSetting:
                 'default': {
                     'engine': 'tortoise.backends.mysql',
                     'credentials': {
-                        'host': self.db.DB_HOST,
-                        'port': self.db.DB_PORT,
-                        'user': self.db.DB_USER,
-                        'password': self.db.DB_PASSWD,
-                        'database': self.db.DB_DATABASE,
+                        'host': self.db.HOST,
+                        'port': self.db.PORT,
+                        'user': self.db.USER,
+                        'password': self.db.PASSWD,
+                        'database': self.db.DATABASE,
                         'minsize': 1,
-                        'maxsize': self.db.DB_MAX_SIZE,
+                        'maxsize': self.db.MAX_SIZE,
                         'charset': 'utf8mb4',
-                        'pool_recycle': self.db.DB_POOL_RECYCLE
+                        'pool_recycle': self.db.POOL_RECYCLE
                     }
                 }
             },

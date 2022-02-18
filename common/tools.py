@@ -108,8 +108,6 @@ class UidGenerator:
 
     @staticmethod
     def u_id() -> str:
-        """len = 72"""
-
         return f'{random_str(20)}{uuid.uuid4().hex}{random_str(20)}'
 
     def __str__(self) -> str:

@@ -12,6 +12,7 @@ update/optimize
 - update docker-compose api volumes
 - update README
 - entities->schemas resources->endpoints
+- update config variable name
 
 add
 
