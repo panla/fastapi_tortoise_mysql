@@ -4,6 +4,18 @@
 
 ## 0.6
 
+### 0.6.9
+
+update/optimize
+
+- update celery config
+
+add
+
+fix
+
+require packages
+
 ### 0.6.8
 
 update/optimize
