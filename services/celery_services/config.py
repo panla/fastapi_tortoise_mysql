@@ -72,5 +72,5 @@ class CeleryConfig:
 
     # 10，路由列表把任务路由到队列的路由
     task_routes = {
-        'pay_task': {'exchange': define_exchange.get('pay').name, 'routing_key': RoutingKeyConst.pay}
+        'pay': {'exchange': define_exchange.get('pay').name, 'routing_key': RoutingKeyConst.pay}
     }
