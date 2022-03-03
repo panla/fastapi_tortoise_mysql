@@ -1,12 +1,12 @@
 ## webframework
-fastapi==0.72.0
+fastapi==0.74.1
 pydantic==1.9.0
 starlette==0.17.1
 anyio==3.5.0
 
 ## web server
 gunicorn==20.1.0
-uvicorn==0.17.0
+uvicorn==0.17.5
 
 ## db driver
 asyncmy==0.2.3
@@ -19,7 +19,7 @@ aerich==0.6.2
 pytomlpp==1.0.10
 
 ## log
-loguru==0.5.3
+loguru==0.6.0
 
 ## password
 cryptography==36.0.1
@@ -37,20 +37,23 @@ python-multipart==0.0.5
 aiofiles==0.8.0
 
 ## speed
-Cython==0.29.26
+Cython==0.29.28
 uvloop==0.16.0
-httptools==0.3.0
+httptools==0.4.0
 
 
 
 ## test
-pytest==6.2.5
+pytest==7.0.1
 requests==2.27.1
 # test report
 pytest-html==3.1.1
 pytest-metadata==1.11.0
 
-# orm cli
+## http request
+httpx==0.22.0
+
+## orm cli
 tortoise-cli
 
 ## mqtt
@@ -58,4 +61,4 @@ paho-mqtt==1.6.1
 
 ## celery
 celery==5.2.3
-redis==4.1.1
+redis==4.1.4

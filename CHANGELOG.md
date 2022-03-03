@@ -18,6 +18,20 @@ fix
 
 require packages
 
+- upgrade requestment
+  - fastapi==0.74.1
+  - loguru==0.6.0
+  - uvicorn==0.74.5
+  - Cython==0.29.28
+  - httptools==0.4.0
+
+- upgrade requirement-dev
+  - pytest==7.0.1
+  - redis==4.1.4
+
+- add requirement-dev
+- httpx==0.22.0
+
 ### 0.6.8
 
 update/optimize
