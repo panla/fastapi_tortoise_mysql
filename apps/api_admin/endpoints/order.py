@@ -17,7 +17,7 @@ async def list_orders(
 
     query = OrderResolver.list_orders(parser)
     total = await query.count()
-    query = Pagination(query, parser.page, parser.pagesize or total).items()
+    query = Pagination(query, parser.page, parser.page_size or total).items()
     orders = await query.prefetch_related('owner')
 
     return ListOrderSchema(data={'total': total, 'orders': orders})

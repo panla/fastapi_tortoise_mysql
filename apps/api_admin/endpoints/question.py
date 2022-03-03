@@ -27,7 +27,7 @@ async def list_question(
 
     query = QuestionResolver.list_questions(parser)
     total = await query.count()
-    query = Pagination(query, parser.page, parser.pagesize or total).items()
+    query = Pagination(query, parser.page, parser.page_size or total).items()
     result = await query.prefetch_related('owner')
 
     return ListQuestionSchema(data={'total': total, 'questions': result})

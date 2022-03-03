@@ -39,7 +39,7 @@ async def list_users(
 
     query = UserResolver.list_users(parser)
     total = await query.count()
-    query = Pagination(query, parser.page, parser.pagesize).items()
+    query = Pagination(query, parser.page, parser.page_size).items()
     result = await UserResolver.response_users(await query)
 
     return ListUserSchema(data={'total': total, 'users': result})

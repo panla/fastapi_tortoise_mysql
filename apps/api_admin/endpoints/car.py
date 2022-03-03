@@ -43,6 +43,6 @@ async def list_cars(parser: FilterCarParser = Depends(FilterCarParser)):
 
     query = CarResolver.list_cars(parser)
     total = await query.count()
-    result = await Pagination(query, parser.page, parser.pagesize or total).items()
+    result = await Pagination(query, parser.page, parser.page_size or total).items()
 
     return ListCarSchema(data={'total': total, 'cars': result})

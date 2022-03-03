@@ -9,6 +9,7 @@
 update/optimize
 
 - update celery config
+- update pagesize -> page_size
 
 add
 

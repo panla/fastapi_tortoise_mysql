@@ -41,10 +41,6 @@ class UserEntity(BaseModel):
 class ReadUserSchema(SchemaMixin):
     """the response schema of one user`detail info"""
 
-    class UserEntity(UserEntity):
-        class Config:
-            orm_model = True
-
     data: UserEntity
 
 

@@ -77,4 +77,4 @@ class FilterParserMixin(BaseModel):
     """search list data"""
 
     page: Optional[int] = Query(PaginateConst.DefaultNum, title='page', gte=PaginateConst.MinNum)
-    pagesize: Optional[int] = Query(PaginateConst.DefaultSize, title='pagesize', gte=1, lte=PaginateConst.MaxSize)
+    page_size: Optional[int] = Query(PaginateConst.DefaultSize, title='page_size', gte=1, lte=PaginateConst.MaxSize)
