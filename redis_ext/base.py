@@ -1,22 +1,42 @@
 from typing import Union
 from datetime import timedelta
 
-from aioredis import Redis
+from aioredis.client import Redis
+from aioredis.connection import ConnectionPool
 
 from config import RedisConfig
 
+REDIS_CONNECTION_PARAMS = {
+    'max_connections': RedisConfig.MAX_CONNECTIONS,
+    'username': RedisConfig.USER,
+    'password': RedisConfig.PASSWD,
+    'host': RedisConfig.HOST,
+    'port': RedisConfig.PORT,
+    'encoding': 'utf-8',
+    'decode_responses': True
+}
+REDIS_POOL_CACHE = dict()
 
-class BaseRedisClient(object):
+
+def make_pool(db: int = 0):
+    global REDIS_POOL_CACHE
+
+    pool = REDIS_POOL_CACHE.get(str(db))
+    if pool:
+        return pool
+    else:
+        pool = ConnectionPool(db=db, **REDIS_CONNECTION_PARAMS)
+        REDIS_POOL_CACHE[str(db)] = pool
+        return pool
+
+
+class BaseRedis(object):
     DB = 0
     PREFIX_KEY = ''
-    CONNECTION_PARAMS = {'encoding': 'utf-8', 'decode_responses': True}
 
     def __init__(self) -> None:
         self._name = None
-        self.uri = 'redis://{}:{}@{}:{}/{}'.format(
-            RedisConfig.USER, RedisConfig.PASSWD, RedisConfig.HOST, RedisConfig.PORT, self.DB
-        )
-        self.client: Redis = Redis.from_url(self.uri, **self.CONNECTION_PARAMS)
+        self.client: Redis = Redis(connection_pool=make_pool(db=self.DB))
 
     @property
     def name(self):

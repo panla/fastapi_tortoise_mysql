@@ -1,7 +1,7 @@
-from .base import BaseRedisClient
+from .base import BaseRedis
 
 
-class TokenRedis(BaseRedisClient):
+class TokenRedis(BaseRedis):
     """full key: token:{phone}:{extend_model}:{extend_user_id}"""
 
     DB = 1

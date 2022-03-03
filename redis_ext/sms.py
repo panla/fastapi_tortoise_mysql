@@ -1,7 +1,7 @@
-from .base import BaseRedisClient
+from .base import BaseRedis
 
 
-class SMSCodeRedis(BaseRedisClient):
+class SMSCodeRedis(BaseRedis):
     """full key: sms_code:{key}"""
 
     DB = 1

@@ -1,17 +1,11 @@
 import time
 from typing import Union, Tuple
 
-from .base import BaseRedisClient
+from .base import BaseRedis
 
 
-class BaseResourceLock(BaseRedisClient):
-    """full key: resource_lock:{key}
-
-    setnx
-    get
-    getset
-    expire
-    """
+class BaseResourceLock(BaseRedis):
+    """full key: resource_lock:{key}"""
 
     DB = 2
     PREFIX_KEY = 'resource_lock'
@@ -32,7 +26,7 @@ class BaseResourceLock(BaseRedisClient):
         current_time = time.time()
         current_value = time.time() + self._timeout
 
-        lock = await self.setnx(current_value)
+        lock = await self.set_nx(current_value)
         if lock:
             await self.expire(self._timeout)
             return True, str(current_value)
