@@ -1,10 +1,10 @@
-__all__ = [
-    'client', 'event_loop'
-]
 
 """
 need pip install pytest requests
 """
+__all__ = [
+    'client'
+]
 
 from typing import Generator
 
@@ -29,14 +29,8 @@ def client() -> Generator:
 
         # set token into environ
         run_async(generate_token())
-
         with TestClient(create_app()) as test_client:
             yield test_client
     finally:
         # drop db
         run_async(delete_database())
-
-
-@pytest.fixture(scope="session", autouse=True)
-def event_loop(client: TestClient) -> Generator:
-    yield client.task.get_loop()

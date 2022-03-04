@@ -1,3 +1,5 @@
+import os
+import threading
 from typing import Union
 from datetime import timedelta
 
@@ -5,6 +7,7 @@ from aioredis.client import Redis
 from aioredis.connection import ConnectionPool
 
 from config import RedisConfig
+from conf.const import EnvConst
 
 REDIS_CONNECTION_PARAMS = {
     'max_connections': RedisConfig.MAX_CONNECTIONS,
@@ -15,19 +18,23 @@ REDIS_CONNECTION_PARAMS = {
     'encoding': 'utf-8',
     'decode_responses': True
 }
+
 REDIS_POOL_CACHE = dict()
 
 
-def make_pool(db: int = 0):
-    global REDIS_POOL_CACHE
+class Pool:
+    lock = threading.Lock()
 
-    pool = REDIS_POOL_CACHE.get(str(db))
-    if pool:
-        return pool
-    else:
-        pool = ConnectionPool(db=db, **REDIS_CONNECTION_PARAMS)
-        REDIS_POOL_CACHE[str(db)] = pool
-        return pool
+    @classmethod
+    def make_pool(cls, db: int = 0):
+        with cls.lock:
+            global REDIS_POOL_CACHE
+
+            if REDIS_POOL_CACHE.get(str(db)):
+                pass
+            else:
+                REDIS_POOL_CACHE[str(db)] = ConnectionPool(db=db, **REDIS_CONNECTION_PARAMS)
+            return REDIS_POOL_CACHE.get(str(db))
 
 
 class BaseRedis(object):
@@ -36,7 +43,12 @@ class BaseRedis(object):
 
     def __init__(self) -> None:
         self._name = None
-        self.client: Redis = Redis(connection_pool=make_pool(db=self.DB))
+
+        # TODO FIX
+        if os.environ.get('CODE_ENV') == EnvConst.TEST:
+            self.client: Redis = Redis(connection_pool=ConnectionPool(db=self.DB, **REDIS_CONNECTION_PARAMS))
+        else:
+            self.client: Redis = Redis(connection_pool=Pool.make_pool(db=self.DB))
 
     @property
     def name(self):

@@ -25,3 +25,10 @@ class PaginateConst:
 
     MinNum = 1
     MaxSize = 40
+
+
+class EnvConst:
+
+    TEST = 'test'
+    PRD = 'prd'
+    DEV = 'dev'

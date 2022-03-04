@@ -14,7 +14,7 @@ def test_read_book_first(client: TestClient):
     assert response.status_code == 200
 
 
-def test_update_book(client: TestClient):
+def test_update_car(client: TestClient):
 
     url = '/api/admin/cars/1'
     params = {
@@ -25,10 +25,10 @@ def test_update_book(client: TestClient):
     }
 
     response = client.patch(url, headers=headers, json=params)
-    assert response.status_code == 201
+    assert response.status_code == 200
 
 
-def test_read_cup_two(client: TestClient):
+def test_read_car_two(client: TestClient):
 
     url = '/api/admin/cars/1'
     headers = {

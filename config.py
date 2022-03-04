@@ -17,6 +17,7 @@ from functools import lru_cache
 import pytomlpp
 from pydantic import BaseModel
 
+from conf.const import EnvConst
 from conf.settings import (
     LogSetting, ServiceSetting, AuthenticSetting, RedisSetting, DBSetting, ORMSetting
 )
@@ -34,9 +35,9 @@ class Setting(BaseModel):
 
 @lru_cache()
 def get_settings() -> Setting:
-    code_env = os.environ.get('CODE_ENV', 'prd')
+    code_env = os.environ.get('CODE_ENV', EnvConst.PRD)
 
-    if code_env == 'test':
+    if code_env == EnvConst.TEST:
         p = Path(BASE_DIR).joinpath('conf/test.local.toml')
     else:
         p = Path(BASE_DIR).joinpath('conf/product.local.toml')

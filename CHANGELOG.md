@@ -16,6 +16,8 @@ add
 
 fix
 
+- fix redis pool when in test
+
 require packages
 
 - upgrade requestment
