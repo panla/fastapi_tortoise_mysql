@@ -19,22 +19,29 @@ REDIS_CONNECTION_PARAMS = {
     'decode_responses': True
 }
 
-REDIS_POOL_CACHE = dict()
-
 
 class Pool:
+    cache = dict()
     lock = threading.Lock()
+    instance = None
 
-    @classmethod
-    def make_pool(cls, db: int = 0):
+    def __init__(self, db: int = 0) -> None:
+        self.db = db
+
+    def __new__(cls, db: int = 0):
+        db = str(db)
+
         with cls.lock:
-            global REDIS_POOL_CACHE
+            if not cls.instance:
+                cls.instance = super().__new__(cls)
 
-            if REDIS_POOL_CACHE.get(str(db)):
-                pass
-            else:
-                REDIS_POOL_CACHE[str(db)] = ConnectionPool(db=db, **REDIS_CONNECTION_PARAMS)
-            return REDIS_POOL_CACHE.get(str(db))
+            if not cls.cache.get(db):
+                cls.cache[db] = ConnectionPool(db=db, **REDIS_CONNECTION_PARAMS)
+
+            return cls.instance
+
+    def pool(self):
+        return self.cache.get(str(self.db))
 
 
 class BaseRedis(object):
@@ -48,7 +55,7 @@ class BaseRedis(object):
         if os.environ.get('CODE_ENV') == EnvConst.TEST:
             self.client: Redis = Redis(connection_pool=ConnectionPool(db=self.DB, **REDIS_CONNECTION_PARAMS))
         else:
-            self.client: Redis = Redis(connection_pool=Pool.make_pool(db=self.DB))
+            self.client: Redis = Redis(connection_pool=Pool(self.DB).pool())
 
     @property
     def name(self):
