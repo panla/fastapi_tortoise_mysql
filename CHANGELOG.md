@@ -4,6 +4,28 @@
 
 ## 0.6
 
+### 0.6.10
+
+update/optimize
+
+add
+
+fix
+
+require packages
+
+- upgrade requirements
+  - fastapi==0.75.0
+  - uvicorn==0.17.6
+  - asyncmy==0.2.4
+  - tortoise-orm==0.19.0
+  - cryptography==36.0.2
+
+- upgrade requirements-dev
+  - pytest==7.1.1
+  - aiohttp==3.8.1
+  - redis==4.2.0
+
 ### 0.6.9
 
 update/optimize

@@ -1,17 +1,17 @@
 ## webframework
-fastapi==0.74.1
+fastapi==0.75.0
 pydantic==1.9.0
 starlette==0.17.1
 anyio==3.5.0
 
 ## web server
 gunicorn==20.1.0
-uvicorn==0.17.5
+uvicorn==0.17.6
 
 ## db driver
-asyncmy==0.2.3
+asyncmy==0.2.4
 ## orm
-tortoise-orm==0.18.1
+tortoise-orm==0.19.0
 ## migrate
 aerich==0.6.2
 
@@ -22,7 +22,7 @@ pytomlpp==1.0.10
 loguru==0.6.0
 
 ## password
-cryptography==36.0.1
+cryptography==36.0.2
 passlib==1.7.4
 
 ## jwt
@@ -44,7 +44,7 @@ httptools==0.4.0
 
 
 ## test
-pytest==7.0.1
+pytest==7.1.1
 requests==2.27.1
 # test report
 pytest-html==3.1.1
@@ -52,6 +52,7 @@ pytest-metadata==1.11.0
 
 ## http request
 httpx==0.22.0
+aiohttp==3.8.1
 
 ## orm cli
 tortoise-cli
@@ -61,4 +62,4 @@ paho-mqtt==1.6.1
 
 ## celery
 celery==5.2.3
-redis==4.1.4
+redis==4.2.0
