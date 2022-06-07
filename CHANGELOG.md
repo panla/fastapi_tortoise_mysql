@@ -4,6 +4,32 @@
 
 ## 0.6
 
+## 0.6.11
+
+update/optimize
+
+add
+
+fix
+
+require packages
+
+- upgrade requirements
+  - fastapi==0.78.0
+  - asyncmy==0.2.5
+  - tortoise-orm==0.19.1
+  - cryptography==37.0.2
+  - passlib==1.7.4
+  - PyJWT==2.4.0
+  - redis==4.3.3
+  - Cython==0.29.30
+  - aerich==0.6.3
+  - pytomlpp==1.0.11
+
+- upgrade requirements-dev
+  - pytest==7.1.2
+  - celery==5.2.7
+
 ### 0.6.10
 
 update/optimize

@@ -3,8 +3,8 @@ import threading
 from typing import Union
 from datetime import timedelta
 
-from aioredis.client import Redis
-from aioredis.connection import ConnectionPool
+from redis.asyncio import Redis
+from redis.asyncio.connection import ConnectionPool
 
 from config import RedisConfig
 from conf.const import EnvConst
