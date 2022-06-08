@@ -1,6 +1,6 @@
 import os
 import threading
-from typing import Union
+from typing import Union, Optional
 from datetime import timedelta
 
 from redis.asyncio import Redis
@@ -65,6 +65,24 @@ class BaseRedis(object):
     def name(self, value):
         self._name = f'{self.PREFIX_KEY}:{value}'
 
+    def expire(self, seconds):
+        """
+        Set an expired flag on key ``name`` for ``time`` seconds. ``time``
+        can be represented by an integer or a Python timedelta object.
+        """
+
+        return self.client.expire(name=self.name, time=seconds)
+
+    def delete(self):
+        """Delete one or more keys specified by ``names``"""
+
+        return self.client.delete(self.name)
+
+    def exists(self):
+        """Returns the number of ``names`` that exist"""
+
+        return self.client.exists(self.name)
+
     def get(self):
         """
         Return the value at key ``name``, or None if the key doesn't exist
@@ -81,12 +99,17 @@ class BaseRedis(object):
 
         return self.client.set(name=self.name, value=value, ex=ex, px=px)
 
+    def incr(self):
+        """+=1"""
+
+        return self.client.incr(name=self.name)
+
     def set_nx(self, value):
         """Set the value of key ``name`` to ``value`` if key doesn't exist"""
 
         return self.client.setnx(name=self.name, value=value)
 
-    def getset(self, value):
+    def get_set(self, value):
         """
         Sets the value at key ``name`` to ``value``
         and returns the old value at key ``name`` atomically.
@@ -94,7 +117,7 @@ class BaseRedis(object):
 
         return self.client.getset(name=self.name, value=value)
 
-    def set_kv(self, key, value):
+    def hash_set(self, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None):
         """
         Set ``key`` to ``value`` within hash ``name``,
         ``mapping`` accepts a dict of key/value pairs that that will be
@@ -102,38 +125,34 @@ class BaseRedis(object):
         Returns the number of fields that were added.
         """
 
-        return self.client.hset(name=self.name, key=key, value=value)
+        return self.client.hset(name=self.name, key=key, value=value, mapping=mapping)
 
-    def get_kv(self, key):
-        """Return the value of ``key`` within the hash ``name``"""
+    def hash_get(self, key):
+        """hash, Return the value of ``key`` within the hash ``name``"""
 
         return self.client.hget(name=self.name, key=key)
 
-    def set_mapping(self, mapping: dict):
-        """
-        Set key to value within hash ``name`` for each corresponding
-        key and value from the ``mapping`` dict.
-        """
-
-        return self.client.hmset(name=self.name, mapping=mapping)
-
-    def get_all_values(self):
-        """Return a Python dict of the hash's name/value pairs"""
+    def hash_get_all_values(self):
+        """hash, Return a Python dict of the hash's name/value pairs"""
 
         return self.client.hgetall(name=self.name)
 
-    def expire(self, seconds):
-        """
-        Set an expired flag on key ``name`` for ``time`` seconds. ``time``
-        can be represented by an integer or a Python timedelta object.
-        """
+    def hash_del_key(self, keys):
+        """hash, Delete ``keys`` from hash ``name``"""
 
-        return self.client.expire(name=self.name, time=seconds)
+        self.client.hdel(self.name, *keys)
 
-    def delete(self):
-        """Delete one or more keys specified by ``names``"""
+    def list_right_push(self, values: list):
+        """list, Push ``values`` onto the tail of the list ``name``"""
 
-        return self.client.delete(self.name)
+        return self.client.rpush(self.name, *values)
 
-    def exists(self):
-        return self.client.exists(self.name)
+    def list_left_range(self, start: int = 0, end: int = -1):
+        """list, Return a slice of the list ``name`` between position ``start`` and ``end``"""
+
+        return self.client.lrange(name=self.name, start=start, end=end)
+
+    def list_set(self, index, value):
+        """list, Set element at ``index`` of list ``name`` to ``value``"""
+
+        return self.client.lset(name=self.name, index=index, value=value)

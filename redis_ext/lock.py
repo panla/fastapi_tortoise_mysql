@@ -24,7 +24,7 @@ class BaseResourceLock(BaseRedis):
         """get the lock"""
 
         current_time = time.time()
-        current_value = time.time() + self._timeout
+        current_value = current_time + self._timeout
 
         lock = await self.set_nx(current_value)
         if lock:
@@ -34,7 +34,7 @@ class BaseResourceLock(BaseRedis):
         old_lock = await self.get()
 
         if old_lock and current_time > float(old_lock):
-            old_value = await self.getset(current_value)
+            old_value = await self.get_set(current_value)
             if not old_value or old_lock == old_value:
                 return True, str(current_value)
             return False, None

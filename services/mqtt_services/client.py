@@ -1,5 +1,5 @@
 """
-pip install paho-mqtt==1.6.1
+pip install paho-mqtt
 """
 
 import json
@@ -70,7 +70,7 @@ class MqttClient:
         """订阅事件"""
 
         logger.info('on_subscribe'.center(40, '*'))
-        logger.info('on_subscribe: qos = {granted_qos}')
+        logger.info(f'on_subscribe: qos = {granted_qos}')
 
     def on_unsubscribe(self, client, userdata, mid):
         """取消订阅事件"""

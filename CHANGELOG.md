@@ -2,6 +2,22 @@
 
 [toc]
 
+## 0.7
+
+update/optimize
+
+- update RedisClient method name
+
+add
+
+fix
+
+require packages
+
+- upgrade requirements
+
+- upgrade requirements-dev
+
 ## 0.6
 
 ### 0.6.11
