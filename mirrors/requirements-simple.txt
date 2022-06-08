@@ -30,6 +30,7 @@ PyJWT==2.4.0
 
 ## redis
 redis==4.3.3
+hiredis==2.0.0
 
 ## file
 python-multipart==0.0.5

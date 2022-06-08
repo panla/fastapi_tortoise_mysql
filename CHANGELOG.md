@@ -14,7 +14,8 @@ fix
 
 require packages
 
-- upgrade requirements
+- add requirements
+  - hiredis==2.0.0
 
 - upgrade requirements-dev
 
