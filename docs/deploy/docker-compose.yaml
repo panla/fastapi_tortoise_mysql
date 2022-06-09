@@ -34,8 +34,8 @@ services:
   rabbitmq:
     image: rabbitmq:3.8-management
     container_name: fastapi_tm_rabbitmq
-    restart: always
     hostname: fastapi_tm_rabbitmq
+    restart: always
     networks:
       dev_net:
         ipv4_address: "172.20.5.5"
@@ -85,6 +85,7 @@ services:
     container_name: fastapi_tm_api
     build: "./fastapi_tm_api"
     command: ["/bin/bash", "./docker-entrypoint.sh"]
+    restart: always
     networks:
       dev_net:
         ipv4_address: "172.20.5.12"
@@ -108,6 +109,7 @@ services:
     container_name: fastapi_tm_sockets
     build: ./fastapi_tm_sockets
     command: ["/bin/bash", "./docker-entrypoint.sh"]
+    restart: always
     networks:
       dev_net:
         ipv4_address: "172.20.5.13"

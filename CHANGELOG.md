@@ -12,6 +12,8 @@ add
 
 fix
 
+- fix docs/deploy/docker-compose.yaml
+
 require packages
 
 - add requirements
