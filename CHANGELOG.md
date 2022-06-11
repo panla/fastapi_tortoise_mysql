@@ -4,6 +4,8 @@
 
 ## 0.7
 
+### 0.7.1
+
 update/optimize
 
 - update RedisClient method name
@@ -13,6 +15,7 @@ add
 fix
 
 - fix docs/deploy/docker-compose.yaml
+- fix BaseRedis method
 
 require packages
 

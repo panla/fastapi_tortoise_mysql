@@ -99,10 +99,10 @@ class BaseRedis(object):
 
         return self.client.set(name=self.name, value=value, ex=ex, px=px)
 
-    def incr(self):
+    def incr_by(self, amount: int = 1):
         """+=1"""
 
-        return self.client.incr(name=self.name)
+        return self.client.incrby(name=self.name, amount=amount)
 
     def set_nx(self, value):
         """Set the value of key ``name`` to ``value`` if key doesn't exist"""
