@@ -1,7 +1,7 @@
 import os
 import threading
-from typing import Union, Optional
 from datetime import timedelta
+from typing import Union, Optional
 
 from redis.asyncio import Redis
 from redis.asyncio.connection import ConnectionPool
@@ -90,32 +90,43 @@ class BaseRedis(object):
 
         return self.client.get(name=self.name)
 
-    def set(self, value, ex: Union[int, timedelta] = None, px: Union[int, timedelta] = None):
+    def incr_by(self, amount: int = 1):
+        """value += amount"""
+
+        return self.client.incrby(name=self.name, amount=amount)
+
+    def set(
+            self,
+            value,
+            ex: Union[int, timedelta] = None,
+            px: Union[int, timedelta] = None,
+            nx: bool = False,
+            xx: bool = False,
+            get: bool = False
+    ):
         """Set the value at key ``name`` to ``value``
 
         ``ex`` sets an expired flag on key ``name`` for ``ex`` seconds.
+
         ``px`` sets an expired flag on key ``name`` for ``px`` milliseconds.
+
+        ``nx`` if set to True, set the value at key ``name`` to ``value`` only
+            if it does not exist.
+
+        ``xx`` if set to True, set the value at key ``name`` to ``value`` only
+            if it already exists.
+
+        ``get`` if True, set the value at key ``name`` to ``value`` and return
+            the old value stored at key, or None if the key did not exist.
+            (Available since Redis 6.2)
         """
 
-        return self.client.set(name=self.name, value=value, ex=ex, px=px)
-
-    def incr_by(self, amount: int = 1):
-        """+=1"""
-
-        return self.client.incrby(name=self.name, amount=amount)
+        return self.client.set(name=self.name, value=value, ex=ex, px=px, nx=nx, xx=xx, get=get)
 
     def set_nx(self, value):
         """Set the value of key ``name`` to ``value`` if key doesn't exist"""
 
         return self.client.setnx(name=self.name, value=value)
-
-    def get_set(self, value):
-        """
-        Sets the value at key ``name`` to ``value``
-        and returns the old value at key ``name`` atomically.
-        """
-
-        return self.client.getset(name=self.name, value=value)
 
     def hash_set(self, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None):
         """
