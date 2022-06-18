@@ -148,8 +148,12 @@ class BaseRedis(object):
 
         return self.client.hgetall(name=self.name)
 
-    def hash_del_key(self, keys):
-        """hash, Delete ``keys`` from hash ``name``"""
+    def hash_del_key(self, keys: list):
+        """hash, Delete ``keys`` from hash ``name``
+
+        have * need list         ([key, key, key])
+        no   * need multiple key (key, key, key)
+        """
 
         self.client.hdel(self.name, *keys)
 
