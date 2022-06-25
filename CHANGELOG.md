@@ -12,6 +12,8 @@ update/optimize
 
 add
 
+- MQTTClient, add tls/ssl, add adapt v5
+
 fix
 
 - fix docs/deploy/docker-compose.yaml

@@ -2,11 +2,17 @@ from kombu import Queue, Exchange
 
 
 class MQConfig:
-    pass
+    USER = ''
+    PASSWD = ''
+    HOST = ''
+    PORT = ''
 
 
 class RedisConfig:
-    pass
+    USER = ''
+    PASSWD = ''
+    HOST = ''
+    PORT = ''
 
 
 class CeleryConfig:
@@ -14,7 +20,7 @@ class CeleryConfig:
     broker_url = f'amqp://{MQConfig.USER}:{MQConfig.PASSWD}@{MQConfig.HOST}:{MQConfig.PORT}'
 
     # 2，结果存储 默认，无
-    result_backend  = f'redis://{RedisConfig.USER}:{RedisConfig.PASSWD}@{RedisConfig.HOST}:{RedisConfig.PORT}/0'
+    result_backend = f'redis://{RedisConfig.USER}:{RedisConfig.PASSWD}@{RedisConfig.HOST}:{RedisConfig.PORT}/0'
 
     # 3，存储结果，过期时间为 一小时
     result_expires = 60 * 60
