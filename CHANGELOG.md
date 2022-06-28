@@ -9,6 +9,9 @@
 update/optimize
 
 - update RedisClient method name
+- rename main.py->server.py
+- update MQTTClient comment
+- update merge tools/ -> tools/cli.py
 
 add
 
