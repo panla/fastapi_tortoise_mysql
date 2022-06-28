@@ -124,7 +124,7 @@ class MqttClient:
         logger.info(f'on_connect flags {flags} result code: {rc}'.center(60, '*'))
 
     # def on_disconnect(self, client: Client, userdata: Any, rc: int, properties: Properties = None):
-    #     """断开连接事件"""
+    #     """If implemented, called when the client disconnects from the broker."""
     #
     #     logger.info(f'on_disconnected rc {rc}'.center(60, '*'))
 
