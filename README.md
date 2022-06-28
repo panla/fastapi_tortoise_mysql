@@ -36,7 +36,7 @@ make run
 - [MIT LICENSE](./LICENSE)
 - [A Global Config File](./config.py)
 - [Dir or File for Using Cython cythonize](./build.txt)
-- [The Program Entry File](./main.py)
+- [The Program Entry File](./server.py)
 - [Dockerfile](./Dockerfile)
 - [Makefile](./Makefile)
 - [The Conf File of Aerich](./pyproject.toml)
