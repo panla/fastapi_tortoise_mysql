@@ -12,6 +12,7 @@ update/optimize
 - rename main.py->server.py
 - update MQTTClient comment
 - update merge tools/ -> tools/cli.py
+- upgrade image from python:3.9-slim-buster to python:3.9-slim-bullseye
 
 add
 
