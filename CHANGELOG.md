@@ -4,22 +4,6 @@
 
 ## 0.7
 
-### 0.7.2
-
-update/optimize
-
-- update logger add compression='tar.gz'
-
-add
-
-fix
-
-require packages
-
-- add requirements
-
-- upgrade requirements-dev
-
 ### 0.7.1
 
 update/optimize

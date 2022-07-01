@@ -12,6 +12,6 @@ Path(LogConfig.PATH).parent.mkdir(exist_ok=True)
 
 logger.remove()
 logger.add(
-    LogConfig.PATH, level=LOG_LEVEL, rotation="00:00", backtrace=True, diagnose=True, enqueue=True, compression='tar.gz'
+    LogConfig.PATH, level=LOG_LEVEL, rotation="00:00", backtrace=True, diagnose=True, enqueue=True,
 )
 logger.add(sys.stdout, level=LOG_LEVEL, backtrace=True, diagnose=True, enqueue=True)
