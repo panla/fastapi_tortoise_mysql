@@ -4,6 +4,22 @@
 
 ## 0.7
 
+### 0.7.2
+
+- update/optimize
+
+- add
+
+- fix
+
+- requirements
+  - upgrade uvicorn from 0.17.6  to 0.18.2
+  - upgrade cryptography from 37.0.2 to 37.0.4
+  - upgrade redis from 4.3.3 to 4.3.4
+
+- dev requirements
+  - upgrade requests from 2.27.1 to 2.28.1
+
 ### 0.7.1
 
 update/optimize

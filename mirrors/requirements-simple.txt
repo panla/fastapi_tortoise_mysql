@@ -6,7 +6,7 @@ anyio==3.6.1
 
 ## web server
 gunicorn==20.1.0
-uvicorn==0.17.6
+uvicorn==0.18.2
 
 ## db driver
 asyncmy==0.2.5
@@ -22,14 +22,14 @@ pytomlpp==1.0.11
 loguru==0.6.0
 
 ## password
-cryptography==37.0.2
+cryptography==37.0.4
 passlib==1.7.4
 
 ## jwt
 PyJWT==2.4.0
 
 ## redis
-redis==4.3.3
+redis==4.3.4
 hiredis==2.0.0
 
 ## file
@@ -52,7 +52,7 @@ celery==5.2.7
 
 ## test
 pytest==7.1.2
-requests==2.27.1
+requests==2.28.1
 # test report
 pytest-html
 pytest-metadata
