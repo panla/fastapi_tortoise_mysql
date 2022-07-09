@@ -11,6 +11,7 @@
 - add
 
 - fix
+  - BaseLockRedis error COMMENT
 
 - requirements
   - upgrade uvicorn from 0.17.6  to 0.18.2

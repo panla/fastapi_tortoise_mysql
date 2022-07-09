@@ -19,15 +19,15 @@ class BaseLockRedis(BaseRedis):
 
         lock = await self.set(value=current_value, ex=self.TIMEOUT, nx=True)
         if lock:
-            # it had exists
+            # origin is not exists now set it OK
             return True, str(current_value)
 
-        # it had not exists
+        # it had exists, get_old_value
         old_lock = await self.get()
 
         if old_lock and current_time > float(old_lock):
-            # expired
-            # get old and set new
+            # had expired
+            # set new and get old
             old_value = await self.set(value=current_value, ex=self.TIMEOUT, get=True)
             if not old_value or old_lock == old_value:
                 return True, str(current_value)
