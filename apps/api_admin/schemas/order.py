@@ -47,7 +47,7 @@ class ListOrderSchema(SchemaMixin):
     """the response schema of orders`info"""
 
     class ListOrderEntity(BaseModel):
-        total: int = 0
+        total: Optional[int] = Field(0, title='total')
         orders: Optional[List[OrderEntity]]
 
     data: ListOrderEntity

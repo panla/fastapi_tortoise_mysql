@@ -48,7 +48,7 @@ class ListUserSchema(SchemaMixin):
     """the response schema of user`info"""
 
     class ListUserEntity(BaseModel):
-        total: int
+        total: Optional[int] = Field(0, title='total')
         users: Optional[List[UserEntity]]
 
     data: ListUserEntity

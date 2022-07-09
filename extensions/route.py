@@ -14,8 +14,7 @@ class Route(APIRoute):
 
         async def log_request_detail(request: Request):
 
-            logger.info('start request'.center(60, '*'))
-            logger.info(f'{request.method} {request.url}')
+            logger.info(f'{request.method} {request.url}'.center(80, '*'))
 
             methods = ['POST', 'PUT', 'PATCH']
             content_type = request.headers.get('content-type', '')
@@ -29,7 +28,6 @@ class Route(APIRoute):
                     logger.error('encounter JSONDecodeError')
                 except UnicodeDecodeError:
                     logger.error('encounter UnicodeDecodeError')
-            logger.info('end request'.center(60, '*'))
             return await original_route_handler(request)
 
         return log_request_detail

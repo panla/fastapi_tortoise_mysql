@@ -47,7 +47,7 @@ class ListQuestionSchema(SchemaMixin):
     """the response schema of questions`info"""
 
     class ListQuestionEntity(BaseModel):
-        total: int = 0
+        total: Optional[int] = Field(0, title='total')
         questions: Optional[List[QuestionEntity]]
 
     data: ListQuestionEntity

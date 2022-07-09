@@ -37,7 +37,7 @@ class ListCarSchema(SchemaMixin):
     """the response schema of cars`info"""
 
     class ListCarEntity(BaseModel):
-        total: int = 0
+        total: Optional[int] = Field(0, title='total')
         cars: Optional[List[CarEntity]]
 
     data: ListCarEntity
@@ -48,7 +48,7 @@ class CarIDSchema(SchemaMixin):
     """the response schema of create/delete/update one car"""
 
     class CarIDEntity(BaseModel):
-        id: int
+        id: int = Field(..., title='car.id')
 
         class Config:
             orm_mode = True

@@ -1,5 +1,5 @@
 """
-pip install celery==5.2.3
+pip install celery
 """
 
 from celery import Celery

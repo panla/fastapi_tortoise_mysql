@@ -57,7 +57,7 @@ class MqttClient:
             context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS)
             context.check_hostname = False
             context.load_cert_chain(certfile=self.client_cert, keyfile=self.client_key, password=self.keyfile_passwd)
-            context.load_verify_locations(cafile=self.ca_cert)
+            context.load_verify_locations(self.ca_cert)
             context.verify_mode = ssl.CERT_REQUIRED
 
             self.client.tls_set_context(context=context)
@@ -72,17 +72,22 @@ class MqttClient:
             return properties
         return None
 
-    def connect(self, host: str, port: int, user: str, passwd: str, keepalive: int = 600):
+    def connect(self, host: str, port: int, user: str, passwd: str, keep_alive: int = 600):
         """Verify and Connect to a remote broker."""
 
         self.client.username_pw_set(user, passwd)
         self.set_ssl_context()
-        self.client.connect(host=host, port=port, keepalive=keepalive, properties=self.properties)
 
-    def disconnect(self, reasoncode: int = 0):
-        """Disconnect a connected client from the broker."""
+        return self.client.connect(host, port, keep_alive, properties=self.properties)
 
-        self.client.disconnect(reasoncode=None, properties=self.properties)
+    def disconnect(self, rc: int = None):
+        """Disconnect a connected client from the broker.
+        rc: (MQTT v5.0 only) a ReasonCodes instance setting the MQTT v5.0
+        rc to be sent with the disconnect.  It is optional, the receiver
+        then assuming that 0 (success) is the value.
+        """
+
+        return self.client.disconnect(rc, properties=self.properties)
 
     def loop_forever(self):
         """loop forever"""
@@ -94,19 +99,20 @@ class MqttClient:
 
         self.client.message_callback_add(topic, callback)
 
-    def subscribe(self, topic, qos: int = 0, options: SubscribeOptions = None):
+    def subscribe(self, topic: str, qos: int = 0, options: SubscribeOptions = None):
         """Subscribe the client to one or more topics.
 
-        if MQTTv311 then None
-        if MQTTv5 then example options=SubscribeOptions(qos=2)
+        options
+            if MQTTv311 then None
+            if MQTTv5 then example options=SubscribeOptions(qos=2)
         """
 
-        self.client.subscribe(topic, qos=qos, options=options, properties=self.properties)
+        return self.client.subscribe(topic, qos=qos, options=options, properties=self.properties)
 
-    def unsubscribe(self, topic):
+    def unsubscribe(self, topic: str):
         """Unsubscribe the client to one or more topics."""
 
-        self.client.unsubscribe(topic, properties=self.properties)
+        return self.client.unsubscribe(topic=topic, properties=self.properties)
 
     def publish(self, topic, payload=None, qos: int = 0, retain: bool = False, flag: bool = True):
         """Publish a message on a topic."""
@@ -114,7 +120,8 @@ class MqttClient:
         logger.info(f'publish topic {topic}'.center(60, '*'))
         if flag:
             payload = json.dumps(payload, ensure_ascii=False)
-        self.client.publish(
+
+        return self.client.publish(
             topic=topic, payload=payload, qos=qos, retain=retain, properties=self.properties
         )
 

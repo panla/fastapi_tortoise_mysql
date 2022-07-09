@@ -7,6 +7,8 @@
 ### 0.7.2
 
 - update/optimize
+  - optimize MqttClient comments and update variable name
+  - optimize apps/api_admin/schemas/ optional fields
 
 - add
 
