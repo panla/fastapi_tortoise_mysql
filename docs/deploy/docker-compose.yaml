@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   db:
-    image: mysql:8.0.26
+    image: mysql:8.0.29
     container_name: fastapi_tm_db
     restart: always
     networks:
@@ -18,7 +18,7 @@ services:
       - MYSQL_ROOT_PASSWORD=txy000***txy
 
   # emqx:
-  #   image: emqx/emqx:4.3.14
+  #   image: emqx/emqx:4.3.17
   #   container_name: fastapi_tm_emqx
   #   restart: always
   #   networks:
@@ -32,7 +32,7 @@ services:
   #     - ./conf/emqx/loaded_plugins:/opt/emqx/data/loaded_plugins
 
   rabbitmq:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.9-management
     container_name: fastapi_tm_rabbitmq
     hostname: fastapi_tm_rabbitmq
     restart: always

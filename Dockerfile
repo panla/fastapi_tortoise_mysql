@@ -12,5 +12,5 @@ COPY ./mirrors /mirrors
 
 RUN cp /mirrors/sources.list /etc/apt/sources.list \ 
 && apt update && apt upgrade -y && apt autoclean -y && apt autoremove -y \ 
-&& apt install gcc -y && python -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple/ \ 
+&& python -m pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple/ \ 
 && pip3 install -r /mirrors/requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --no-cache-dir

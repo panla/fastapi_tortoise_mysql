@@ -23,6 +23,10 @@
 - dev requirements
   - upgrade requests from 2.27.1 to 2.28.1
 
+- deploy
+  - upgrade mysql from 8.0.26 to 8.0.29
+  - upgrade rabbitmq from 3.8-management to 3.9-management
+
 ### 0.7.1
 
 update/optimize
