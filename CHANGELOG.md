@@ -4,6 +4,26 @@
 
 ## 0.7
 
+### 0.7.3
+
+- update/optimize
+
+- add
+
+- fix
+
+- requirements
+  - upgrade aiofiles from 0.8.0 to 22.1.0
+  - upgrade cryptography from 37.0.4 to 38.0.1
+  - upgrade fastapi from 0.78.0 to 0.85.0
+  - upgrade httptools from 0.4.0 to 0.5.0
+  - upgrade pydantic from 1.9.1 to 1.10.2
+  - upgrade PyJWT from 2.4.0 to 2.5.0
+  - upgrade starlette from 0.19.1 to 0.20.4
+  - upgrade tortoise-orm from 0.19.1 to 0.19.2
+  - upgrade uvicorn from 0.18.2 to 0.18.3
+  - upgrade uvloop from 0.16.0 to 0.17.0
+
 ### 0.7.2
 
 - update/optimize
