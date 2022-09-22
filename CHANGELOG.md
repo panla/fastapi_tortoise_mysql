@@ -4,6 +4,17 @@
 
 ## 0.7
 
+### 0.7.4
+
+- update/optimize
+  - update MqttClient callback function
+
+- add
+
+- fix
+
+- requirements
+
 ### 0.7.3
 
 - update/optimize
