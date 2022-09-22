@@ -7,6 +7,7 @@
 ### 0.7.3
 
 - update/optimize
+  - update log config
 
 - add
 

@@ -1,3 +1,21 @@
+
+[log]
+
+LEVEL = "INFO"
+PATH = "/home/logs/x-test.log"
+STDOUT = true
+ROTATION = "00:00"
+RETENTION = "30 days"
+
+[service]
+# schema swagger
+INCLUDE_IN_SCHEMA = true
+
+[authentic]
+
+ADMIN_SECRETS = "SZjj5S8NgOcuq8LH+bAtDw=="
+TOKEN_EXP_DELTA_ADMIN = 864000
+
 [redis]
 
 HOST = "172.20.5.6"
@@ -13,18 +31,4 @@ PASSWD = "12345678"
 HOST = "172.20.5.3"
 PORT = 3306
 DATABASE = "ftm_test"
-MAX_SIZE = 2
-
-[log]
-
-LEVEL = "INFO"
-PATH = "/home/logs/x-test.log"
-
-[service]
-# schema swagger
-INCLUDE_IN_SCHEMA = true
-
-[authentic]
-
-ADMIN_SECRETS = "SZjj5S8NgOcuq8LH+bAtDw=="
-TOKEN_EXP_DELTA_ADMIN = 864000
+MAX_SIZE = 500

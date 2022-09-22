@@ -7,11 +7,13 @@ from loguru import logger
 
 from config import LogConfig
 
-LOG_LEVEL = LogConfig.LEVEL.upper()
+level = LogConfig.LEVEL.upper()
 Path(LogConfig.PATH).parent.mkdir(exist_ok=True)
 
 logger.remove()
 logger.add(
-    LogConfig.PATH, level=LOG_LEVEL, rotation="00:00", backtrace=True, diagnose=True, enqueue=True,
+    LogConfig.PATH, level=level, rotation=LogConfig.ROTATION, retention=LogConfig.RETENTION, backtrace=True,
+    diagnose=True, enqueue=True, compression=LogConfig.COMPRESSION
 )
-logger.add(sys.stdout, level=LOG_LEVEL, backtrace=True, diagnose=True, enqueue=True)
+if LogConfig.STDOUT:
+    logger.add(sys.stdout, level=level, backtrace=True, diagnose=True, enqueue=True)

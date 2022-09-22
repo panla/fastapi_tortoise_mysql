@@ -7,6 +7,10 @@ from pydantic import BaseModel
 class LogSetting(BaseModel):
     LEVEL: Optional[str] = 'DEBUG'
     PATH: str
+    STDOUT: Optional[bool] = True
+    ROTATION: Optional[str] = '00:00'
+    RETENTION: Optional[str] = '30 days'
+    COMPRESSION: Optional[str] = None
 
 
 class ServiceSetting(BaseModel):
