@@ -8,6 +8,7 @@
 
 - update/optimize
   - update MqttClient callback function
+  - update README
 
 - add
 
