@@ -11,12 +11,10 @@ from tests import NotFound, BadRequest, TokenResolver
 from tests import User, AdminUser
 from tests import TokenRedis
 
-
 EXTEND_MODEL_MAP = {'AdminUser': AdminUser, 'User': User}
 
 
 async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
-
     model_class = EXTEND_MODEL_MAP.get(extend_model)
     if not model_class:
         raise BadRequest(message=f'Model {extend_model} error')
@@ -48,3 +46,13 @@ async def generate_token():
     await Tortoise.init(config=ORM_TEST_MIGRATE_CONF)
 
     os.environ['AdminUserTestToken'] = await authentic_test('10000000001')
+
+
+def remove_token():
+    """remove os env test token
+
+    TODO remove from redis
+    """
+
+    del os.environ['AdminUserTestToken']
+    print('remove env AdminUserTestToken')

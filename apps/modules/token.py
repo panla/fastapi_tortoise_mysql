@@ -24,8 +24,8 @@ class TokenResolver:
 
         try:
             payload = {
-                'exp': token_expired,
-                'iat': login_time,
+                'exp': int(token_expired.timestamp()),
+                'iat': int(login_time.timestamp()),
                 'iss': 'ken',
                 'data': {
                     'user_id': user_id,
@@ -86,6 +86,7 @@ class TokenResolver:
                 request.state.extend_user = extend_user
                 return payload
         except jwt.PyJWTError:
+            logger.error(traceback.format_exc())
             raise Unauthorized(message='login expired，please login retry！')
         except OperationalError:
             logger.error(traceback.format_exc())
