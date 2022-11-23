@@ -11,8 +11,10 @@
   - update README
 
 - add
+  - Redis Client Config Params
 
 - fix
+  - adapt new version PyJWT generate token
 
 - requirements
   - upgrade fastapi from 0.85.0 to 0.87.0

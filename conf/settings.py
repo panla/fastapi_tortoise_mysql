@@ -26,9 +26,11 @@ class AuthenticSetting(BaseModel):
 class RedisSetting(BaseModel):
     HOST: Optional[str] = '127.0.0.1'
     PORT: Optional[int] = 6379
-    PASSWD: Optional[str] = ''
-    USER: Optional[str] = ''
-    MAX_CONNECTIONS: Optional[int] = 10000
+    PASSWD: Optional[str] = None
+    SOCKET_TIMEOUT: Optional[float] = 10,
+    SOCKET_CONNECT_TIMEOUT: Optional[float] = 10
+    MAX_CONNECTIONS: Optional[int] = None
+    USER: Optional[str] = None
 
 
 class DBSetting(BaseModel):

@@ -10,13 +10,16 @@ from config import RedisConfig
 from conf.const import EnvConst
 
 REDIS_CONNECTION_PARAMS = {
-    'max_connections': RedisConfig.MAX_CONNECTIONS,
-    'username': RedisConfig.USER,
-    'password': RedisConfig.PASSWD,
     'host': RedisConfig.HOST,
     'port': RedisConfig.PORT,
+    'password': RedisConfig.PASSWD,
+    'socket_timeout': RedisConfig.SOCKET_TIMEOUT,
+    'socket_connect_timeout': RedisConfig.SOCKET_CONNECT_TIMEOUT,
+    'socket_keepalive': True,
     'encoding': 'utf-8',
-    'decode_responses': True
+    'decode_responses': True,
+    'max_connections': RedisConfig.MAX_CONNECTIONS,
+    'username': RedisConfig.USER,
 }
 
 
