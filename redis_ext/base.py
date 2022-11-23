@@ -19,7 +19,7 @@ REDIS_CONNECTION_PARAMS = {
     'encoding': 'utf-8',
     'decode_responses': True,
     'max_connections': RedisConfig.MAX_CONNECTIONS,
-    'username': RedisConfig.USER,
+    'username': RedisConfig.USER
 }
 
 
