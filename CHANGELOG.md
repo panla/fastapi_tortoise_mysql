@@ -15,6 +15,15 @@
 - fix
 
 - requirements
+  - upgrade fastapi from 0.85.0 to 0.87.0
+  - upgrade cryptography from 37.0.4 to 38.0.1
+  - upgrade PyJWT from 2.5.0 to 2.6.0
+  - upgrade starlette from 0.20.4 to 0.21.0
+  - upgrade uvicorn from 0.18.3 to 0.20.0
+  - upgrade uvloop from 0.16.0 to 0.17.0
+  - upgrade cryptography from 38.0.1 to 38.0.3
+  - upgrade redis from 4.3.4 to 4.3.5
+  - add httpx 0.23.1
 
 ### 0.7.3
 
