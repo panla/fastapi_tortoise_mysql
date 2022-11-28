@@ -19,7 +19,9 @@ class LoginResolver:
             user, extend_user = await cls.check_user(cellphone, extend_model)
 
             # generate JWT
-            token, login_time, token_expired = TokenResolver.encode_auth_token(user.id, extend_user.id, 'AdminUser')
+            token, login_time, token_expired = TokenResolver.encode_auth_token(
+                user.id, user.cellphone, extend_user.id, 'AdminUser'
+            )
 
             # update/save login time
             extend_user.login_time = login_time

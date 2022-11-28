@@ -1,3 +1,4 @@
+import time
 import traceback
 from typing import Tuple
 from datetime import datetime, timedelta
@@ -16,7 +17,13 @@ class TokenResolver:
     EXTEND_MODEL_MAP = {'AdminUser': AdminUser}
 
     @classmethod
-    def encode_auth_token(cls, user_id: int, extend_user_id: int, extend_model: str) -> Tuple[str, datetime, datetime]:
+    def encode_auth_token(
+            cls,
+            user_id: int,
+            cellphone: str,
+            extend_user_id: int,
+            extend_model: str
+    ) -> Tuple[str, datetime, datetime]:
         """generate jwt token"""
 
         login_time = datetime.now()
@@ -32,13 +39,26 @@ class TokenResolver:
                     'extend_user_id': extend_user_id,
                     'extend_model': extend_model,
                     'login_time': login_time.timestamp(),
-                    'token_expired': token_expired.timestamp()
+                    'token_expired': token_expired.timestamp(),
+                    'cellphone': cellphone
                 }
             }
             token = jwt.encode(payload, AuthenticConfig.ADMIN_SECRETS, algorithm="HS256")
             return token, login_time, token_expired
         except Exception as e:
             raise BadRequest(message=str(e))
+
+    @classmethod
+    async def _check_redis(cls, token: str, data: dict):
+        token_redis_op = TokenRedis()
+
+        cellphone = data.get('cellphone')
+        extend_model = data.get('extend_model')
+        extend_user_id = data.get('extend_user_id')
+        token_redis_op.name = f'{cellphone}:{extend_model}:{extend_user_id}'
+
+        if not await token_redis_op.get() == token:
+            raise Unauthorized(message='login expired, please login retry.')
 
     @classmethod
     async def query_user(cls, user_id: int, extend_user_id: str, extend_model: str, **kwargs):
@@ -59,14 +79,6 @@ class TokenResolver:
         return user, extend_user
 
     @classmethod
-    async def _check_redis(cls, token: str, user: User, extend_model: str, extend_user_id: int):
-        token_redis_op = TokenRedis()
-        token_redis_op.name = f'{user.cellphone}:{extend_model}:{extend_user_id}'
-
-        if not await token_redis_op.get() == token:
-            raise Unauthorized(message='login expired, please login retry.')
-
-    @classmethod
     async def decode_token(cls, request: Request, token: str):
         """check token"""
 
@@ -77,9 +89,9 @@ class TokenResolver:
                 data: dict = payload.get('data')
                 extend_model = data.get('extend_model')
 
-                user, extend_user = await cls.query_user(**data)
+                await cls._check_redis(token, data)
 
-                await cls._check_redis(token, user, extend_model, extend_user.id)
+                user, extend_user = await cls.query_user(**data)
 
                 # set/save user, extend_user on request.state
                 request.state.user = user
