@@ -3,6 +3,7 @@ from tortoise.models import QuerySet
 from apps.models import Order
 from apps.api_admin.schemas import FilterOrderParser
 
+
 class OrderResolver:
 
     @classmethod

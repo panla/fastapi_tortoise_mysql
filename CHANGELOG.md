@@ -4,6 +4,21 @@
 
 ## 0.7
 
+### 0.7.6
+
+- Update:
+  - 1 BaseRedis
+
+- Optimize:
+
+- Add:
+
+- Fix:
+
+- Requirements:
+
+- Dev Requirements:
+
 ### 0.7.5
 
 - fix:

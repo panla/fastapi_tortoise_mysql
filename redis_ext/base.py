@@ -93,7 +93,7 @@ class BaseRedis(object):
 
         return self.client.get(name=self.name)
 
-    def incr_by(self, amount: int = 1):
+    def _incr_by(self, amount: int = 1):
         """value += amount"""
 
         return self.client.incrby(name=self.name, amount=amount)
@@ -131,7 +131,7 @@ class BaseRedis(object):
 
         return self.client.setnx(name=self.name, value=value)
 
-    def hash_set(self, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None):
+    def _hash_set(self, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None):
         """
         Set ``key`` to ``value`` within hash ``name``,
         ``mapping`` accepts a dict of key/value pairs that that will be
@@ -141,17 +141,19 @@ class BaseRedis(object):
 
         return self.client.hset(name=self.name, key=key, value=value, mapping=mapping)
 
-    def hash_get(self, key):
-        """hash, Return the value of ``key`` within the hash ``name``"""
+    async def _hash_get_values(self, keys):
+        """hash, Returns a list of values ordered identically to ``keys``"""
 
-        return self.client.hget(name=self.name, key=key)
+        if not keys:
+            return await self.client.hgetall(name=self.name)
 
-    def hash_get_all_values(self):
-        """hash, Return a Python dict of the hash's name/value pairs"""
+        result = dict()
+        response = await self.client.hmget(name=self.name, keys=keys)
+        for index, key in enumerate(keys):
+            result[key] = response[index]
+        return result
 
-        return self.client.hgetall(name=self.name)
-
-    def hash_del_key(self, keys: list):
+    def _hash_del_key(self, keys: list):
         """hash, Delete ``keys`` from hash ``name``
 
         have * need list         ([key, key, key])
@@ -160,17 +162,17 @@ class BaseRedis(object):
 
         self.client.hdel(self.name, *keys)
 
-    def list_right_push(self, values: list):
+    def _list_right_push(self, values: list):
         """list, Push ``values`` onto the tail of the list ``name``"""
 
         return self.client.rpush(self.name, *values)
 
-    def list_left_range(self, start: int = 0, end: int = -1):
+    def _list_left_range(self, start: int = 0, end: int = -1):
         """list, Return a slice of the list ``name`` between position ``start`` and ``end``"""
 
         return self.client.lrange(name=self.name, start=start, end=end)
 
-    def list_set(self, index, value):
+    def _list_set(self, index, value):
         """list, Set element at ``index`` of list ``name`` to ``value``"""
 
         return self.client.lset(name=self.name, index=index, value=value)
