@@ -7,7 +7,7 @@
 ### 0.7.6
 
 - Update:
-  - 1 BaseRedis
+  - Update: BaseRedis functions
 
 - Optimize:
 

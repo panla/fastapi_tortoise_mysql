@@ -3,6 +3,7 @@ import threading
 from datetime import timedelta
 from typing import Union, Optional
 
+from redis.typing import EncodableT
 from redis.asyncio import Redis
 from redis.asyncio.connection import ConnectionPool
 
@@ -100,7 +101,7 @@ class BaseRedis(object):
 
     def set(
             self,
-            value,
+            value: EncodableT,
             ex: Union[int, timedelta] = None,
             px: Union[int, timedelta] = None,
             nx: bool = False,
@@ -126,11 +127,6 @@ class BaseRedis(object):
 
         return self.client.set(name=self.name, value=value, ex=ex, px=px, nx=nx, xx=xx, get=get)
 
-    def set_nx(self, value):
-        """Set the value of key ``name`` to ``value`` if key doesn't exist"""
-
-        return self.client.setnx(name=self.name, value=value)
-
     def _hash_set(self, key: Optional[str] = None, value: Optional[str] = None, mapping: Optional[dict] = None):
         """
         Set ``key`` to ``value`` within hash ``name``,
@@ -141,38 +137,45 @@ class BaseRedis(object):
 
         return self.client.hset(name=self.name, key=key, value=value, mapping=mapping)
 
-    async def _hash_get_values(self, keys):
+    async def _hash_get_values(self, keys: list = None):
         """hash, Returns a list of values ordered identically to ``keys``"""
 
         if not keys:
             return await self.client.hgetall(name=self.name)
 
-        result = dict()
         response = await self.client.hmget(name=self.name, keys=keys)
+
+        result = dict()
         for index, key in enumerate(keys):
             result[key] = response[index]
+
         return result
 
     def _hash_del_key(self, keys: list):
         """hash, Delete ``keys`` from hash ``name``
 
         have * need list         ([key, key, key])
+            hdel(*[key, key, key])
         no   * need multiple key (key, key, key)
+            hdel(key, key, key)
         """
 
         self.client.hdel(self.name, *keys)
 
-    def _list_right_push(self, values: list):
-        """list, Push ``values`` onto the tail of the list ``name``"""
+    def _lis_push(self, values: list, is_right: bool = True):
+        """list, Push ``values`` into the head or tail of the list ``name``, depend on is_right flag"""
 
-        return self.client.rpush(self.name, *values)
+        if is_right:
+            return self.client.rpush(self.name, *values)
+        else:
+            return self.client.lpush(self.name, *values)
 
     def _list_left_range(self, start: int = 0, end: int = -1):
         """list, Return a slice of the list ``name`` between position ``start`` and ``end``"""
 
         return self.client.lrange(name=self.name, start=start, end=end)
 
-    def _list_set(self, index, value):
+    def _list_set(self, index: int, value: str):
         """list, Set element at ``index`` of list ``name`` to ``value``"""
 
         return self.client.lset(name=self.name, index=index, value=value)
