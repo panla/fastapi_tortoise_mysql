@@ -27,7 +27,7 @@ async def authentic_test(cellphone: str, extend_model: str = 'AdminUser'):
     if not extend_user:
         raise NotFound(message=f'{extend_model} User.cellphone = {cellphone} is not exists or is deleted')
 
-    token, login_time, token_expired = TokenResolver.encode_auth_token(user.id, extend_user.id, 'AdminUser')
+    token, login_time, token_expired = TokenResolver.encode_auth_token(user.id, cellphone, extend_user.id, extend_model)
     extend_user.login_time = login_time
     extend_user.token_expired = token_expired
     await extend_user.save()
@@ -51,8 +51,8 @@ async def generate_token():
 def remove_token():
     """remove os env test token
 
-    TODO remove from redis
+    remove from redis
     """
 
-    del os.environ['AdminUserTestToken']
+    os.environ['AdminUserTestToken'] = ''
     print('remove env AdminUserTestToken')

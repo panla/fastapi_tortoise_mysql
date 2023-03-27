@@ -4,6 +4,11 @@
 
 ## 0.7
 
+### 0.7.7
+
+- 2023-03-27
+  - Fix: fix error for tests
+
 ### 0.7.6
 
 - Update:
