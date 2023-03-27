@@ -1,50 +1,52 @@
 ## webframework
-fastapi==0.87.0
-pydantic==1.10.2
-starlette==0.21.0
+fastapi==0.95.0
+pydantic==1.10.7
+starlette==0.26.1
 anyio==3.6.2
 
 ## web server
-gunicorn==20.1.0
-uvicorn==0.20.0
+uvicorn==0.21.1
 
 ## db driver
-asyncmy==0.2.5
+asyncmy==0.2.7
 ## orm
-tortoise-orm==0.19.2
+tortoise-orm==0.19.3
 ## migrate
 aerich==0.6.3
 
 ## toml file read
-pytomlpp==1.0.11
+pytomlpp==1.0.13
 
 ## log
 loguru==0.6.0
 
 ## password
-cryptography==38.0.3
+cryptography==40.0.1
 passlib==1.7.4
 
 ## jwt
 PyJWT==2.6.0
 
 ## redis
-redis==4.3.5
-hiredis==2.0.0
+redis==4.5.3
+hiredis==2.2.2
 
 ## file
-python-multipart==0.0.5
-aiofiles==22.1.0
+python-multipart==0.0.6
+aiofiles==23.1.0
 
 ## speed
 uvloop==0.17.0
 httptools==0.5.0
 
 # request
-httpx==0.23.1
+httpx==0.23.3
 
 
 #########################################
+## web server
+gunicorn==20.1.0
+
 ## mqtt
 paho-mqtt==1.6.1
 
@@ -52,7 +54,7 @@ paho-mqtt==1.6.1
 celery==5.2.7
 
 ## test
-pytest==7.2.0
+pytest==7.2.2
 # test report
 pytest-html
 pytest-metadata

@@ -16,8 +16,22 @@
 - Fix:
 
 - Requirements:
-
+  - upgrade aiofiles from 22.1.0 to 23.1.0
+  - upgrade asyncmy from 0.2.5 to 0.2.7
+  - upgrade cryptography from 38.0.3 to 40.0.1
+  - upgrade fastapi from 0.87.0 to 0.95.0
+  - upgrade hiredis from 2.0.0 to 2.2.2
+  - upgrade redis from 4.3.5 to 4.5.3
+  - upgrade httpx from 0.23.1 to 0.23.3
+  - upgrade pydantic from 1.10.2 to 1.10.7
+  - upgrade python-multipart from 0.0.5 to 0.0.6
+  - upgrade pytomlpp from 1.0.11 to 1.0.13
+  - upgrade starlette from 0.21.0 to 0.26.1
+  - upgrade tortoise-orm from 0.19.2 to 0.19.3
+  - upgrade uvicorn from 0.20.0 to 0.21.1
 - Dev Requirements:
+  - upgrade pytest from 7.2.0 to 7.2.2
+  - mv gunicorn here
 
 ### 0.7.5
 
