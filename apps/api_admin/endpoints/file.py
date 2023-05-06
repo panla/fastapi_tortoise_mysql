@@ -1,6 +1,7 @@
 from typing import Optional, List
 
 from fastapi import APIRouter, UploadFile, File
+from starlette.status import HTTP_201_CREATED
 
 from extensions import Route, ErrorSchema
 from apps.api_admin.schemas import FileSchema
@@ -8,7 +9,7 @@ from apps.api_admin.schemas import FileSchema
 router = APIRouter(route_class=Route, responses=ErrorSchema)
 
 
-@router.post('', response_model=FileSchema, status_code=201)
+@router.post('', response_model=FileSchema, status_code=HTTP_201_CREATED)
 async def upload_file(
         file: Optional[UploadFile] = File(default=None),
         files: Optional[List[UploadFile]] = File(default=None),

@@ -26,7 +26,7 @@ async def create_sms_code(parser: CreateCodeParser):
         sms_redis_op.name = cellphone
         await sms_redis_op.set(value=code, ex=60)
 
-        return code
+        return {'success': True, 'code': code}
     else:
         del user
         raise NotFound(message=f'there is no this user {cellphone}')

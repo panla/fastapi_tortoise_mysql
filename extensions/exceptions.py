@@ -3,14 +3,14 @@ from typing import Optional, Any, Dict
 from fastapi import status
 from starlette.exceptions import HTTPException
 
-from conf.const import StatusCode
+from conf import StatusCode
 from .schema import SchemaMixin
 
 
 class BaseHTTPException(HTTPException):
     MESSAGE = None
     STATUS_CODE = status.HTTP_400_BAD_REQUEST
-    CODE = 40000
+    CODE = StatusCode.BadRequest
 
     def __init__(
             self,
@@ -26,7 +26,7 @@ class BaseHTTPException(HTTPException):
 
     def __repr__(self) -> str:
         class_name = self.__class__.__name__
-        return f"{class_name}(status_code={self.status_code!r}, code={self.code}, msg={self.message!r})"
+        return f'{class_name}(status_code={self.status_code!r}, code={self.code}, msg={self.message!r})'
 
     def response(self):
         return SchemaMixin(code=self.code, message=self.message, data=None).dict()
@@ -34,29 +34,29 @@ class BaseHTTPException(HTTPException):
 
 class BadRequest(BaseHTTPException):
     STATUS_CODE = status.HTTP_400_BAD_REQUEST
-    CODE = StatusCode.bad_request
+    CODE = StatusCode.BadRequest
 
 
 class Unauthorized(BaseHTTPException):
     STATUS_CODE = status.HTTP_401_UNAUTHORIZED
-    CODE = StatusCode.unauthorized
+    CODE = StatusCode.Unauthorized
 
 
 class Forbidden(BaseHTTPException):
     STATUS_CODE = status.HTTP_403_FORBIDDEN
-    CODE = StatusCode.forbidden
+    CODE = StatusCode.Forbidden
 
 
 class NotFound(BaseHTTPException):
     STATUS_CODE = status.HTTP_404_NOT_FOUND
-    CODE = StatusCode.not_found
+    CODE = StatusCode.NotFound
 
 
 class MethodNotAllowed(BaseHTTPException):
     STATUS_CODE = status.HTTP_405_METHOD_NOT_ALLOWED
-    CODE = StatusCode.method_not_allowed
+    CODE = StatusCode.MethodNotAllowed
 
 
 class Locked(BaseHTTPException):
     STATUS_CODE = status.HTTP_423_LOCKED
-    CODE = StatusCode.locked
+    CODE = StatusCode.Locked

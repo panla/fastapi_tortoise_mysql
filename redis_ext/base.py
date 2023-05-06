@@ -1,9 +1,8 @@
 import os
 import threading
-from datetime import timedelta
 from typing import Union, Optional
 
-from redis.typing import EncodableT
+from redis.typing import EncodableT, ExpiryT
 from redis.asyncio import Redis
 from redis.asyncio.connection import ConnectionPool
 
@@ -69,13 +68,18 @@ class BaseRedis(object):
     def name(self, value):
         self._name = f'{self.PREFIX_KEY}:{value}'
 
-    def expire(self, seconds):
+    def expire(self, seconds: ExpiryT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False):
         """
         Set an expired flag on key ``name`` for ``time`` seconds. ``time``
         can be represented by an integer or a Python timedelta object.
+
+            NX -> Set expiry only when the key has no expiry
+            XX -> Set expiry only when the key has an existing expiry
+            GT -> Set expiry only when the new expiry is greater than current one
+            LT -> Set expiry only when the new expiry is less than current one
         """
 
-        return self.client.expire(name=self.name, time=seconds)
+        return self.client.expire(name=self.name, time=seconds, nx=nx, xx=xx, gt=gt, lt=lt)
 
     def delete(self):
         """Delete one or more keys specified by ``names``"""
@@ -102,8 +106,8 @@ class BaseRedis(object):
     def set(
             self,
             value: EncodableT,
-            ex: Union[int, timedelta] = None,
-            px: Union[int, timedelta] = None,
+            ex: Union[ExpiryT, None] = None,
+            px: Union[ExpiryT, None] = None,
             nx: bool = False,
             xx: bool = False,
             get: bool = False

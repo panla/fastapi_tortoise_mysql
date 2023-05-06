@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Path
+from starlette.status import HTTP_200_OK, HTTP_201_CREATED
 
 from extensions import Route, Pagination, ErrorSchema
 from apps.api_admin.schemas import (
@@ -9,7 +10,7 @@ from apps.api_admin.logics import QuestionResolver
 router = APIRouter(route_class=Route, responses=ErrorSchema)
 
 
-@router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=200)
+@router.get('/{q_id}', response_model=ReadQuestionSchema, status_code=HTTP_200_OK)
 async def read_question(
         q_id: int = Path(..., description='问题id', ge=1)
 ):
@@ -19,15 +20,12 @@ async def read_question(
     return ReadQuestionSchema(data=query)
 
 
-@router.get('', response_model=ListQuestionSchema, status_code=200)
+@router.get('', response_model=ListQuestionSchema, status_code=HTTP_200_OK)
 async def list_question(
         parser: FilterQuestionParser = Depends(FilterQuestionParser)
 ):
     """the api of read list questions"""
 
-    query = QuestionResolver.list_questions(parser)
-    total = await query.count()
-    query = Pagination(query, parser.page, parser.page_size or total).items()
-    result = await query.prefetch_related('owner')
+    data = await QuestionResolver.list_questions(parser)
 
-    return ListQuestionSchema(data={'total': total, 'questions': result})
+    return ListQuestionSchema(data=data)

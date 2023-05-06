@@ -8,31 +8,31 @@ from conf.const import StatusCode, PaginateConst
 
 
 class BadRequestSchema(BaseModel):
-    code: int = StatusCode.bad_request
+    code: int = StatusCode.BadRequest
     message: str = ''
     data: NoneType = "null"
 
 
 class UnauthorizedSchema(BaseModel):
-    code: int = StatusCode.unauthorized
+    code: int = StatusCode.Unauthorized
     message: str = ''
     data: NoneType = "null"
 
 
 class ForbiddenSchema(BaseModel):
-    code: int = StatusCode.forbidden
+    code: int = StatusCode.Forbidden
     message: str = ''
     data: NoneType = "null"
 
 
 class NotFoundSchema(BaseModel):
-    code: int = StatusCode.not_found
+    code: int = StatusCode.NotFound
     message: str = ''
     data: NoneType = "null"
 
 
 class ValidatorErrorSchema(BaseModel):
-    code: int = StatusCode.validator_error
+    code: int = StatusCode.ValidatorError
     message: str = ''
     data: NoneType = "null"
 
@@ -40,35 +40,36 @@ class ValidatorErrorSchema(BaseModel):
 ErrorSchema = {
     400: {
         'model': BadRequestSchema,
-        'description': 'bad_request'
+        'description': 'BadRequest'
     },
     401: {
         'model': UnauthorizedSchema,
-        'description': 'unauthorized'
+        'description': 'Unauthorized'
     },
     403: {
         'model': ForbiddenSchema,
-        'description': 'forbidden'
+        'description': 'Forbidden'
     },
     404: {
         'model': NotFoundSchema,
-        'description': 'not_found'
+        'description': 'NotFound'
     },
     422: {
         'model': ValidatorErrorSchema,
-        'description': 'request parameters validator'
+        'description': 'Request Parameters Validator'
     }
 }
 
 
+
 class SchemaMixin(BaseModel):
-    code: int = 10000
-    message: str = ''
+    code: int = StatusCode.Success
+    message: str = 'success'
     data: Optional[Any]
 
 
 class NormalSchema(SchemaMixin):
-    """"""
+    """default normal common return schema"""
 
     data: Optional[str] = 'success'
 

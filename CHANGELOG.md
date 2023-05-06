@@ -6,6 +6,8 @@
 
 ### 0.7.7
 
+- 2023-05-06
+  - Optimize: variable name and code style
 - 2023-03-27
   - Fix: fix error for tests
 

@@ -15,6 +15,27 @@ class RedisConfig:
     PORT = ''
 
 
+DefaultExchangeType = 'direct'
+
+
+class QueueNameConst:
+    default = 'celery-default-queue'
+    test = 'celery-test-queue'
+    pay = 'celery-pay-queue'
+
+
+class ExchangeConst:
+    default = 'celery-default-exchange'
+    test = Exchange(name='celery-test-exchange', type=DefaultExchangeType)
+    pay = Exchange(name='celery-pay-exchange', type=DefaultExchangeType)
+
+
+class RoutingKeyConst:
+    default = 'celery-default-routing'
+    test = 'celery-test-routing'
+    pay = 'celery-pay-routing'
+
+
 class CeleryConfig:
     # 1，任务队列 代理设置
     broker_url = f'amqp://{MQConfig.USER}:{MQConfig.PASSWD}@{MQConfig.HOST}:{MQConfig.PORT}'
@@ -39,23 +60,6 @@ class CeleryConfig:
     # 7，以秒为单位的任务硬时间限制 默认，无
     # task_time_limit = 100
 
-    DefaultExchangeType = 'direct'
-
-    class QueueNameConst:
-        default = 'celery-default-queue'
-        test = 'celery-test-queue'
-        pay = 'celery-pay-queue'
-
-    class ExchangeConst:
-        default = 'celery-default-exchange'
-        test = 'celery-test-exchange'
-        pay = 'celery-pay-exchange'
-
-    class RoutingKeyConst:
-        default = 'celery-default-routing'
-        test = 'celery-test-routing'
-        pay = 'celery-pay-routing'
-
     # 8，default
     # 消息没有路由或没有指定自定义队列使用的默认队列名称，默认值，celery
     task_default_queue = QueueNameConst.default
@@ -66,17 +70,12 @@ class CeleryConfig:
     # 当没有为设置中键指定自定义路由键时使用的路由键
     task_default_routing_key = RoutingKeyConst.default
 
-    define_exchange = {
-        'test': Exchange(name=ExchangeConst.test, type=DefaultExchangeType),
-        'pay': Exchange(name=ExchangeConst.pay, type=DefaultExchangeType)
-    }
-
     # 9，消息路由 使用 kombu.Queue
     task_queues = (
-        Queue(name=QueueNameConst.pay, exchange=define_exchange.get('pay'), routing_key=RoutingKeyConst.pay),
+        Queue(name=QueueNameConst.pay, exchange=ExchangeConst.pay, routing_key=RoutingKeyConst.pay),
     )
 
     # 10，路由列表把任务路由到队列的路由
     task_routes = {
-        'pay': {'exchange': define_exchange.get('pay').name, 'routing_key': RoutingKeyConst.pay}
+        'pay': {'exchange': ExchangeConst.pay.name, 'routing_key': RoutingKeyConst.pay}
     }

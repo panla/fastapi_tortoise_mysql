@@ -35,7 +35,7 @@ def register_exception(app: FastAPI):
         """catch FastAPI HTTPException"""
 
         log_message(request.method, request.url, exc.detail)
-        content = {'code': StatusCode.bad_request, 'message': exc.detail, 'data': None}
+        content = {'code': StatusCode.BadRequest, 'message': exc.detail, 'data': None}
         return JSONResponse(content=content, status_code=exc.status_code, headers=exc.headers)
 
     @app.exception_handler(AssertionError)
@@ -44,7 +44,7 @@ def register_exception(app: FastAPI):
 
         exc_str = ' '.join(exc.args)
         log_message(request.method, request.url, exc_str)
-        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.AssertValidatorError, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(ValidationError)
@@ -53,7 +53,7 @@ def register_exception(app: FastAPI):
 
         exc_str = '|'.join(exc.args)
         log_message(request.method, request.url, exc.args)
-        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.ValidatorError, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(RequestValidationError)
@@ -63,7 +63,7 @@ def register_exception(app: FastAPI):
         exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
         log_message(request.method, request.url, exc)
         # content = exc.errors()
-        content = {'code': StatusCode.validator_error, 'message': exc_str, 'data': None}
+        content = {'code': StatusCode.RequestValidatorError, 'message': exc_str, 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     @app.exception_handler(Exception)
@@ -71,5 +71,5 @@ def register_exception(app: FastAPI):
         """catch other exception"""
 
         log_message(request.method, request.url, traceback.format_exc())
-        content = {'code': StatusCode.server_error, 'message': str(exc), 'data': None}
+        content = {'code': StatusCode.ServerError, 'message': str(exc), 'data': None}
         return JSONResponse(content=content, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

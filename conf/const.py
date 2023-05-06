@@ -1,22 +1,24 @@
 class StatusCode(object):
-    success = 10000
+    Success = 10000
 
-    bad_request = 40000
-    unauthorized = 40100
-    forbidden = 40300
-    not_found = 40400
-    method_not_allowed = 40500
-    not_acceptable = 40600
-    request_timeout = 40800
-    length_required = 41100
-    entity_too_large = 41300
-    request_uri_too_long = 41400
-    validator_error = 42200
-    locked = 42300
-    header_fields_too_large = 43100
+    BadRequest = 40000
+    Unauthorized = 40100
+    Forbidden = 40300
+    NotFound = 40400
+    MethodNotAllowed = 40500
+    NotAcceptable = 40600
+    RequestTimeout = 40800
+    LengthRequired = 41100
+    EntityTooLarge = 41300
+    RequestUriTooLong = 41400
+    ValidatorError = 42200
+    RequestValidatorError = 42201
+    AssertValidatorError = 42202
+    Locked = 42300
+    HeaderFieldsTooLarge = 43100
 
-    server_error = 45000
-    unknown_error = 45001
+    ServerError = 45000
+    UnknownError = 45001
 
 
 class PaginateConst:

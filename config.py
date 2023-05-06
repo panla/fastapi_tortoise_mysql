@@ -15,22 +15,13 @@ from pathlib import Path
 from functools import lru_cache
 
 import pytomlpp
-from pydantic import BaseModel
 
 from conf.const import EnvConst
 from conf.settings import (
-    LogSetting, ServiceSetting, AuthenticSetting, RedisSetting, DBSetting, ORMSetting
+    Setting, ORMSetting
 )
 
 BASE_DIR = Path(__file__).absolute().parent
-
-
-class Setting(BaseModel):
-    log: LogSetting
-    service: ServiceSetting
-    authentic: AuthenticSetting
-    redis: RedisSetting
-    db: DBSetting
 
 
 @lru_cache()
@@ -39,8 +30,12 @@ def get_settings() -> Setting:
 
     if code_env == EnvConst.TEST:
         p = Path(BASE_DIR).joinpath('conf/test.local.toml')
+        if not p.is_file():
+            p = Path(BASE_DIR).joinpath('conf/test.toml')
     else:
         p = Path(BASE_DIR).joinpath('conf/product.local.toml')
+        if not p.is_file():
+            p = Path(BASE_DIR).joinpath('conf/product.toml')
 
     if not p.is_file():
         raise Exception('config no exists')

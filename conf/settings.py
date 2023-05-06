@@ -44,6 +44,14 @@ class DBSetting(BaseModel):
     MAX_SIZE: Optional[int] = 5
 
 
+class Setting(BaseModel):
+    log: LogSetting
+    service: ServiceSetting
+    authentic: AuthenticSetting
+    redis: RedisSetting
+    db: DBSetting
+
+
 class ORMSetting:
     def __init__(self, db: DBSetting):
         self.db = db

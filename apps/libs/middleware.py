@@ -11,14 +11,14 @@ from conf.const import StatusCode
 # example, already had raised and catch 404, don`t define 404
 
 MiddlewareCodeContents = {
-    405: {'code': StatusCode.method_not_allowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
-    406: {'code': StatusCode.not_acceptable, 'message': 'NOT_ACCEPTABLE', 'data': None},
-    408: {'code': StatusCode.request_timeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
-    411: {'code': StatusCode.length_required, 'message': 'LENGTH_REQUIRED', 'data': None},
-    413: {'code': StatusCode.entity_too_large, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
-    414: {'code': StatusCode.request_uri_too_long, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
+    405: {'code': StatusCode.MethodNotAllowed, 'message': 'METHOD_NOT_ALLOWED', 'data': None},
+    406: {'code': StatusCode.NotAcceptable, 'message': 'NOT_ACCEPTABLE', 'data': None},
+    408: {'code': StatusCode.RequestTimeout, 'message': 'REQUEST_TIMEOUT', 'data': None},
+    411: {'code': StatusCode.LengthRequired, 'message': 'LENGTH_REQUIRED', 'data': None},
+    413: {'code': StatusCode.EntityTooLarge, 'message': 'REQUEST_ENTITY_TOO_LARGE', 'data': None},
+    414: {'code': StatusCode.RequestUriTooLong, 'message': 'REQUEST_URI_TOO_LONG', 'data': None},
     431: {
-        'code': StatusCode.header_fields_too_large,
+        'code': StatusCode.HeaderFieldsTooLarge,
         'message': 'REQUEST_HEADER_FIELDS_TOO_LARGE',
         'data': None
     }

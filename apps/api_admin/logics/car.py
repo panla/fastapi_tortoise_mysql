@@ -1,5 +1,6 @@
 from tortoise.models import QuerySet
 
+from extensions import Pagination
 from apps.modules import ResourceOp
 from apps.models import Car
 from apps.api_admin.schemas import CreateCarParser, PatchCarParser, FilterCarParser
@@ -14,13 +15,17 @@ class CarResolver:
         return instance
 
     @classmethod
-    def list_cars(cls, parser: FilterCarParser) -> QuerySet[Car]:
+    async def list_cars(cls, parser: FilterCarParser) -> dict:
         """search/filter cars"""
 
         query = Car.filter(is_delete=False)
         if parser.brand:
             query = query.filter(brand__icontains=parser.brand)
-        return query
+
+        total = await query.count()
+        result = await Pagination(query, parser.page, parser.page_size or total).items()
+
+        return {'total': total, 'cars': result}
 
     @classmethod
     def create_car(cls, parser: CreateCarParser):

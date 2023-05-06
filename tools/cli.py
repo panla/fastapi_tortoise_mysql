@@ -101,7 +101,7 @@ def create_migration_file(ctx: click.Context, migration_dir: str, migration_name
     # get the new latest sql file index
     exists_sql_file_names = os.listdir(migration_dir_p)
     if exists_sql_file_names:
-        latest_sql_file_index = max([int(f.split('_')[0]) for f in exists_sql_file_names])
+        latest_sql_file_index = max([int(f.split(bytes('_'))[0]) for f in exists_sql_file_names])
         new_latest_sql_file_index = latest_sql_file_index + 1
     else:
         new_latest_sql_file_index = 0
@@ -151,7 +151,6 @@ def find(ctx: click.Context, dirs: list, targets: list):
         logger.error(f'your input -t/--targets {targets} error')
         return
 
-
     def read_file(path: Union[str, Path]) -> str:
         try:
             with open(path, 'r', encoding='utf-8') as f:
@@ -169,6 +168,7 @@ def find(ctx: click.Context, dirs: list, targets: list):
                         logger.info(f'{file_path}')
 
     logger.info('find done')
+
 
 cli.add_command(init_data)
 cli.add_command(create_migration_file)
