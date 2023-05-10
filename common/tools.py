@@ -115,3 +115,14 @@ class UidGenerator:
 
     def __repr__(self) -> str:
         return self.u_id()
+
+
+def singleton(cls):
+    _instance = dict()
+
+    def inner(*args, **kwargs):
+        if cls not in _instance:
+            _instance[cls] = cls(*args, **kwargs)
+        return _instance[cls]
+
+    return inner
