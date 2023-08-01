@@ -34,7 +34,7 @@ class RedisSetting(BaseModel):
 
 
 class DBSetting(BaseModel):
-    POOL_RECYCLE: Optional[str] = 1000
+    POOL_RECYCLE: Optional[int] = 1000
 
     USER: Optional[str] = 'root'
     PASSWD: str

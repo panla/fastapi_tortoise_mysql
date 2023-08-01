@@ -26,23 +26,23 @@ class TinyIntField(SmallIntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "TINYINT"
+    SQL_TYPE = 'TINYINT'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else -128,
-            "le": 127
+            'ge': 1 if self.generated or self.reference else -128,
+            'le': 127
         }
 
     class _db_mysql:
-        GENERATED_SQL = "TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class MediumIntField(IntField):
@@ -53,23 +53,23 @@ class MediumIntField(IntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "MEDIUMINT"
+    SQL_TYPE = 'MEDIUMINT'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else -8388608,
-            "le": 8388607
+            'ge': 1 if self.generated or self.reference else -8388608,
+            'le': 8388607
         }
 
     class _db_mysql:
-        GENERATED_SQL = "MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class UnsignedTinyIntField(SmallIntField):
@@ -80,23 +80,23 @@ class UnsignedTinyIntField(SmallIntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "TINYINT UNSIGNED"
+    SQL_TYPE = 'TINYINT UNSIGNED'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else 0,
-            "le": 255
+            'ge': 1 if self.generated or self.reference else 0,
+            'le': 255
         }
 
     class _db_mysql:
-        GENERATED_SQL = "TINYINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'TINYINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class UnsignedSmallIntField(SmallIntField):
@@ -107,23 +107,23 @@ class UnsignedSmallIntField(SmallIntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "SMALLINT UNSIGNED"
+    SQL_TYPE = 'SMALLINT UNSIGNED'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else 0,
-            "le": 65535
+            'ge': 1 if self.generated or self.reference else 0,
+            'le': 65535
         }
 
     class _db_mysql:
-        GENERATED_SQL = "SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class UnsignedMediumIntField(IntField):
@@ -134,23 +134,23 @@ class UnsignedMediumIntField(IntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "MEDIUMINT UNSIGNED"
+    SQL_TYPE = 'MEDIUMINT UNSIGNED'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else 0,
-            "le": 16777215
+            'ge': 1 if self.generated or self.reference else 0,
+            'le': 16777215
         }
 
     class _db_mysql:
-        GENERATED_SQL = "MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class UnsignedIntField(IntField):
@@ -161,23 +161,23 @@ class UnsignedIntField(IntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "INT UNSIGNED"
+    SQL_TYPE = 'INT UNSIGNED'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else 0,
-            "le": 4294967295
+            'ge': 1 if self.generated or self.reference else 0,
+            'le': 4294967295
         }
 
     class _db_mysql:
-        GENERATED_SQL = "INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT'
 
 
 class UnsignedBigIntField(BigIntField):
@@ -188,20 +188,20 @@ class UnsignedBigIntField(BigIntField):
         True if field is Primary Key.
     """
 
-    SQL_TYPE = "BIGINT UNSIGNED"
+    SQL_TYPE = 'BIGINT UNSIGNED'
     allows_generated = True
 
     def __init__(self, pk: bool = False, **kwargs: Any) -> None:
         if pk:
-            kwargs["generated"] = bool(kwargs.get("generated", True))
+            kwargs['generated'] = bool(kwargs.get('generated', True))
         super().__init__(pk=pk, **kwargs)
 
     @property
     def constraints(self) -> dict:
         return {
-            "ge": 1 if self.generated or self.reference else 0,
-            "le": 18446744073709551615
+            'ge': 1 if self.generated or self.reference else 0,
+            'le': 18446744073709551615
         }
 
     class _db_mysql:
-        GENERATED_SQL = "BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT"
+        GENERATED_SQL = 'BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT'

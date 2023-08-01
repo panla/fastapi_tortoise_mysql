@@ -59,9 +59,9 @@ class ZipFileOperator(FileOperatorBase):
                 with zipfile.ZipFile(zip_path, 'r') as fz:
                     fz.extractall(zip_path)
             except Exception:
-                raise Exception("Unpack the failure")
+                raise Exception('Unpack the failure')
         else:
-            raise Exception("Not a compressed file")
+            raise Exception('Not a compressed file')
 
     @staticmethod
     def zip(zip_path: str, dst_path: str, file_list: list):

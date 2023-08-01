@@ -10,19 +10,18 @@ __all__ = [
 from typing import Optional, List
 
 from fastapi import Body, Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from extensions import SchemaMixin, FilterParserMixin
 
 
 class CarEntity(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int = Field(..., title='id of car')
     brand: str = Field(..., title='brand of car')
     price: int = Field(..., title='price of car', description='the unit is cent')
     is_delete: bool = Field(..., title='is_delete flag of car')
-
-    class Config:
-        orm_mode = True
 
 
 # read car
@@ -48,10 +47,9 @@ class CarIDSchema(SchemaMixin):
     """the response schema of create/delete/update one car"""
 
     class CarIDEntity(BaseModel):
-        id: int = Field(..., title='car.id')
+        model_config = ConfigDict(from_attributes=True)
 
-        class Config:
-            orm_mode = True
+        id: int = Field(..., title='car.id')
 
     data: CarIDEntity
 

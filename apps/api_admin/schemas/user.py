@@ -9,16 +9,15 @@ __all__ = [
 from typing import Optional, List
 
 from fastapi import Body, Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from extensions import SchemaMixin, FilterParserMixin
 
 
 class UserIDEntity(BaseModel):
-    id: int = Field(..., title='id of user')
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        orm_model = True
+    id: int = Field(..., title='id of user')
 
 
 class UserSchema(SchemaMixin):
@@ -28,14 +27,13 @@ class UserSchema(SchemaMixin):
 
 
 class UserEntity(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int = Field(..., title='id of user')
     cellphone: str = Field(..., title='cellphone of user')
     name: str = Field(..., title='name of user')
     is_delete: bool = Field(..., title='is_delete flag of user')
     is_admin_user: bool = Field(..., title='is admin user')
-
-    class Config:
-        orm_model = True
 
 
 class ReadUserSchema(SchemaMixin):

@@ -26,16 +26,22 @@ BASE_DIR = Path(__file__).absolute().parent
 
 @lru_cache()
 def get_settings() -> Setting:
-    code_env = os.environ.get('CODE_ENV', EnvConst.PRD)
+    code_env = os.environ.get('CODE_ENV', EnvConst.LOCAL)
 
     if code_env == EnvConst.TEST:
         p = Path(BASE_DIR).joinpath('conf/test.local.toml')
         if not p.is_file():
             p = Path(BASE_DIR).joinpath('conf/test.toml')
-    else:
+    elif code_env == EnvConst.DEV:
+        p = Path(BASE_DIR).joinpath('conf/test.local.toml')
+        if not p.is_file():
+            p = Path(BASE_DIR).joinpath('conf/test.toml')
+    elif code_env == EnvConst.PRD:
         p = Path(BASE_DIR).joinpath('conf/product.local.toml')
         if not p.is_file():
             p = Path(BASE_DIR).joinpath('conf/product.toml')
+    else:
+        p = Path(BASE_DIR).joinpath('conf/local.toml')
 
     if not p.is_file():
         raise Exception('config no exists')

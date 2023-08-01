@@ -17,11 +17,11 @@ from tests.pre_write_data import create_database, delete_database
 from tests.token import generate_token, remove_token
 
 
-# @pytest.fixture(scope="function", autouse=True)
-# @pytest.fixture(scope="class", autouse=True)
-# @pytest.fixture(scope="module", autouse=True)
-# @pytest.fixture(scope="package", autouse=True)
-@pytest.fixture(scope="session", autouse=True)
+# @pytest.fixture(scope='function', autouse=True)
+# @pytest.fixture(scope='class', autouse=True)
+# @pytest.fixture(scope='module', autouse=True)
+# @pytest.fixture(scope='package', autouse=True)
+@pytest.fixture(scope='session', autouse=True)
 def client() -> Generator:
     try:
         # create db and create table and create data

@@ -18,4 +18,6 @@ __pycache__
 # file
 /gunicorn_config.py
 /docker-entrypoint.sh
+
 /conf/*.local.toml
+/conf/local.toml

@@ -15,7 +15,8 @@ async def create_code(parser: CreateCodeParser, background_tasks: BackgroundTask
     and background_task demo
     """
 
-    data = await create_sms_code(parser)
+    # data = await create_sms_code(parser)
+    data = {'success': True, 'code': '1234'}
 
     # background_tasks.add_task(send_sms_task, params=params, code=data.get('code')
 

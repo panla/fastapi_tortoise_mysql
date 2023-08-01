@@ -45,7 +45,7 @@ def register_cross(app: FastAPI):
 
 
 def register_middleware(app: FastAPI):
-    @app.middleware("http")
+    @app.middleware('http')
     async def rewrite_other_exception_response(request: Request, call_next):
         """overwrite response"""
 

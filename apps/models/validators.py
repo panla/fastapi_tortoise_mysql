@@ -25,10 +25,10 @@ class MaxMinValidator(Validator):
 
     def __call__(self, value: Union[int, float], *args, **kwargs):
         if not isinstance(value, (int, float, Decimal)):
-            raise ValidationError("Value must be a numeric value and is required")
+            raise ValidationError('Value must be a numeric value and is required')
 
         if self.min_value is not None and value < self.min_value:
-            raise ValidationError(f"Value should be greater or equal to {self.min_value}")
+            raise ValidationError(f'Value should be greater or equal to {self.min_value}')
 
         if self.max_value is not None and value > self.max_value:
-            raise ValidationError(f"Value should be less or equal to {self.max_value}")
+            raise ValidationError(f'Value should be less or equal to {self.max_value}')

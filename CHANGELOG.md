@@ -6,6 +6,21 @@
 
 ### 0.7.8
 
+- 2023-08-01
+  - upgrade anyio from 3.6.2 to 3.7.1
+  - upgrade asyncmy from 0.2.7 to 0.2.8
+  - upgrade cryptography from 40.0.1 to 40.0.2
+  - upgrade fastapi from 0.95.0 to 0.100.1
+  - upgrade hiredis from 2.2.2 to 2.2.3
+  - upgrade httptools from 0.5.0 to 0.6.0
+  - upgrade httpx from 0.23.3 to 0.24.1
+  - upgrade loguru from 0.6.0 to 0.7.0
+  - upgrade pydantic from 1.10.7 to 2.1.1
+  - upgrade PyJWT from 2.6.0 to 2.8.0
+  - upgrade redis from 4.5.3 to 4.6.0
+  - upgrade starlette from 0.26.1 to 0.27.0
+  - upgrade uvicorn from 0.21.0 to 0.23.2
+  - update: 适配新版本
 - 2023-05-10
   - Fix: 修复Redis连接池单例使用
 

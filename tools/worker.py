@@ -10,11 +10,11 @@ try:
 
 
     class Worker(UvicornWorker):
-        CONFIG_KWARGS = {"loop": "uvloop", "http": "httptools"}
+        CONFIG_KWARGS = {'loop': 'uvloop', 'http': 'httptools'}
 
 
     del httptools
     del uvloop
 except ImportError:
     class Worker(UvicornWorker):
-        CONFIG_KWARGS = {"loop": "asyncio", "http": "auto"}
+        CONFIG_KWARGS = {'loop': 'asyncio', 'http': 'auto'}

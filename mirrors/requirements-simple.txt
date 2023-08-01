@@ -1,14 +1,14 @@
 ## webframework
-fastapi==0.95.0
-pydantic==1.10.7
-starlette==0.26.1
-anyio==3.6.2
+fastapi==0.100.1
+pydantic==2.1.1
+starlette==0.27.0
+anyio==3.7.1
 
 ## web server
-uvicorn==0.21.1
+uvicorn==0.23.2
 
 ## db driver
-asyncmy==0.2.7
+asyncmy==0.2.8
 ## orm
 tortoise-orm==0.19.3
 ## migrate
@@ -18,18 +18,18 @@ aerich==0.6.3
 pytomlpp==1.0.13
 
 ## log
-loguru==0.6.0
+loguru==0.7.0
 
 ## password
-cryptography==40.0.1
+cryptography==40.0.2
 passlib==1.7.4
 
 ## jwt
-PyJWT==2.6.0
+PyJWT==2.8.0
 
 ## redis
-redis==4.5.3
-hiredis==2.2.2
+redis==4.6.0
+hiredis==2.2.3
 
 ## file
 python-multipart==0.0.6
@@ -37,10 +37,10 @@ aiofiles==23.1.0
 
 ## speed
 uvloop==0.17.0
-httptools==0.5.0
+httptools==0.6.0
 
 # request
-httpx==0.23.3
+httpx==0.24.1
 
 
 #########################################

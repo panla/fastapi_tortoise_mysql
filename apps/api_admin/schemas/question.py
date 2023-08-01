@@ -6,39 +6,36 @@ __all__ = [
 
 from typing import Optional, List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from extensions import SchemaMixin, FilterParserMixin
 
 
 class OwnerEntity(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int = Field(..., title='the question`s owner`s id')
     cellphone: str = Field(..., title='the question`s owner`s cellphone')
     name: str = Field(default='', title='the question`s owner`s name')
 
-    class Config:
-        orm_mode = True
-
 
 class QuestionEntity(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int = Field(..., title='the id of question')
     title: str = Field(..., title='title of question')
     content: str = Field(..., title='content of question')
     created_time: str = Field(..., title='create datetime of question')
     owner: Optional[OwnerEntity]
 
-    class Config:
-        orm_mode = True
-
 
 class ReadQuestionSchema(SchemaMixin):
     """the response schema of one question`detail info"""
 
     class QuestionEntity(QuestionEntity):
-        updated_time: str = Field(..., title='update datetime of question')
+        model_config = ConfigDict(from_attributes=True)
 
-        class Config:
-            orm_mode = True
+        updated_time: str = Field(..., title='update datetime of question')
 
     data: QuestionEntity
 

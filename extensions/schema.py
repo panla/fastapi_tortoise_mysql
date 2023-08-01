@@ -1,8 +1,8 @@
 from typing import Optional, Any
+from types import NoneType
 
 from fastapi import Query
 from pydantic import BaseModel
-from pydantic.typing import NoneType
 
 from conf.const import StatusCode, PaginateConst
 
@@ -10,31 +10,31 @@ from conf.const import StatusCode, PaginateConst
 class BadRequestSchema(BaseModel):
     code: int = StatusCode.BadRequest
     message: str = ''
-    data: NoneType = "null"
+    data: NoneType = 'null'
 
 
 class UnauthorizedSchema(BaseModel):
     code: int = StatusCode.Unauthorized
     message: str = ''
-    data: NoneType = "null"
+    data: NoneType = 'null'
 
 
 class ForbiddenSchema(BaseModel):
     code: int = StatusCode.Forbidden
     message: str = ''
-    data: NoneType = "null"
+    data: NoneType = 'null'
 
 
 class NotFoundSchema(BaseModel):
     code: int = StatusCode.NotFound
     message: str = ''
-    data: NoneType = "null"
+    data: NoneType = 'null'
 
 
 class ValidatorErrorSchema(BaseModel):
     code: int = StatusCode.ValidatorError
     message: str = ''
-    data: NoneType = "null"
+    data: NoneType = 'null'
 
 
 ErrorSchema = {

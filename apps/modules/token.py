@@ -42,7 +42,7 @@ class TokenResolver:
                     'cellphone': cellphone
                 }
             }
-            token = jwt.encode(payload, AuthenticConfig.ADMIN_SECRETS, algorithm="HS256")
+            token = jwt.encode(payload, AuthenticConfig.ADMIN_SECRETS, algorithm='HS256')
             return token, login_time, token_expired
         except Exception as e:
             raise BadRequest(message=str(e))

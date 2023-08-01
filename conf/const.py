@@ -34,3 +34,4 @@ class EnvConst:
     TEST = 'test'
     PRD = 'prd'
     DEV = 'dev'
+    LOCAL = 'local'
