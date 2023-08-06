@@ -3,7 +3,6 @@ config.py
 common
 extensions
 mixins
-redis_ext
 apps/modules
 apps/models
 apps/api_admin/schemas
@@ -13,5 +12,8 @@ apps/api_test
 apps/libs
 apps
 tools
+services/redis_ext
+services/celery_services
+services/mqtt_services
 tests
 tests/v1_admin

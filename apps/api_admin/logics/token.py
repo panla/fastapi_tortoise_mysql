@@ -1,6 +1,6 @@
 from config import AuthenticConfig
 from extensions import NotFound, BadRequest
-from redis_ext import SMSCodeRedis, TokenRedis
+from services.redis_ext import SMSCodeRedis, TokenRedis
 from apps.models import User, AdminUser
 from apps.modules import TokenResolver
 

@@ -2,7 +2,7 @@ import asyncio
 
 from extensions import NotFound, BadRequest
 from common import random_int
-from redis_ext import SMSCodeRedis
+from services.redis_ext import SMSCodeRedis
 from apps.models import User
 from apps.api_admin.schemas import CreateCodeParser
 

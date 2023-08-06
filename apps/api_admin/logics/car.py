@@ -1,5 +1,3 @@
-from tortoise.models import QuerySet
-
 from extensions import Pagination
 from apps.modules import ResourceOp
 from apps.models import Car
@@ -31,7 +29,7 @@ class CarResolver:
     def create_car(cls, parser: CreateCarParser):
         """ create one car"""
 
-        params = parser.dict()
+        params = parser.model_dump()
         return Car.create(**params)
 
     @classmethod
@@ -40,7 +38,7 @@ class CarResolver:
 
         instances, _ = await ResourceOp(Car, car_id).instance()
 
-        params = parser.dict()
+        params = parser.model_dump()
         patch_params = dict()
 
         for k, v in params.items():

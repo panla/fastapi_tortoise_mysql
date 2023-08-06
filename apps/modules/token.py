@@ -8,7 +8,7 @@ from tortoise.exceptions import OperationalError
 
 from config import AuthenticConfig
 from extensions import BadRequest, Unauthorized, NotFound, logger
-from redis_ext import TokenRedis
+from services.redis_ext import TokenRedis
 from apps.models import User, AdminUser
 
 

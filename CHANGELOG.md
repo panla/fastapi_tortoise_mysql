@@ -6,6 +6,8 @@
 
 ### 0.7.8
 
+- 2023-08-06
+  - Update: 更新新版本依赖库所需的适配
 - 2023-08-01
   - upgrade anyio from 3.6.2 to 3.7.1
   - upgrade asyncmy from 0.2.7 to 0.2.8

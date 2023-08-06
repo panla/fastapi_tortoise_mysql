@@ -46,7 +46,7 @@ def get_settings() -> Setting:
     if not p.is_file():
         raise Exception('config no exists')
 
-    settings = Setting.parse_obj(pytomlpp.load(p))
+    settings = Setting.model_validate(pytomlpp.load(p))
     return settings
 
 

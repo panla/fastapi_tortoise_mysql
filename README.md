@@ -9,7 +9,7 @@
 
 ## keywords
 
-- ![python-3.9](https://img.shields.io/badge/Python-3.9-yellowgreen) ![python-asyncio](https://img.shields.io/badge/Python-asyncio-green)
+- ![python-3.9](https://img.shields.io/badge/Python-3.10-yellowgreen) ![python-asyncio](https://img.shields.io/badge/Python-asyncio-green)
 - [![FastAPI](https://img.shields.io/badge/tiangolo-FastAPI-green)](https://github.com/tiangolo/fastapi) [![pydantic](https://img.shields.io/badge/samuelcolvin-pydantic-green)](https://github.com/samuelcolvin/pydantic) [![tortoise-orm](https://img.shields.io/badge/tortoise-Tortoise--ORM-yellowgreen)](https://github.com/tortoise/tortoise-orm)
 - ![MySQL](https://img.shields.io/badge/MySQL-8-yellowgreen) [![Redis](https://img.shields.io/badge/Redis-6.2-red)](https://redis.io/)
 - ![MQTT](https://img.shields.io/badge/MQTT-V5-orange) [![Celery](https://img.shields.io/badge/Celery-V5-orange)](https://docs.celeryproject.org/en/stable/)

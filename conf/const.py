@@ -17,8 +17,8 @@ class StatusCode(object):
     Locked = 42300
     HeaderFieldsTooLarge = 43100
 
-    ServerError = 45000
-    UnknownError = 45001
+    ServerError = 50000
+    UnknownError = 50001
 
 
 class PaginateConst:
